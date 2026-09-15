@@ -1,0 +1,714 @@
+% Build: make
+% Timing and sources are in outline.md.
+\documentclass[aspectratio=169,11pt]{beamer}
+\usetheme{metropolis}
+\metroset{progressbar=frametitle,numbering=fraction}
+\setbeamertemplate{navigation symbols}{}
+\usefonttheme{professionalfonts}
+\usefonttheme[onlymath]{serif}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools,stmaryrd,booktabs,appendixnumberbeamer,tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\definecolor{Navy}{HTML}{15324F}
+\definecolor{Teal}{HTML}{007F82}
+\definecolor{Gold}{HTML}{D48B18}
+\definecolor{Pale}{HTML}{EAF4F4}
+\setbeamercolor{frametitle}{bg=Navy,fg=white}
+\setbeamercolor{progress bar}{fg=Teal,bg=black!12}
+\setbeamercolor{alerted text}{fg=Teal}
+\setbeamercolor{block title}{bg=Pale,fg=Navy}
+\setbeamercolor{block body}{bg=Pale!55,fg=Navy}
+\setbeamerfont{frametitle}{size=\large}
+\setbeamersize{text margin left=9mm,text margin right=9mm}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\RM}{\operatorname{RM}}
+\newcommand{\wt}{\operatorname{wt}}
+\newcommand{\sw}{\operatorname{sw}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\CCZ}{\operatorname{CCZ}}
+\newcommand{\ket}[1]{\lvert #1\rangle}
+\newcommand{\qcode}[3]{\llbracket #1,#2,#3\rrbracket}
+\newcommand{\takeaway}[1]{\vfill\begin{beamercolorbox}[sep=1ex,wd=\linewidth]{block body}#1\end{beamercolorbox}}
+\newcommand{\source}[1]{\par\smallskip{\scriptsize\color{black!55}#1\par}}
+\newcommand{\storypart}[1]{\setbeamertemplate{frame footer}{\color{Teal}#1}}
+\setbeamercovered{invisible}
+\newcommand{\threechoices}[3]{%
+\begin{center}
+\begin{tikzpicture}[node distance=6mm]
+\node[fill=Pale,align=center,text width=3.3cm,minimum height=10mm,font=\small] (a) {#1};
+\node[fill=Pale,align=center,text width=3.3cm,minimum height=10mm,font=\small,right=of a] (b) {#2};
+\node[fill=Pale,align=center,text width=3.3cm,minimum height=10mm,font=\small,right=of b] (c) {#3};
+\draw[-{Stealth},Teal,thick] (a)--(b);
+\draw[-{Stealth},Teal,thick] (b)--(c);
+\end{tikzpicture}
+\end{center}}
+\newcommand{\facepicture}{%
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \i in {0,1}{\foreach \j in {0,1}{\foreach \k in {0,1}{
+ \coordinate (v\i\j\k) at ({1.8*\i+.75*\k},{1.8*\j+.6*\k});
+}}}
+\fill[Teal!25] (v100)--(v110)--(v111)--(v101)--cycle;
+\fill[Gold!25] (v010)--(v110)--(v111)--(v011)--cycle;
+\foreach \j in {0,1}{\foreach \k in {0,1}{\draw[black!45] (v0\j\k)--(v1\j\k);}}
+\foreach \i in {0,1}{\foreach \k in {0,1}{\draw[black!45] (v\i0\k)--(v\i1\k);}}
+\foreach \i in {0,1}{\foreach \j in {0,1}{\draw[black!45] (v\i\j0)--(v\i\j1);}}
+\draw[Navy,line width=2pt] (v110)--(v111);
+\foreach \i in {0,1}{\foreach \j in {0,1}{\foreach \k in {0,1}{\fill[Navy] (v\i\j\k) circle[radius=1.8pt];}}}
+\node[right,text=Teal,font=\small] at (2.55,1) {$u_1=1$};
+\node[above,text=Gold!80!black,font=\small] at (1.15,2.4) {$u_2=1$};
+\end{tikzpicture}}
+% Corruption: 0 clean, 1 marked, 2 unmarked. Second argument highlights u1 edges.
+\newcommand{\cubepicture}[3]{%
+\begin{tikzpicture}[x=1.05cm,y=1.05cm]
+\foreach \i in {0,1}{\foreach \j in {0,1}{\foreach \k in {0,1}{
+  \coordinate (v\i\j\k) at ({1.9*\i+.85*\k},{1.9*\j+.7*\k});
+}}}
+\foreach \j in {0,1}{\foreach \k in {0,1}{
+  \ifnum#2=1 \draw[Gold,line width=2pt] (v0\j\k)--(v1\j\k);
+  \else \draw[black!40,thick] (v0\j\k)--(v1\j\k);\fi
+}}
+\foreach \i in {0,1}{\foreach \k in {0,1}{\draw[black!40,thick] (v\i0\k)--(v\i1\k);}}
+\foreach \i in {0,1}{\foreach \j in {0,1}{\draw[black!40,thick] (v\i\j0)--(v\i\j1);}}
+\foreach \i in {0,1}{\foreach \j in {0,1}{\foreach \k in {0,1}{
+  \pgfmathtruncatemacro{\bit}{mod(\i+\j+\k,2)}
+  \pgfmathtruncatemacro{\origin}{\i+\j+\k}
+  \ifnum#1>0\ifnum\origin=0\def\bit{1}\fi\fi
+  \ifnum\bit=1\def\fillcolor{Teal}\def\textcolor{white}
+  \else\def\fillcolor{white}\def\textcolor{Navy}\fi
+  \ifnum#3=1
+    \ifnum\bit=1\def\nodetext{$T^\dagger$}\else\def\nodetext{$T$}\fi
+  \else\edef\nodetext{\bit}\fi
+  \node[circle,draw=Navy,fill=\fillcolor,text=\textcolor,minimum size=7.5mm,inner sep=0pt,font=\small] at (v\i\j\k) {\nodetext};
+  \node[below=4.3mm,font=\scriptsize,text=Navy] at (v\i\j\k) {$\mathtt{\i\j\k}$};
+  \ifnum#1=1\ifnum\origin=0\draw[Gold,line width=1.4pt] (v\i\j\k) circle[radius=4.6mm];\fi\fi
+}}}
+\end{tikzpicture}}
+% Three blocks, with the paper's Gray-order rows u1u2 and columns u3u4.
+\newcommand{\blockpicture}[1]{%
+\begin{tikzpicture}[x=.63cm,y=.57cm]
+\foreach \b/\wa/\wb/\cnt in {0/1/0/6,1/0/1/6,2/1/1/10}{
+ \node[text=Navy] at ({5.3*\b+1.5},1.1) {$w=(\wa,\wb)$};
+ \foreach \r/\ua/\ub in {0/0/0,1/0/1,2/1/1,3/1/0}{
+  \foreach \c/\uc/\ud in {0/0/0,1/0/1,2/1/1,3/1/0}{
+   \ifnum#1=1
+    \pgfmathtruncatemacro{\flip}{mod(\uc+\wa*(\ua+\ub+\uc+\ua*\uc+\ub*\uc+\ub*\ud)+\wb*(\uc+\ud+\ua*\ub+\ua*\ud+\uc*\ud),2)}
+    \ifnum\flip=1\def\shade{Teal!22}\def\gate{$T^\dagger$}\else\def\shade{Gold!18}\def\gate{$T$}\fi
+    \node[rectangle,fill=\shade,minimum width=5.9mm,minimum height=5.3mm,font=\scriptsize] at ({5.3*\b+\c},-\r) {\gate};
+   \else\fill[Teal] ({5.3*\b+\c},-\r) circle[radius=2.2pt];\fi
+  }
+ }
+ \ifnum#1=1\node[font=\small] at ({5.3*\b+1.5},-4) {$\cnt\ T^\dagger$};
+ \else\node[font=\small] at ({5.3*\b+1.5},-4) {$16$ points};\fi
+}
+\end{tikzpicture}}
+\title{Boolean functions: applications in quantum error correction and beyond}
+\author{Bohan Lu}
+\institute{Duke University}
+\date{}
+\begin{document}
+\begin{frame}[plain,noframenumbering]
+\vfill
+{\LARGE\bfseries\color{Navy}Boolean functions:\par}
+{\Large\bfseries\color{Navy}applications in quantum error correction and beyond\par}
+\vspace{6mm}
+{\large The same structure can recover a message, expose a predictor, and control a gate.\par}
+\vspace{5mm}
+{\small\color{Teal}1 Recover a message\qquad 2 Understand a rule\qquad 3 Control a gate\par}
+\vspace{8mm}
+Bohan Lu\quad Duke University
+\vfill
+\end{frame}
+
+% A1: 2 min
+\storypart{1 / 3\quad Recover a message}
+\begin{frame}{A damaged message can still contain an exact rule}
+\begin{columns}[c,onlytextwidth]
+\column{.44\textwidth}\centering\cubepicture{2}{0}{0}
+\column{.53\textwidth}
+A sender evaluates a simple binary rule at the eight vertices of a cube.
+
+One transmitted value is flipped.
+
+The receiver knows the rule was affine: an XOR of selected input bits, possibly plus a constant.
+\end{columns}
+\takeaway{Can we recover the message without knowing which entry is wrong?}
+\end{frame}
+
+% A2: 1.5 min
+\begin{frame}{A Boolean function becomes a transmitted word}
+A Boolean function maps $u\in\F_2^3$ to a bit. Our original rule is
+\[
+p(u)=u_1+u_2+u_3.
+\]
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{c|cccccccc}
+$u$ & $000$&$001$&$010$&$011$&$100$&$101$&$110$&$111$\\\hline
+$p(u)$ &0&1&1&0&1&0&0&1\\
+received $r(u)$ &\textcolor{Gold}{1}&1&1&0&1&0&0&1
+\end{tabular}
+\end{center}
+\[
+\wt(p)=4,\qquad \wt(r)=5,\qquad d(p,r)=\wt(p+r)=1.
+\]
+\takeaway{Function addition is in $\F_2$: $1+1=0$. Weights and distances are ordinary integer counts.}
+\end{frame}
+
+% A3: 3 min
+\begin{frame}{ANF turns a truth table into a polynomial}
+Every Boolean function has a unique \emph{algebraic normal form}: a sum of square-free monomials over $\F_2$.
+\[
+p=u_1+u_2+u_3,\qquad \deg p=1.
+\]
+The indicator of the flipped vertex is
+\[
+\delta_{000}(u)=(1+u_1)(1+u_2)(1+u_3).
+\]
+Therefore the received table has polynomial
+\[
+r=p+\delta_{000}=1+u_1u_2+u_1u_3+u_2u_3+u_1u_2u_3.
+\]
+\takeaway{One flipped table entry raised the degree from $1$ to $3$, but the original codeword is still only one entry away.}
+\end{frame}
+
+% A4: 2.5 min
+\begin{frame}{Boolean derivatives turn edges into consistency checks}
+\begin{columns}[c,onlytextwidth]
+\column{.42\textwidth}\centering\cubepicture{1}{1}{0}
+\column{.55\textwidth}
+Let $e_1=(1,0,0)$. Define
+\[
+D_{e_1}f(u)=f(u+e_1)+f(u).
+\]
+The derivative is $1$ when the endpoints disagree.
+\begin{align*}
+D_{e_1}p&=1,\\
+D_{e_1}r&=1+(1+u_2)(1+u_3).
+\end{align*}
+\end{columns}
+\takeaway{An affine function has constant derivatives. One error spoils one of the four disjoint edge checks.}
+\end{frame}
+
+% A5: 3 min
+\begin{frame}{Local votes recover all four message bits}
+For an affine rule,
+\[
+f_{a,b}(u)=b+a_1u_1+a_2u_2+a_3u_3,
+\qquad D_{e_i}f_{a,b}=a_i.
+\]
+\begin{center}
+\begin{tabular}{c|cccc}
+$e_1$ edge & $000$--$100$ & $001$--$101$ & $010$--$110$ & $011$--$111$\\\hline
+endpoint sum & \textcolor{Gold}{$0$} & $1$ & $1$ & $1$
+\end{tabular}
+\end{center}
+\begin{uncoverenv}<2->
+Majority gives $a_1=1$. The other directions give $a_2=a_3=1$.
+
+Adding the recovered parity to $r$ leaves seven zeros and one one: majority gives $b=0$.
+\takeaway{The decoder recovers the exact message using only the received word and the degree-one promise.}
+\end{uncoverenv}
+\end{frame}
+
+% A6: 2.5 min
+\begin{frame}{Affine rules split binary space into equal halves}
+\begin{columns}[c,onlytextwidth]
+\column{.35\textwidth}\centering\resizebox{.66\linewidth}{!}{\cubepicture{0}{0}{0}}
+\column{.62\textwidth}
+An \emph{affine hyperplane} is a level set of a nonconstant affine rule.
+\[
+H=\{u:p(u)=1\}=\{100,010,001,111\}.
+\]
+Four ones; four zeros.
+\end{columns}
+\begin{uncoverenv}<2->
+For distinct affine rules,
+\[
+d(f,g)=\wt(f+g)\in\{4,8\}.
+\]
+A nonconstant difference has four ones; the constant $1$ has eight.
+\takeaway{$\RM(1,3)$ is an $[8,4,4]$ code: eight bits, four message coefficients, distance four. Unique one-error correction.}
+\end{uncoverenv}
+\end{frame}
+
+% A7: 3 min
+\storypart{2 / 3\quad Understand a rule}
+\begin{frame}{Changing one input can change every output}
+Return to the clean parity $p(u)=u_1+u_2+u_3$, with uniformly random inputs.
+\begin{columns}[c,onlytextwidth]
+\column{.42\textwidth}\centering\cubepicture{0}{1}{0}
+\column{.55\textwidth}
+\textbf{Observe one input:} the output is still equally likely to be $0$ or $1$.
+
+\textbf{Flip that input:} the output always changes.
+\[
+D_{e_1}p(u)=1\quad\text{at every vertex}.
+\]
+\end{columns}
+\takeaway{Boolean derivatives identify which input changes reach a digital circuit's output. Sensitivity and predictability ask different questions.}
+\end{frame}
+
+% A8: 3 min
+\begin{frame}{Fourier analysis counts agreement with simple rules}
+Represent outputs by real signs. The Walsh/Fourier score of a parity is
+\[
+W_f(a)=\sum_{u\in\F_2^3}(-1)^{f(u)+a\cdot u}
+=\text{agreements}-\text{disagreements}.
+\]
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=.15cm]
+\draw[black!40](-.5,0)--(7.6,0);
+\foreach \i/\a in {0/000,1/001,2/010,3/011,4/100,5/101,6/110,7/111}{
+ \ifnum\i=7\def\score{6}\def\shade{Teal}\else\def\score{-2}\def\shade{black!30}\fi
+ \fill[\shade]({\i-.26},0)rectangle({\i+.26},\score);
+ \node[font=\small,below]at(\i,-2.7){$\a$};
+ \ifnum\i=7\node[above,text=Teal]at(\i,6){$6=7-1$};\fi
+}
+\node[left,font=\small]at(-.55,-2){$-2$};
+\node[font=\small]at(3.5,-6.5){parity coefficients $a$};
+\end{tikzpicture}
+\end{center}
+\takeaway{For our received word $r$, the peak identifies $p$: seven agreements survive one error.}
+\source{Unnormalized Walsh transform; O'Donnell, Analysis of Boolean Functions.}
+\end{frame}
+
+% A9: 2.5 min
+\begin{frame}{A useful decoder can reveal an unwanted predictor}
+The same table $r$ has a cubic ANF, yet agrees with parity on seven of eight inputs:
+\[
+\deg r=3,\qquad \Pr_{u\ \mathrm{uniform}}[r(u)=p(u)]=\frac78.
+\]
+\begin{columns}[t,onlytextwidth]
+\column{.47\textwidth}
+\textbf{Communication}
+
+Agreement with an allowed rule lets a receiver identify a damaged message.
+\column{.47\textwidth}
+\textbf{Cryptography}
+
+Agreement with an XOR of inputs makes a Boolean output predictable from that combination.
+\end{columns}
+\takeaway{High algebraic degree alone does not prevent accurate affine prediction.}
+\source{Carlet, Boolean Functions for Cryptography and Coding Theory. Component correlations are one design criterion, not a full cipher-security test.}
+\end{frame}
+
+% A10: 2.5 min
+\storypart{3 / 3\quad Control a gate}
+\begin{frame}{From recognizing a pattern to engineering an operation}
+The coordinate hyperplanes $u_1=1$, $u_2=1$, and $u_3=1$ meet on the same cube.
+\begin{columns}[c,onlytextwidth]
+\column{.43\textwidth}\centering\facepicture
+\column{.53\textwidth}\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{ccl}
+function & weight & geometry\\\hline
+$u_1$ & $4$ & face\\
+$u_1u_2$ & $2$ & edge\\
+$u_1u_2u_3$ & $1$ & vertex
+\end{tabular}
+\end{columns}
+XOR removes a shared one twice from the integer count:
+\[
+\wt(f+g)=\wt(f)+\wt(g)-2\wt(fg).
+\]
+\takeaway{Next: engineer these counts so that separate physical rotations give exactly the logical phase we want.}
+\end{frame}
+
+% B1: 2 min
+\begin{frame}{A quantum phase is a function of a binary word}
+A computational basis state $\ket{v}$ has one bit per physical qubit.
+\[
+T=\begin{pmatrix}1&0\\0&\omega\end{pmatrix},\qquad
+\omega=e^{i\pi/4}.
+\]
+Applying $T$ independently to every qubit gives
+\[
+T^{\otimes n}\ket{v}=\omega^{\wt(v)}\ket{v}.
+\]
+The logical operation we want is
+\[
+\CCZ\ket{a_1a_2a_3}=(-1)^{a_1a_2a_3}\ket{a_1a_2a_3}.
+\]
+\takeaway{Codeword weights determine relative phases. Only the logical label $111$ should acquire a minus sign.}
+\end{frame}
+
+% B2: 2 min
+\begin{frame}{Complementary codewords encode three quantum bits}
+Pair the affine tables with the same coefficient vector $a$:
+\[
+\ket{a}_{L}=\frac{\ket{f_{a,0}}+\ket{f_{a,1}}}{\sqrt{2}}.
+\]
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{ccl}
+$a$ & $f_{a,0}$ & $f_{a,1}$\\\hline
+$000$ & $\mathtt{00000000}$ & $\mathtt{11111111}$\\
+$100$ & $\mathtt{00001111}$ & $\mathtt{11110000}$\\
+$111$ & $\mathtt{01101001}$ & $\mathtt{10010110}$
+\end{tabular}
+\end{center}
+Eight disjoint pairs give eight orthogonal encoded basis states.
+\takeaway{The two strings in each pair must receive the same phase, or the gate leaves the encoded space.}
+\end{frame}
+
+% B3: 1.5 min
+\begin{frame}{Parity chooses where to reverse the physical rotation}
+\begin{columns}[c,onlytextwidth]
+\column{.42\textwidth}\centering\cubepicture{0}{0}{1}
+\column{.55\textwidth}
+Use our original parity $p(u)$ as the gate pattern:
+\[
+p(u)=0:\ T,\qquad p(u)=1:\ T^\dagger.
+\]
+For a table $v$, count a one with sign $(-1)^{p(u)}$:
+\[
+\sw_p(v)=\sum_{u\in\F_2^3}(-1)^{p(u)}v(u).
+\]
+The phase is $\omega^{\sw_p(v)}$.
+\end{columns}
+\takeaway{Four rotations and four inverse rotations act in one layer, with no gates between physical qubits.}
+\end{frame}
+
+% B4: 2 min
+\begin{frame}{The gate check is another Hamming-distance calculation}
+At each position, as an integer,
+\[
+(-1)^{p(u)}v(u)=(p+v)(u)-p(u).
+\]
+Therefore
+\[
+\sw_p(v)=\wt(p+v)-\wt(p)=\wt(p+v)-4.
+\]
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{c|cc|c}
+logical label $a$ & $\sw_p(f_{a,0})$ & $\sw_p(f_{a,1})$ & phase\\\hline
+$a\ne(1,1,1)$ & $0$ & $0$ & \uncover<2->{$+1$}\\
+$a=(1,1,1)$ & $-4$ & $4$ & \uncover<2->{$-1$}
+\end{tabular}
+\end{center}
+\begin{uncoverenv}<2->
+\takeaway{The distance calculation used for decoding now verifies a logical $\CCZ$.}
+\end{uncoverenv}
+\end{frame}
+
+% B5: 1.5 min
+\begin{frame}{A working gate still needs protection against phase errors}
+\[
+\qcode{8}{3}{2}\quad\longrightarrow\quad\qcode{48}{3}{3}.
+\]
+The entries mean physical qubits, logical qubits, and quantum distance.
+
+Distance two detects an arbitrary single-qubit error; distance three corrects one.
+
+A site's syndrome column lists the stabilizer-check responses to a phase error there. Distinct nonzero columns ensure that no one or two columns sum to zero.
+\takeaway{Choose the classical stabilizer code so that phase-error protection is built into the geometry.}
+\source{Current paper, subspace-complement construction and the projectivity condition.}
+\end{frame}
+
+% B6: 2 min
+\begin{frame}{The 48-site geometry gives divisible codewords}
+Keep $\mathcal P=\{(u,w)\in\F_2^4\times\F_2^2:w\ne0\}$: $64-16=48$ sites.
+\begin{columns}[c,onlytextwidth]
+\column{.60\textwidth}\centering\resizebox{\linewidth}{!}{\blockpicture{0}}
+\column{.36\textwidth}
+Every nonzero linear rule has $32$ ones on the full space.
+
+On the deleted $w=0$ subspace: $8$ ones if $\alpha\ne0$, otherwise $0$.
+\end{columns}
+\[
+\ell(u,w)=\alpha\cdot u+\beta\cdot w,\qquad
+\wt(\ell|_{\mathcal P})=
+\begin{cases}
+32-8=24,&\alpha\ne0,\\
+32-0=32,&\alpha=0,\ \beta\ne0.
+\end{cases}
+\]
+\takeaway{The same half-space count gives stabilizer weights divisible by eight.}
+\end{frame}
+
+% B7: 2 min
+\begin{frame}{Boolean label functions and signs complete the code}
+\threechoices{Choose physical sites}{Assign logical labels}{Choose rotation signs}
+\begin{center}\resizebox{.65\linewidth}{!}{\blockpicture{1}}\end{center}
+\takeaway{$26\ T$ and $22\ T^\dagger$ implement logical $\CCZ$ on $\qcode{48}{3}{3}$; $d_X=16$, $d_Z=3$.}
+\source{Current paper, fixed logical-label table and proposition giving the explicit sign polynomial.}
+\end{frame}
+
+% B8: 3 min
+\begin{frame}{The paper reduces phase correctness to row overlaps}
+For the fixed signs, let $\sw_\gamma(g)=\sum_j(-1)^{\gamma_j}g_j$.
+The exact conditions on distinct generator rows are
+\[
+\begin{aligned}
+\sw_\gamma(g)&\equiv0\pmod 8,\\
+\uncover<2->{\sw_\gamma(gg')}&\uncover<2->{\equiv0\pmod 4,}\\
+\uncover<3->{\sw_\gamma(gg'g'')}&\uncover<3->{\equiv
+\begin{cases}1\pmod2,&\text{the three logical rows},\\0\pmod2,&\text{every other triple}.
+\end{cases}}
+\end{aligned}
+\]
+Products denote coordinatewise intersections, just as on the cube.
+\begin{uncoverenv}<3->
+\takeaway{The cubic overlap supplies $\CCZ$; the remaining conditions preserve each encoded superposition.}
+\end{uncoverenv}
+\source{Current paper, signed-overlap proposition; the block-weight identity extends the toy calculation.}
+\end{frame}
+
+% B9: 1.5 min
+\begin{frame}{Boolean structure also limits how short a code can be}
+\threechoices{Polynomial restrictions}{Geometric reductions}{Logical-label tests}
+Degree and weight restrict supports; geometric reductions and logical-label tests exclude candidates.
+
+\textbf{Exclusion:} no $n\le38$ CSS code with $k=3$, $d_Z\ge3$, and the nine Campbell--Howard conditions.
+
+The conditions allow a diagonal Clifford correction after physical $T$ gates.
+\takeaway{Lengths $39$--$46$ remain open in this class. The $48$-qubit construction does not establish global minimality.}
+\source{Current paper, length-lower-bound theorem and hyperplane reductions.}
+\end{frame}
+
+% C: 1.5 min
+\begin{frame}{What the Boolean viewpoint made possible}
+\textbf{A construction:} $48$ physical qubits protect three logical qubits; single-qubit phase rotations implement logical $\CCZ$.
+
+\textbf{An exact test:} signed codeword weights and overlaps certify the gate on every encoded state.
+
+\textbf{A lower bound:} no $n\le38$ CSS code with three logical qubits, $d_Z\ge3$, and the nine Campbell--Howard conditions.
+\takeaway{Boolean structure lets us recover a message, expose a predictor, and engineer a quantum gate.}
+\end{frame}
+
+\appendix
+\storypart{Backup\quad Details and alternative viewpoints}
+\begin{frame}{Backup: affine equivalence is a change of coordinates}
+Use \emph{input-affine equivalence} to mean
+\[
+g(u)=f(Au+t),\qquad A\in\operatorname{GL}(m,\F_2),\quad t\in\F_2^m.
+\]
+The bijection $u\mapsto Au+t$ permutes truth-table positions.
+\[
+\wt(g)=\wt(f),\qquad \deg g=\deg f
+\quad\text{for nonzero }f.
+\]
+Under the same substitution for two functions, their distance is preserved. Derivatives transform as
+\[
+D_vg(u)=D_{Av}f(Au+t).
+\]
+\takeaway{A position permutation preserves the code when all codewords and physical signs are transported together. Translating syndrome entries is a different operation.}
+\source{Convention: output-affine additions are not included in this definition.}
+\end{frame}
+
+\begin{frame}{Backup: one error location represents all eight locations}
+Translate the received function by $t=(1,0,0)$:
+\[
+r_t(u)=r(u+t)=p(u)+1+\delta_t(u).
+\]
+The error moves from $000$ to $100$ and the original parity becomes its complement.
+\[
+\RM(1,3)\ \xrightarrow{\ u\mapsto Au+t\ }\ \RM(1,3).
+\]
+Every invertible affine substitution preserves the whole Reed--Muller family and its Hamming distances.
+\takeaway{Relabeling reduces duplicate cases in a search and transports a decoding argument to another coordinate system.}
+\end{frame}
+
+\begin{frame}{Backup: input equivalence and output addition differ}
+A broader convention, often called extended-affine equivalence, allows
+\[
+g(u)=f(Au+t)+\ell(u),\qquad \deg\ell\le1.
+\]
+Adding $\ell$ preserves distance to the affine code, but need not preserve weight:
+\[
+f=0,\quad \ell=u_1
+\qquad\Longrightarrow\qquad
+\wt(f)=0,\quad\wt(f+\ell)=4\quad(m=3).
+\]
+In the paper's punctured support formula $n=\wt(c)-c(0)$, a translation can also change which value is deleted at the origin.
+\takeaway{A classification must specify its equivalence relation and track the distinguished puncture.}
+\source{Current paper, admissible-block-length theorem and normal-form reductions.}
+\end{frame}
+
+\begin{frame}{Backup: a translated hyperplane can change syndrome rank}
+Translate the four-point face $z=1$ by $001$:
+\[
+\{001,011,101,111\}\ \longrightarrow\ \{000,010,100,110\}.
+\]
+\[
+\begin{pmatrix}0&0&1&1\\0&1&0&1\\1&1&1&1\end{pmatrix}
+\ \longrightarrow\
+\begin{pmatrix}0&0&1&1\\0&1&0&1\\0&0&0&0\end{pmatrix}.
+\]
+Both sets have affine dimension two; their column ranks are three and two.
+
+The translated origin has zero syndrome. A nonzero logical label there would still give a nonzero full generator column.
+\takeaway{The example illustrates syndrome geometry; translation alone does not guarantee preservation of quantum distance.}
+\end{frame}
+
+\begin{frame}{Backup: a polynomial factor exposes a geometric reduction}
+In the paper's rank-eight candidate decomposition, $f=0$ gives
+\[
+c=y_8(g+y_7h)\quad\Longrightarrow\quad\supp(c)\subseteq\{y_8=1\}.
+\]
+After choosing the origin, the containing hyperplane either:
+\begin{itemize}
+\item passes through zero, so actual rank is at most seven; or
+\item avoids zero and has a missing support point, supplying a projection direction.
+\end{itemize}
+In the origin-avoiding rank-eight case, $n\le38<128$ leaves a missing point $v$: no supported point or supported pair sum equals $v$.
+\takeaway{For that case, the paper's CH, $k=3$, $d_Z\ge3$, and distinct-nonzero-syndrome hypotheses permit projection to smaller rank at the same length.}
+\source{Current paper, hyperplane reduction and rank-eight exclusion; lower ranks have already been excluded.}
+\end{frame}
+
+\begin{frame}{Backup: derivatives recover ANF coefficients}
+For $S\subseteq\{1,\ldots,m\}$, write $u_S=\prod_{i\in S}u_i$. Then
+\[
+f(u)=\sum_{S\subseteq\{1,\ldots,m\}}c_Su_S,
+\qquad
+c_S=\left(\prod_{i\in S}D_{e_i}\right)f(0).
+\]
+All arithmetic is in $\F_2$. Every derivative of order greater than $\deg f$ vanishes.
+\[
+D_{e_1}D_{e_2}D_{e_3}r=1.
+\]
+On three variables, the third derivative is the sum of all eight values: a parity check for $\RM(2,3)$.
+\takeaway{Higher derivatives turn polynomial degree constraints into local consistency tests.}
+\end{frame}
+
+\begin{frame}{Backup: why low degree forces nonzero weight}
+Write $f(u',u_m)=g(u')+u_mh(u')$, with $\deg g\le d$ and $\deg h\le d-1$.
+The two halves of the truth table are $g$ and $g+h$.
+\[
+\wt(f)=\wt(g)+\wt(g+h)\ge\wt(h).
+\]
+If $h\ne0$, induction gives $\wt(h)\ge2^{(m-1)-(d-1)}=2^{m-d}$.
+If $h=0$, the two halves agree and induction gives the same bound.
+\[
+\RM(d,m):\qquad
+\left[2^m,\ \sum_{j=0}^{d}\binom mj,\ 2^{m-d}\right],\quad 0\le d\le m.
+\]
+\source{The monomial $u_1\cdots u_d$ attains the bound; the case $d=m$ has the trivial lower bound one.}
+\end{frame}
+
+\begin{frame}{Backup: degree trades information rate for protection}
+Evaluate all degree-at-most-$d$ polynomials on the same eight points.
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{ccl}
+degree bound $d$ & classical code & protection\\\hline
+$0$ & $[8,1,8]$ & correct any three errors\\
+$1$ & $[8,4,4]$ & correct any one error\\
+$2$ & $[8,7,2]$ & detect any one error\\
+$3$ & $[8,8,1]$ & every word is allowed
+\end{tabular}
+\end{center}
+\takeaway{More monomials carry more information, but bring the allowed messages closer together.}
+\end{frame}
+
+\begin{frame}{Backup: Fourier analysis is another decoder}
+Represent the table by real signs and correlate with a parity:
+\[
+W_r(a)=\sum_{u\in\F_2^3}(-1)^{r(u)+a\cdot u}.
+\]
+The score is agreements minus disagreements, so
+\[
+d(r,f_{a,b})=\frac{8-(-1)^bW_r(a)}{2}.
+\]
+For our received word, $W_r(111)=6$ and every other score is $-2$.
+\takeaway{The largest absolute correlation finds the nearest affine word; the sign determines its constant term.}
+\source{Walsh/Fourier viewpoint: O'Donnell, Analysis of Boolean Functions.}
+\end{frame}
+
+\begin{frame}{Backup: inclusion--exclusion exposes the cubic term}
+For binary functions, the following identity holds over the integers:
+\[
+\begin{aligned}
+\wt(f+g+h)={}&\wt(f)+\wt(g)+\wt(h)\\
+&-2\bigl[\wt(fg)+\wt(fh)+\wt(gh)\bigr]+4\wt(fgh).
+\end{aligned}
+\]
+The same identity holds for signed weight, because the identity holds at every coordinate before summing.
+
+For sums of more rows, an intersection of $j$ rows carries coefficient $(-2)^{j-1}$.
+\takeaway{Modulo eight, intersections of four or more rows disappear. Row, pair, and triple tests determine the phase.}
+\end{frame}
+
+\begin{frame}{Backup: why the toy quantum distance is two}
+Let $C_1=\RM(1,3)$ and $C_2=\langle\mathbf{1}\rangle$.
+The encoding pairs words in each coset of $C_2$ inside $C_1$.
+\[
+d_X=\min_{v\in C_1\setminus C_2}\wt(v)=4.
+\]
+A vector supported on sites $000$ and $100$ has even weight, but overlaps $f_{100,0}$ in one position. Therefore
+\[
+d_Z=\min_{v\in C_2^\perp\setminus C_1^\perp}\wt(v)=2,
+\qquad d=\min(d_X,d_Z)=2.
+\]
+\takeaway{Classical distance protects against one kind of error; quantum distance must also account for the dual constraints.}
+\end{frame}
+
+\begin{frame}{Backup: the full signed-weight and block tests}
+For generator rows $G=[K;S]$, an encoded basis state superposes
+\[
+c(a,y)=K^{\mathsf T}a+S^{\mathsf T}y.
+\]
+A native sign pattern must satisfy
+\[
+\sw_\gamma(c(a,y))\equiv4a_1a_2a_3\pmod8\quad\text{for all }a,y.
+\]
+The paper's block criterion is the exact integer identity
+\[
+\sw_\gamma(c)=\sum_b\bigl[\wt(\gamma_b+c_b)-\wt(\gamma_b)\bigr].
+\]
+Once the signed-overlap conditions involving stabilizer rows hold, only the eight logical inputs at $y=0$ need to be checked.
+\source{Current paper, signed-overlap and block-criterion propositions.}
+\end{frame}
+
+\begin{frame}{Backup: the 48-qubit sign polynomial}
+On $(u,w)\in\F_2^4\times\bigl(\F_2^2\setminus\{0\}\bigr)$,
+\[
+\gamma(u,w)=u_3+w_1Q_1(u)+w_2Q_2(u),
+\]
+\begin{align*}
+Q_1(u)&=u_1+u_2+u_3+u_1u_3+u_2u_3+u_2u_4,\\
+Q_2(u)&=u_3+u_4+u_1u_2+u_1u_4+u_3u_4.
+\end{align*}
+All sums in these polynomials are in $\F_2$.
+Each restriction to a fixed $w$ is quadratic; the block weights are $6,6,10$.
+\takeaway{The polynomial specifies the physical rotations; the fixed logical rows and signed-weight test establish the gate action.}
+\source{Current paper, explicit sign-pattern proposition. Diagram rows: $u_1u_2$; columns: $u_3u_4$, both ordered $00,01,11,10$.}
+\end{frame}
+
+\begin{frame}{Backup: how short can the code be?}
+\small
+The paper considers CSS codes with $k=3$, $d_Z\ge3$, and the nine Campbell--Howard conditions.
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{cl}
+length & result in the paper\\\hline
+$n\le38$ & no code in this class, at any stabilizer rank\\
+$39\le n\le46$ & existence remains open\\
+$n=47$ & the cited code has no native $T/T^\dagger$ pattern\\
+$n=48$ & the constructed code has a native pattern
+\end{tabular}
+\end{center}
+For projective support of stabilizer rank $s$,
+\[
+\chi_S\in\RM(s-4,s)+\langle\delta_0\rangle,
+\qquad n=\wt(c)-c(0),\quad c\in\RM(s-4,s),
+\]
+and the nonzero support must span $\F_2^s$.
+\source{The 47-qubit statement concerns that particular code. The 48-qubit construction is not a proof of global minimality.}
+\end{frame}
+
+\begin{frame}{Sources for this talk}
+\textbf{Research results:} the current paper, \emph{A 48-qubit native CCZ code from projective geometry and a length lower bound}.
+\begin{itemize}
+\item Subspace-complement construction and fixed logical labels.
+\item Signed-overlap criterion, block-weight identity, and explicit sign pattern.
+\item Reed--Muller support restrictions and the conditional length lower bound.
+\end{itemize}
+\smallskip
+\textbf{Fundamentals:} MacWilliams--Sloane and Huffman--Pless for classical codes; Carlet for ANF, derivatives, affine prediction, and equivalence.
+
+\textbf{Spectral viewpoint:} O'Donnell, \emph{Analysis of Boolean Functions}.
+\end{frame}
+\end{document}
