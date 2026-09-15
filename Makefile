@@ -1,4 +1,7 @@
 BUILD_DIR := build
+SOURCE_DATE_EPOCH := 0
+export SOURCE_DATE_EPOCH
+export FORCE_SOURCE_DATE := 1
 
 .PHONY: all pdf clean
 
