@@ -2,167 +2,182 @@
 
 ## Scope and sequence
 
-A 45-minute talk for mathematics, computer science, information theory, physics, and ECE audiences. Preserve the approved [abstract](abstract.md). The principal example starts with a completely specified classical encoder, becomes an eight-qubit encoding, and supplies the calculations needed to understand the author's 48-qubit construction. Adjacent applications follow that result. The closing slide returns to the research contributions.
+This 45-minute talk is for audiences in mathematics, computer science, information theory, physics, and ECE. The approved [abstract](abstract.md) remains unchanged. One explicit encoder supplies the definitions, calculations, and notation used in the classical and quantum parts. The author's 48-qubit construction is completed before the shorter discussion of adjacent applications.
 
-The deck contains one title, 21 numbered main slides, seven additional reveal pages, and six backups, for 35 PDF pages. Six main slides have overlays. The timings include the two seven-second audience pauses and have not yet been measured in a listener rehearsal.
+The deck contains one title page, 21 numbered main slides, seven additional reveal pages, and six backup slides, for 35 PDF pages. Six main slides use overlays. The two seven-second audience pauses are included in the timing. A rehearsal with a listener outside quantum error correction remains pending.
 
-Error-correcting memory supplies the opening application. The eight-bit encoder is a teaching example, not a description of a particular memory product. The main talk does not claim that the 48-qubit construction is globally minimal.
+Error-correcting memory motivates the opening. The eight-bit encoder is a teaching example. It is not presented as the design of a particular memory product. The main talk does not claim that the 48-qubit construction is globally minimal.
 
 ## Timing
 
 | Slides | Content | Minutes | Finish |
 | --- | --- | ---: | ---: |
-| Title, 1–7 | Memory errors, encoder, Boolean functions, ANF, derivatives, decoding, distance | 14 | 14:00 |
-| 8–12 | Intersections, phase, encoded states, rotations, eight-qubit calculation | 9.5 | 23:30 |
-| 13–17 | Error protection, 48-site geometry, labels, signs, overlap test, result | 10.5 | 34:00 |
-| 18–20 | Reed–Muller codes, packing, erasure capacity, Fourier prediction | 9 | 43:00 |
+| Title and 1–6 | Memory errors, explicit encoder, ANF, derivatives, decoding | 12 | 12:00 |
+| 7–9 | Intersections, minimum distance, classical recap | 6 | 18:00 |
+| 10–13 | Quantum phases and complete eight-qubit gate calculation | 8 | 26:00 |
+| 14–17 | 48-qubit construction and result | 8 | 34:00 |
+| 18–20 | Reed–Muller codes, channel capacity, Fourier prediction | 9 | 43:00 |
 | 21 | Contributions | 2 | 45:00 |
 
-## Slide outline and delivery
+## Main slides
 
-### Title — 0.5 minute
+### Title, 0.5 minute
 
-Promise a specific result: “By the end, you will be able to follow an eight-bit error-correcting encoder and see how the same Boolean functions let us calculate a quantum gate.” Preview classical encoding, the quantum construction, and a short discussion of further applications. Introduce symbols when their calculations begin.
+Promise a concrete calculation: “By the end, you will be able to follow an eight-bit error-correcting encoder and see how the same Boolean functions let us calculate a quantum gate.” Keep the omitted roadmap and memory citation in the notes.
 
-### 1. Correcting a bit error in memory — 1.5 minutes
+### 1. Correcting one bit of error in memory, 1.5 minutes
 
-Show message → encoder → stored bits → decoder. Define the encoder as the operation that computes stored bits from a message and the decoder as the operation that reconstructs the message from a readout. Assume at most one stored bit changes, at a location unknown to the decoder. The encoder and the allowed codewords are known to the receiver.
+Show a four-bit message entering an encoder, eight stored values, one changed value in the memory readout, and a decoder. Define encoding and decoding through these operations. State that at most one stored bit changes and that its position is unknown to the decoder. Explain that the eight-bit construction is a teaching example motivated by error-correcting memory.
 
-IBM's description supports the real motivation of correcting a memory bit error. The particular eight-bit example belongs to this exposition.
+### 2. The encoder evaluates eight XOR expressions, 2.5 minutes
 
-### 2. From four message bits to eight stored values — 2 minutes
+Define XOR by its four input pairs. Separate the message bits `(b,a1,a2,a3)` from the three-bit address `u`. Display every stored value in two four-column panels. Substitution of `(0,1,1,1)` gives `01101001`. Explain that the extra positions add constraints without adding message information.
 
-Explain the XOR truth table before using its symbol. Separate four message coefficients `(b,a1,a2,a3)` from a three-bit position `u`. At an address, start with `b` and XOR each coordinate selected by its coefficient. The message `(0,1,1,1)` gives parity and the word `01101001` in lexicographic address order. Calculate the entry at `101` aloud.
+### 3. Affine Boolean functions define the codewords, 1.5 minutes
 
-### 3. Affine Boolean functions — 1.5 minutes
+Define a Boolean function and then define the displayed encoder as an affine Boolean function. Define the evaluation map. Recover an uncorrupted message by
 
-Define a Boolean function by its table. Name the encoder's formula an affine Boolean function. The constant coefficient toggles every output and each other coefficient selects a coordinate. Show the coordinate and constant-one examples. Define a codeword as an allowed stored word and the code as all 16 encoder outputs.
+\[
+b=f(000),\qquad a_i=f(e_i)\oplus f(000).
+\]
 
-### 4. From a truth table to a polynomial — 2 minutes
+This proves that the 16 messages give 16 distinct codewords. The code is the set of these selected eight-bit words.
 
-Define algebraic normal form before abbreviating it, products as AND, and degree as the maximum number of variables in a nonzero monomial. Build the indicator of `000` one factor at a time. The received table is parity XOR this indicator. Expand it, then observe that its degree is three, so the table has left the affine code.
+### 4. From a truth table to a polynomial, 2 minutes
 
-Do not claim that algebraic degree measures the number of corrupted entries. A single entry change creates several polynomial terms. Return to the different question of predictability on slide 20.
+Define algebraic normal form, monomials, and degree before using them. Define `r` as the Boolean function whose table is the eight bits read from memory. Show the original and corrupted words before writing
 
-### 5. Comparing neighboring table entries — 2 minutes
+\[
+r=p\oplus\delta_{000}.
+\]
 
-Define the first-coordinate direction and calculate the comparison at `000,100` before displaying the derivative formula. The cube's labels are addresses, the circle values are received bits, and gold edges are the four disjoint first-direction comparisons. Use the caption “Derivatives of p and r along e1.” One changed vertex reverses exactly one comparison in each fixed direction. The derivative is a function of the input position, not a count of corrupted positions.
+Evaluate the indicator at `000` and away from `000`, then expand the polynomial. The degree-three readout is outside the affine code. Do not identify polynomial degree with the number of errors.
 
-### 6. Recovering the four message coefficients — 2 minutes
+### 5. Comparing neighboring table entries, 2 minutes
 
-Ask how to recover a selected coefficient. Toggling its coordinate cancels all other affine terms, so each edge supplies an estimate of that coefficient. Show the votes `0,1,1,1` for the first direction. Ask “Why is this majority reliable?” and wait about seven seconds. The second state reveals all three recovered coefficients, then removes their contributions from the received table. The residual `10000000` gives the constant by majority.
+Define a direction vector and compute the `000,100` comparison before using the Boolean derivative. Label the cube addresses, values, changed entry, and selected edges. The visible caption is “Derivatives of p and r along e1.” The changed endpoint reverses that comparison from one to zero. The other three first-direction comparisons remain one. State that the same reasoning applies in each coordinate direction.
 
-The algorithm works for any of the 16 messages and any zero-or-one-error pattern. The finite verification enumerates all 144 cases.
+### 6. Recovering the four message coefficients, 2 minutes
 
-### 7. Why distinct codewords differ in at least four positions — 2.5 minutes
+Derive `D_ei f = ai`. Show the four first-direction votes. Ask “Why is this majority reliable?” and wait seven seconds. Reveal that one changed address can spoil only one of four disjoint comparisons. Recover all three `a_i`, remove their contributions, and recover `b` from seven equal residual values.
 
-Define weight and Hamming distance through positions in a table. Pair cube vertices across a coordinate with nonzero coefficient. Each pair has exactly one output one. Display parity's four-element level set before naming an affine hyperplane. Draw points, not a Euclidean plane through parity's vertices.
+### 7. Support intersections compute Hamming distance, 2 minutes
 
-The second state applies the count to the XOR of distinct affine functions. A nonconstant difference has weight four, the constant-one difference weight eight. Two codewords each one error away from the same readout would differ in at most two positions, which is impossible. Defer Reed–Muller terminology to slide 18.
+Define support and weight:
 
-Transition: “We have recovered the message and proved the guarantee. Next, we will use these same eight-entry functions to specify a quantum encoding.”
+\[
+\operatorname{supp}(f)=\{u:f(u)=1\},\qquad
+\operatorname{wt}(f)=|\operatorname{supp}(f)|=\sum_u f(u).
+\]
 
-### 8. Counting intersections of Boolean supports — 2 minutes
+Define the Hamming distance of a particular pair of evaluation words:
 
-Define support before using it. Coordinate faces are the level sets `u1=1` and `u2=1`. Their common edge has addresses `110,111`. Products select intersections, giving weights four, two, and one. Adding two weights counts a shared one twice while XOR counts it zero times. Subtract twice the intersection weight to derive the pair identity.
+\[
+d_H(f,g)=|\{u:f(u)\ne g(u)\}|=\operatorname{wt}(f\oplus g).
+\]
 
-### 9. Single-qubit rotations produce phases — 2 minutes
+Use two coordinate faces and their common edge to derive the pair-weight identity. Calculate `d_H(u1,u2)=4+4-2(2)=4` immediately after the identity.
 
-Start with a unit vector with two complex components. Define computational basis vectors and ket notation through their column vectors, then illustrate relative phase in an equal superposition. Define T and its inverse, the eighth root of unity, and independent application to a binary basis word. Each one contributes one phase factor, so weight determines the phase. Specify the desired sign change on `111` before naming CCZ.
+### 8. The code's minimum distance is four, 2.5 minutes
 
-### 10. Encoding three qubits with complementary words — 2 minutes
+Define the code-level minimum
 
-Show three pairs of the previously defined affine words. Introduce their normalized equal superpositions. The eight pairs are disjoint, so the eight states are mutually orthogonal and encode three logical qubits. A physical operation that changes only phases preserves an encoded pair only when both words receive the same phase. Check that requirement before naming any logical action.
+\[
+d_{\min}(C)=\min_{f\ne g\in C}d_H(f,g).
+\]
 
-### 11. Choosing T and its inverse with parity — 1.5 minutes
+For a nonconstant affine difference, pair vertices across a coordinate with nonzero coefficient to obtain four ones. The constant-one difference has eight ones. Slide 7 supplies a pair at distance four, so `d_min(C)=4`.
 
-Use the same labeled cube to assign T at parity zero and its inverse at parity one. The physical word equal to parity has four ones, all at inverse-rotation sites, so its signed count is minus four. Define signed weight as the positive count minus the negative count before displaying the summation formula. The physical pattern is fixed by addresses, not by the logical input.
+Name the parity-zero level set as a linear hyperplane through zero. Name the parity-one level set as its affine translate. On the second state, prove unique one-error correction by
 
-### 12. Checking the eight-qubit logical gate — 2 minutes
+\[
+4=d_{\min}(C)\le d_H(f,g)
+\le d_H(f,r)+d_H(r,g)\le2.
+\]
 
-Derive signed weight from distance to parity by considering the two possible parity values at one site. The affine count proves signed weight zero for every logical label other than `111`. For that label the two complementary words have counts minus four and plus four.
+### 9. What the classical example established, 1.5 minutes
 
-Keep phases concealed. Ask “Do +4 and −4 give different phases when each count contributes an angle of π/4?” Wait about seven seconds, then reveal the phases. Both exceptional words receive minus one. All other pairs receive plus one. This checks every encoded state, not just one representative per pair.
+Recap the complete calculation: affine evaluations encode, ANF describes the damaged table, derivatives recover coefficients, and minimum distance proves unique correction. Keep
 
-### 13. What additional error protection requires — 2.5 minutes
+\[
+d_H(p,r)=1,\qquad d_{\min}(C)=4
+\]
 
-Define bit and phase errors by their action on basis vectors. Flipping all eight sites exchanges complementary words and leaves every encoded state unchanged. This supplies an example of a stabilizer check. A phase error changes its check outcome. Define a syndrome as the binary record of those outcomes, then show that two phase-error responses XOR.
+side by side. The first value describes one readout and one codeword. The second is the smallest distance between any two codewords.
 
-A zero response column hides one phase error. Equal columns cancel and hide two. Define quantum distance in terms of undetected changes to encoded information. The toy code has distance two. Distance three is needed to correct an arbitrary error on one qubit. A backup slide gives an explicit undetected two-site phase error without introducing the full dual-space formalism.
+### 10. Single-qubit operations change bits and phases, 2 minutes
 
-### 14. Deleting a subspace leaves weights 24 and 32 — 2 minutes
+Define a qubit and computational basis vectors before introducing ket notation. Show the action of a bit flip and a phase sign change. Define `T`, `T†`, and the phase acquired by a binary basis word. State the desired sign on logical label `111` before naming CCZ.
 
-Define four coordinates `u`, two coordinates `w`, and the retained evaluation set before using them. The full binary six-dimensional space has 64 points. Delete the 16 points with `w=00`, leaving the three displayed 16-point blocks.
+### 11. Encoding three qubits with complementary words, 2 minutes
 
-Define the coefficient vectors and binary dot products. Every nonzero linear function has 32 ones by the same pairing argument as slide 7. Restricting to the deleted subspace leaves a nonzero function of `u`, with eight ones, or the zero function. Subtract to obtain 24 and 32. The zero function remains implicit in the displayed nonzero cases. Conclude orally that both weights are divisible by eight.
+Build each encoded basis state from the two previously defined affine words with constants zero and one. Explain why eight disjoint pairs give eight orthogonal states. The all-site bit flip exchanges the two words and leaves their sum fixed. A physical phase operation must give both words in a pair the same phase.
 
-### 15. Completing the 48-qubit code — 2 minutes
+### 12. Choosing T and T† with parity, 1.5 minutes
 
-The six coordinate evaluation words specify flip checks. Their combinations give 64 words in the stabilizer space. Three logical functions specify which translate of this space occurs in each encoded basis state. The sign function independently chooses T or its inverse at every site. Show the actual rotation diagram, with its row and column ordering visible.
+Reuse the labeled cube. Define the physical choice of `T` or `T†` at every address. Count an explicit word, then define signed weight as an ordinary integer. Connect the signed count to the accumulated physical phase.
 
-All 64 terms in a state must receive the same phase. The site geometry alone does not supply the logical functions or signs. The full functions and sign polynomial are available in backup. The verified logical words produce eight disjoint sets of 64 words.
+### 13. Checking the eight-qubit logical gate, 2.5 minutes
 
-### 16. Checking phases through row intersections — 3 minutes
+Derive signed weight from distance to parity. Show the signed counts before the phase column. Ask whether `+4` and `-4` produce different phases when every count contributes `π/4`, then wait seven seconds. Reveal that both phases are minus one. Check both words in all eight complementary pairs and conclude logical CCZ.
 
-Define generator rows as the nine evaluation words already used. Products of rows select intersecting supports. Expand binary XOR as an integer expression, keeping the two additions distinct. Define signed weight using site signs and explain congruence as equality of remainders.
+### 14. Deleting a subspace leaves weights 24 and 32, 2 minutes
 
-Reveal individual-row congruences, then pair congruences, then triple parities in fixed positions. The integer coefficients are 1, −2, and 4. Four or more distinct rows have coefficients divisible by eight. Stabilizer-containing triples are even. Only the logical triple is odd, producing the phase exponent `4 a1 a2 a3` modulo eight. The criterion makes the phase independent of the stabilizer word.
+Explain why the toy encoding lacks full one-qubit protection. Split each six-bit address into `u` and `w`, then define the retained set before showing the three 16-point blocks. Every nonzero linear function has 32 ones on the 64-point space. Its restriction to the deleted subspace has eight or zero ones, producing `32-8=24` or `32-0=32`.
 
-### 17. The resulting quantum code — 1 minute
+### 15. Completing the 48-qubit code, 2 minutes
 
-State 48 physical qubits, three logical qubits, and quantum distance three before introducing the compact code notation. The code corrects any one-qubit error. The actual pattern has 26 forward and 22 inverse rotations and implements CCZ. Separate the explicit construction from the general test of row intersections.
+Define the coordinate evaluation words and their 64-word span. A coordinate bit flip permutes the terms of every encoded state. Define a stabilizer check as an operation that leaves every encoded state fixed. Then introduce the three logical functions, the encoded superposition, the sign function, and the physical rotation diagram. Keep the roles of sites, logical labels, and signs separate.
 
-Transition: “That completes the quantum construction. The classical example also lets us discuss three other questions: how much information a finite code can store, what happens on a probabilistic channel, and how predictable a Boolean output can be.”
+### 16. Checking phases through row intersections, 3 minutes
 
-### 18. Reed–Muller codes and finite-length bounds — 3 minutes
+Define a generator row as one of the nine displayed evaluation words. Define coordinatewise products through support intersections. Expand XOR over the ordinary integers, then introduce signed congruences in three fixed reveal states. Individual rows appear first, pairs second, and triples third. Explain why terms using four or more rows disappear modulo eight. The logical triple supplies the remaining odd term.
 
-Name the classical example RM(1,3). Explain the degree-bounded family and define linearity and `[n,k,d]`. Each of 16 codewords has nine possible readouts with at most one error. Unique decoding requires disjoint sets, so `16 × 9 = 144 ≤ 256`. Name the Hamming bound after the count. The inequality is a necessary finite packing condition, not a new decoding algorithm or an equality claim.
+### 17. The resulting quantum code, 1 minute
 
-### 19. Erasure recovery and channel capacity — 3 minutes
+State 48 physical qubits and three logical qubits. Define quantum distance `d_Q` as the smallest physical support of an undetected logical error, then state `d_Q=3`. Only after the definition introduce `[[48,3,3]]`. State the `26T+22T†` implementation of logical CCZ and distinguish the explicit construction from the general overlap test.
 
-An erasure is a missing bit with a known location. The readout `?1101001` uniquely identifies parity. The readout `0??0?00?` admits both parity and the all-zero codeword, so four erasures can cause ambiguity.
+### 18. Reed–Muller codes and finite-length bounds, 3 minutes
 
-Define independent erasure probability, rate, and asymptotic recovery before advancing. The second state states binary erasure capacity `1−ε`, defines optimal erasure decoding, and gives the Reed–Muller capacity result for a sequence of growing lengths with rates tending to any target in `(0,1)`. Whole-word recovery tends to probability one when the erasure probability is below `1−R`.
+Name the classical code `RM(1,3)` and define the degree-bounded family. Define `[n,k,d_min]`. Count nine zero-or-one-error readouts around each codeword, so disjoint decoding sets require `16(1+8)=144≤256`. Explain what is counted before naming the Hamming bound.
 
-The cited theorem is Theorem 27 of Kudekar and coauthors. Its decoder uses the full compatible-codeword set. The theorem does not assert capacity for our fixed eight-bit decoder or promise a practical decoding complexity. The strict inequality matters.
+### 19. Erasure recovery and channel capacity, 3 minutes
 
-### 20. Predicting a Boolean output with parity — 3 minutes
+Define a known-location erasure. Show one uniquely recoverable readout and one ambiguous four-erasure readout. Define rate, independent erasure probability, and asymptotic reliable recovery. On the second state, state `C=1-ε` and the Reed–Muller capacity result under optimal block decoding. Keep this growing-length theorem distinct from the finite decoder used earlier.
 
-Return to the received cubic table. Define uniform input sampling and count seven agreements and one disagreement with parity. Only after that count, reveal the conversion of bits to real signs and the normalized Fourier coefficient. Agreements contribute plus one and disagreements minus one, so the average is `3/4` and the agreement probability is `(1+3/4)/2=7/8`.
+### 20. Predicting a Boolean output with parity, 3 minutes
 
-Define a cryptographic Boolean component as computing one output bit from input bits. Accurate prediction by an affine function is undesirable for such a component. Degree three alone does not prevent the approximation seen here. Omit the full spectrum, transform nomenclature, and nearest-codeword formula from the presentation.
+Count seven agreements and one disagreement before introducing sign encoding. Define uniform sampling and the normalized Fourier coefficient. Derive the value `3/4` and prediction probability `7/8`. Explain why accurate affine prediction is undesirable for a cryptographic Boolean component. Return to slide 4 to show that degree three did not prevent this approximation.
 
-### 21. Contributions — 2 minutes
+### 21. Contributions, 2 minutes
 
-Return to the 48-qubit construction, its physical rotation pattern, and the exact signed-overlap test. State what was constructed and what was proved. Leave the slide visible throughout questions. Do not end with a new theorem or a slogan.
+Return to the explicit 48-qubit code, the physical rotation pattern, and the signed-overlap verification. Leave this slide visible during questions.
 
 ## Reveals
 
 | Main slide | PDF pages | States | Concealed content |
 | --- | --- | ---: | --- |
-| 6 | 7–8 | 2 | Recovered coefficients and constant |
-| 7 | 9–10 | 2 | General affine distance and unique recovery |
-| 12 | 15–16 | 2 | Phase column and logical gate conclusion |
-| 16 | 20–22 | 3 | Pairs, then triples and final logical phase |
+| 6 | 7–8 | 2 | Majority explanation, recovered coefficients, and constant |
+| 8 | 10–11 | 2 | Unique-correction contradiction |
+| 13 | 16–17 | 2 | Phase column and logical-gate conclusion |
+| 16 | 20–22 | 3 | Pair conditions, then triple conditions and logical phase |
 | 19 | 25–26 | 2 | Capacity and asymptotic theorem |
 | 20 | 27–28 | 2 | Sign conversion and Fourier coefficient |
 
-The layout reserves hidden content so common equations stay stationary. The first Fourier state intentionally contains the observed seven-of-eight prediction count. The reveal explains its spectral expression rather than hiding an already observed count.
+The layout reserves space for concealed material. Common equations and diagrams remain stationary between states. The first Fourier state contains the observed agreement count. The reveal explains its spectral expression.
 
 ## Backups
 
-Six optional slides cover input-affine equivalence, an explicit two-site error establishing the toy code's distance, the 48-qubit logical functions, the rotation-sign polynomial, the qualified length exclusion, and sources. These slides answer likely questions about the main calculations and the author's results. Higher derivatives, general Reed–Muller proofs, the full Fourier spectrum, syndrome-rank examples, polynomial reductions, and extended-affine classifications are omitted.
+The six backup slides cover input-affine equivalence, the explicit two-site logical phase error in the toy code, the 48-qubit logical functions, the rotation-sign polynomial, the qualified length exclusion, and sources.
 
-The three-logical-qubit, phase-distance-at-least-three, CSS, and Campbell–Howard assumptions accompany the length exclusion. The interval 39–46 remains open. The 47-qubit statement concerns the particular code tested in the paper. No statement of global optimality is made.
+The length backup defines CSS codes, `d_Z≥3`, and the Campbell–Howard conditions locally. It states the hypotheses for the `n≤38` exclusion, leaves `39≤n≤46` open, and limits the 47-qubit statement to the specified code. Advanced classifications, rank-translation examples, polynomial reductions, and the full Fourier spectrum remain outside the deck.
 
 ## Sources and verification boundaries
 
-- [IBM, Troubleshooting Memory issues](https://www.ibm.com/support/pages/troubleshooting-memory-issues) supplies the memory context, not the eight-bit construction.
-- [Kudekar et al., Reed–Muller Codes Achieve Capacity on Erasure Channels](https://arxiv.org/pdf/1601.04689), Theorem 27, supplies the asymptotic binary-erasure result under optimal block decoding. The theorem constructs a sequence with convergent target rate.
-- [O'Donnell, Analysis of Boolean Functions](https://www.cs.cmu.edu/~odonnell/papers/Analysis-of-Boolean-Functions-by-Ryan-ODonnell.pdf), Chapter 1, supplies the sign-correlation interpretation. The numeric example is calculated directly.
-- Carlet, MacWilliams–Sloane, and Huffman–Pless provide the standard Boolean and coding background. The deck does not depend on a tour of external frontier results.
-- The current manuscript supplies the six coordinate rows, fixed logical functions, exact sign polynomial, signed-overlap criterion, distance parameters, and qualified length exclusion. The standalone source has no build dependency on the manuscript repository.
+- [IBM, Troubleshooting Memory issues](https://www.ibm.com/support/pages/troubleshooting-memory-issues) supplies the memory context. It does not supply the eight-bit construction.
+- [Kudekar et al., Reed–Muller Codes Achieve Capacity on Erasure Channels](https://arxiv.org/pdf/1601.04689), Theorem 27, supplies the asymptotic binary-erasure result under optimal block decoding.
+- [O'Donnell, Analysis of Boolean Functions](https://www.cs.cmu.edu/~odonnell/papers/Analysis-of-Boolean-Functions-by-Ryan-ODonnell.pdf), Chapter 1, supplies the sign-correlation interpretation.
+- Carlet, MacWilliams–Sloane, and Huffman–Pless supply standard Boolean-function and coding terminology.
+- The current manuscript supplies the coordinate rows, logical functions, sign polynomial, overlap criterion, distances, and qualified lower-bound result. The standalone project has no build dependency on the manuscript repository.
 
-Finite checks enumerate the 144 classical decoding cases, affine distances, toy phases, 63 nonzero six-variable linear functions, 129 signed row/pair/triple conditions, and 512 encoded-word phases. Checks also confirm the 26/22 signs, exact quantum distances, erasure examples, finite packing, and Fourier coefficient. A clean local build and inspection of every reveal establish artifact correctness. The capacity theorem is checked against its source, not proved by these finite tests.
-
-An outside-listener rehearsal remains a human acceptance step. Ask the listener to explain the encoder's four message bits versus three address bits, why both words of an encoded pair need equal phase, and why a finite distance guarantee differs from channel capacity. Measure the 45-minute timing in that rehearsal.
+Finite checks enumerate all 16 encoder outputs, 144 zero-or-one-error decoding cases, every pair of affine codewords, all toy phases, 63 nonzero six-variable linear functions, 129 row-intersection conditions, and 512 encoded-word phases. The checks also cover the erasure examples, finite packing count, Fourier coefficient, sign count, and stated distances. Compilation and rendered-page inspection establish artifact correctness. They do not establish the 45-minute pacing.

@@ -2,87 +2,125 @@
 
 ## Organization
 
-Use Patrick Winston's [MIT lecturing heuristics](https://courses.csail.mit.edu/6.141/spring2010/pub/debates/Talk/phw.html) as delivery guidance. The recommendations here apply his principles to this talk, rather than attributing this exact sequence or wording to him.
+Use Patrick Winston's [MIT lecturing heuristics](https://courses.csail.mit.edu/6.141/spring2010/pub/debates/Talk/phw.html) as delivery guidance. Give a concrete opening promise, finish one worked example, separate quantities that can be confused, use explicit transitions, ask two answerable questions, and close on the author's contributions.
 
-Give an opening promise, develop one worked example, separate ideas that can be confused, state transitions, ask two answerable questions, and close on contributions. The revised order completes the quantum construction before the shorter adjacent-applications discussion. A topic footer supplies orientation without a separate transition slide.
+The classical encoder and its eight addresses remain the reference point throughout the talk. Complete the classical calculation before introducing quantum states. Complete the 48-qubit construction before discussing adjacent applications. A footer marks the three portions without adding transition slides.
 
 ## Opening and transitions
 
-Opening, over the title:
+Over the title, say:
 
 > By the end, you will be able to follow an eight-bit error-correcting encoder and see how the same Boolean functions let us calculate a quantum gate.
 
-Introduce memory as the application. Explicitly call the eight-bit construction a teaching example. Explain what the encoder and decoder know before showing a damaged table. The practical assumption is at most one bit flip at an unknown position.
+Introduce computer memory as the practical setting. Call the eight-bit construction a teaching example. State what the encoder, memory readout, and decoder each contain before showing a corrupted table.
 
-After slide 7:
+After slide 9, say:
 
-> We have recovered the message and proved the guarantee. Next, we will use these same eight-entry functions to specify a quantum encoding.
+> We have specified the encoder, corrected its readout, and proved why the correction is unique. Next, the same eight affine tables will become physical basis words in a quantum encoding.
 
-After slide 12:
+After slide 13, say:
 
-> The eight-qubit calculation implements the desired gate, but this code cannot correct every one-qubit error. The next construction adds that protection.
+> The eight-qubit calculation implements the desired gate, but this encoding does not correct every one-qubit error. The 48-qubit construction keeps the phase calculation and adds that protection.
 
-After slide 17:
+After slide 17, say:
 
-> That completes the quantum construction. The classical example also lets us discuss how much information a finite code can store, what happens on a probabilistic channel, and how predictable a Boolean output can be.
+> That completes the quantum construction. I will use the classical example once more to discuss finite code bounds, probabilistic erasures, and prediction of a Boolean output.
 
-After slide 20, return to the contribution slide. Repeat the concrete construction and the test that proves its gate action. Leave those results visible during questions.
+After slide 20, return to the contribution slide. State the construction and its phase test. Leave those results visible during questions.
 
-## Recurring example and conceptual distinctions
+## Classical example
 
-Point to the same address order whenever a table returns. On a cube, distinguish the address printed below a circle from the value or operation inside it. Read one endpoint calculation aloud before using a whole collection of edges.
+On slide 1, explain a memory write and read. The encoder computes eight stored values from four message bits. The decoder uses constraints among those values. At most one value changes, and the decoder does not know its address.
 
-- Four message bits specify the function. Three address bits index its eight values. Eight stored bits are its evaluation word.
-- A corrupted table entry and a toggled function input are different operations. The Boolean derivative compares outputs at neighboring inputs. A corrupted entry changes one comparison in each fixed direction.
-- Algebraic degree counts variables in a monomial. It does not count damaged entries and does not determine approximation by parity.
-- XOR is binary addition. Weights, signed weights, and phase exponents use ordinary integer arithmetic.
-- Classical codewords become physical basis words. Logical basis states are superpositions of several such words. Checking a phase on one representative does not check the entire encoded state.
-- Site geometry determines coordinate evaluation words. Logical functions and rotation signs complete the quantum construction.
-- A finite distance guarantee covers every error pattern up to a specified size. Channel capacity concerns a growing sequence of codes under a probabilistic noise model and specified decoding.
-- Input-coordinate relabeling transports whole truth tables. The affine-equivalence backup states exactly what this preserves.
+On slide 2, read the XOR table aloud before using the symbol. Distinguish the message coefficients from the address bits. Calculate the value at address `101` in front of the audience. Explain that redundancy creates alternative representations of the same 16 messages. It does not create new message information.
 
-Avoid extra terminology when an existing object is enough. Say “affine function,” “codeword,” “parity,” or “encoded state” according to the object being discussed. A formula's first appearance should follow its domains and one concrete example. Notes expand definitions already visible in the slides.
+On slide 3, use the displayed recovery formulas to prove that no two messages share an uncorrupted word. Only then call the 16 outputs codewords. “Affine Boolean function” is the standard name for the constant plus binary linear terms in the encoder.
 
-## Audience pauses and reveals
+On slide 4, point first to the two eight-bit words. Define `r` as the table read from memory. Define the indicator by its two evaluation cases before expanding it. Degree describes the largest monomial in the ANF. Degree does not count corrupted positions.
 
-On slide 6, first show the derivative and four votes. Ask:
+On slide 5, read the `000,100` comparison aloud. The derivative toggles an input coordinate and compares two output values. Corrupting a stored value is a different operation. One changed endpoint alters one of the four disjoint comparisons in every fixed coordinate direction.
+
+On slide 6, show the four votes and ask:
 
 > Why is this majority reliable?
 
-Wait about seven seconds before revealing the coefficients and the constant. The supporting explanation is that the four edges are disjoint, so one changed endpoint can spoil only one comparison.
+Wait about seven seconds. Reveal that a changed address belongs to only one of the four disjoint edges. Recover all three linear coefficients, subtract their affine contribution by XOR, and recover the constant from the seven equal residual entries.
 
-On slide 12, show the signed counts without the phases. Ask:
+On slide 7, define support, weight, and Hamming distance in that order. Use the colored coordinate faces to count four points in each support and two in their intersection. The calculation `4+4-2(2)=4` is the Hamming distance of one particular pair of evaluation words.
+
+On slide 8, define the minimum distance of the code as a minimum over every distinct codeword pair. Pair vertices to prove the four-or-eight alternative. Explain the hyperplane terms only after the parity level sets are visible. On the reveal, read the contradiction from left to right. The proof shows that one readout cannot be within one bit of two different codewords.
+
+On slide 9, pause on the two displayed distances:
+
+- `d_H(p,r)=1` describes the displayed codeword and damaged readout.
+- `d_min(C)=4` describes the smallest separation anywhere in the classical code.
+- `d_Q`, introduced later, measures support of an undetected logical quantum error.
+
+Do not call `d_H(p,r)` the code distance.
+
+## Quantum construction
+
+On slide 10, define each basis vector before using kets elsewhere. A bit flip exchanges basis vectors. A phase flip changes the sign between components of a superposition. Explain that a diagonal operation leaves a basis label unchanged while multiplying it by a complex phase.
+
+On slide 11, connect every complementary word to the affine encoder. The all-site bit flip exchanges the two terms in a pair, so the normalized sum is fixed. A diagonal physical operation preserves the encoded state only when both words receive the same phase.
+
+On slide 12, count an explicit word before reading the signed-weight formula. Keep XOR arithmetic separate from the ordinary integer sum used in the signed count.
+
+On slide 13, show signed counts without the phase answers and ask:
 
 > Do +4 and −4 give different phases when each count contributes an angle of π/4?
 
-Wait about seven seconds. Reveal that both phases are minus one. Connect the answer immediately to the requirement of equal phase within each encoded pair.
+Wait about seven seconds. Reveal that both give minus one. Point out that the calculation checks every word in each encoded state.
 
-Six frames contain reveals: slides 6, 7, 12, 19, and 20 have two states, and slide 16 has three. The initial capacity state ends at the probabilistic model and definition of capacity. The initial Fourier state counts actual agreements before introducing signs. The overlap frame shows individual rows, then pairs, then triples in stationary positions.
+On slide 14, define the six-bit address as the pair `(u,w)`. The full space contains 64 addresses. Deleting `w=00` removes 16. Apply the earlier half-space pairing argument to the full linear function and again to its restriction. The two cases give 24 and 32.
 
-Do not read concealed results aloud prematurely. Both audience pauses are included in the timing, not added after the 45-minute budget.
+On slide 15, introduce the six coordinate evaluation words before the span `S`. Flipping the support of one coordinate word permutes the 64 terms in each encoded state. Define this fixed operation as a stabilizer check. Then define the logical functions, labels, signs, and encoded superposition. The geometry does not determine the logical functions or signs by itself.
 
-## Pacing
+On slide 16, define a generator row and coordinatewise multiplication. Explain that each product marks a support intersection. The three reveal states follow the integer coefficients `1`, `−2`, and `4`. Terms from four or more rows have coefficients divisible by eight. The logical triple is the sole odd triple and produces the logical CCZ phase.
+
+On slide 17, define quantum distance before giving `d_Q=3` and `[[48,3,3]]`. Distance three means the code corrects an arbitrary error supported on one physical qubit. Keep this quantity distinct from the classical `d_min(C)`.
+
+## Adjacent applications
+
+On slide 18, name `RM(1,3)` only after the audience has already constructed it. Define `[n,k,d_min]` through stored bits, message bits, and classical minimum distance. Explain all factors in `16(1+8)=144≤256` before naming the Hamming bound.
+
+On slide 19, define a known-location erasure and inspect both finite examples. Then define the probabilistic model and asymptotic capacity. Reveal the Reed–Muller theorem only after those definitions. State that the theorem concerns a growing sequence and optimal block decoding. It does not describe the finite majority decoder from slide 6.
+
+On slide 20, count seven agreements before introducing real signs. Agreements contribute plus one and the disagreement contributes minus one, giving `3/4`. Accurate affine prediction is undesirable for a cryptographic Boolean component. The example also separates algebraic degree from affine predictability.
+
+## Concepts that must remain distinct
+
+- Four message bits specify an affine function. Three address bits select one of its eight values.
+- A stored-bit error changes a table entry. A Boolean derivative changes an input coordinate and compares outputs.
+- XOR is binary addition. Weight, signed weight, and phase exponents use ordinary integer arithmetic.
+- `d_H(f,g)` compares one pair of words. `d_min(C)` minimizes over a classical code. `d_Q` measures the support of an undetected logical quantum error.
+- A physical basis word is one binary string. An encoded basis state is a superposition of many physical basis words.
+- A finite distance guarantee is a worst-case statement at fixed length. Capacity is an asymptotic statement for a probabilistic channel and a specified decoder.
+
+## Reveals and pacing
+
+Slides 6, 8, 13, 19, and 20 have two states. Slide 16 has three. Do not read a concealed conclusion before advancing. The common parts of every slide remain stationary.
 
 | Checkpoint | Target |
 | --- | ---: |
-| Classical code and distance finished, slide 7 | 14:00 |
-| Eight-qubit gate checked, slide 12 | 23:30 |
-| 48-qubit result stated, slide 17 | 34:00 |
-| Further applications finished, slide 20 | 43:00 |
-| Contributions finished, slide 21 | 45:00 |
+| Decoder complete, slide 6 | 12:00 |
+| Classical recap complete, slide 9 | 18:00 |
+| Eight-qubit gate complete, slide 13 | 26:00 |
+| 48-qubit result complete, slide 17 | 34:00 |
+| Adjacent applications complete, slide 20 | 43:00 |
+| Contributions complete, slide 21 | 45:00 |
 
-Use literal transitions to let listeners rejoin. If behind time, shorten optional commentary or a second explanation of an established count. Keep the visible definitions, equal-phase argument, and decoder assumptions. The backup calculations are for questions, not part of the 45 minutes.
-
-The abstract's computation promise is represented by the AND/XOR polynomial and input-toggle derivative. Communication is represented by explicit recovery, distance, packing, and erasure capacity. Cryptography is represented by the cubic function's affine predictability. The principal research result and the final contribution slide retain the quantum-error-correction emphasis.
+If time is short, reduce repeated explanation after a calculation. Keep every visible definition, the decoder assumptions, the equal-phase argument, and the distinction among the three distances.
 
 ## Human acceptance still needed
 
-The build and finite calculations cannot establish whether the audience can follow the pacing. Rehearse with a mathematically mature listener outside QEC and ask for explanations in the listener's own words:
+Rehearse with a mathematically mature listener outside quantum error correction. Ask the listener to explain:
 
-1. Which bits are message coefficients, which label positions, and which are stored?
-2. Why do four disjoint comparisons recover a coefficient after one error?
-3. Why must both physical words of an encoded pair receive the same phase?
-4. Why do the 48-site weights become 24 and 32?
-5. What changes between the fixed eight-bit guarantee and asymptotic capacity?
+1. Which bits are message coefficients, which bits label positions, and which bits are stored.
+2. Why four disjoint comparisons recover a coefficient after one error.
+3. Why `d_H(p,r)=1` and `d_min(C)=4` are compatible.
+4. Why both physical words in one encoded pair need the same phase.
+5. Why the 48-site counts are 24 and 32.
+6. Why a fixed finite-distance guarantee differs from channel capacity.
 
-Record the time at the five checkpoints. If a definition has to be supplied orally to repair a missing step, revise the visible slide before calling the talk ready for this audience.
+Measure the six timing checkpoints. If a definition must be supplied orally before a listener can parse the visible slide, revise the slide.
