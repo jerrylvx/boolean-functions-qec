@@ -601,43 +601,7 @@ A cryptographic Boolean component computes one output bit from input bits. Accur
 \end{frame}
 
 \appendix
-\storypart{Backup\quad Additional calculations}
-\begin{frame}{Backup: specifying the two types of stabilizer checks}
-\talktext
-For length-$n$ binary words, define the binary inner product
-$v\cdot z=\bigoplus_{j=1}^n v_jz_j$.
-Let $C$ be the XOR span of all generator rows, and $S\subset C$ the span of the stabilizer rows.
-The orthogonal space is $C^\perp=\{z:z\cdot c=0\text{ for every }c\in C\}$.
-\[
-\ket a_L=|S|^{-1/2}\sum_{s\in S}\ket{K(a)\oplus s}.
-\]
-Flips on a word $s\in S$ permute the summands. Phase errors on a word $z\in C^\perp$ multiply every summand by $+1$.
-These give the $X$ and $Z$ checks of a \emph{Calderbank--Shor--Steane} (CSS) code.
-\[
-d_X=\min_{v\in C\setminus S}\wt(v),\qquad
-d_Z=\min_{z\in S^\perp\setminus C^\perp}\wt(z).
-\]
-Here $d_X,d_Z$ are the minimum weights of undetected bit and phase errors that change the encoded information. Quantum distance is $\min(d_X,d_Z)$.
-\end{frame}
-
-\begin{frame}{Backup: the nine Campbell--Howard parity conditions}
-\talktext
-Let $K_1,K_2,K_3$ be logical rows and $S_1,\ldots,S_s$ independent stabilizer rows. Products intersect supports. Indices within a product are distinct.
-The \emph{Campbell--Howard conditions} require these overlap parities:
-\begin{center}
-\renewcommand{\arraystretch}{1.15}
-\begin{tabular}{c|lll}
-rows involved & individual & pair & triple\\\hline
-logical only & $\wt(K_i)$ even & $\wt(K_iK_j)$ even & $\wt(K_1K_2K_3)$ odd\\
-mixed & & $\wt(K_iS_l)$ even & $\wt(K_iK_jS_l)$ even\\
- & & & $\wt(K_iS_lS_t)$ even\\
-stabilizer only & $\wt(S_l)$ even & $\wt(S_lS_t)$ even & $\wt(S_lS_tS_v)$ even
-\end{tabular}
-\end{center}
-These nine parity conditions specify the class in the paper's length exclusion. They are weaker than the main talk's signed congruences modulo $8,4,2$.
-\takeaway{A code satisfying the parity conditions still needs a separate check of whether single-qubit $T/T^\dagger$ rotations implement CCZ without additional logical correction.}
-\end{frame}
-
+\storypart{Backup\quad Selected details}
 \begin{frame}{Backup: affine equivalence changes input coordinates}
 \talktext
 For $m$-bit inputs, let $A$ be an invertible binary $m\times m$ matrix and $t\in\F_2^m$ a translation. Matrix operations here use XOR addition.
@@ -652,186 +616,19 @@ D_vg(u)=D_{Av}f(Au\oplus t).
 \]
 \takeaway{Permuting physical sites preserves a code and its gate action when every generator word and rotation sign is transported. Translating syndrome entries changes the check data instead.}
 \end{frame}
-
-\begin{frame}{Backup: translating the location of an error}
-\talktext
-For $t=(1,0,0)$, let $\delta_t(u)$ be one exactly at address $t$.
-Translate the received function by $t$:
-\[
-r_t(u)=r(u\oplus t)=p(u)\oplus1\oplus\delta_t(u).
-\]
-The error moves from $000$ to $100$. Parity becomes its complement because toggling the first input changes its output.
-\[
-\mathtt{11101001}\quad\longmapsto\quad\mathtt{10011110}.
-\]
-Every invertible affine substitution preserves the Reed--Muller family and all distances between its words.
-\takeaway{The same decoding argument applies after a consistent relabeling of addresses.}
-\end{frame}
-
-\begin{frame}{Backup: input equivalence and output addition differ}
-\talktext
-\emph{Extended-affine equivalence} also permits adding an affine output function $\ell$:
-\[
-g(u)=f(Au\oplus t)\oplus\ell(u),\qquad \deg\ell\le1.
-\]
-Adding $\ell$ permutes the affine code, so distance to that code is preserved. Weight need not be preserved:
-\[
-f=0,\quad\ell=u_1\quad\Longrightarrow\quad
-\wt(f)=0,\quad\wt(f\oplus\ell)=4\quad(m=3).
-\]
-For a Boolean indicator $c$ of allowed positions, deleting the origin leaves
-\[
-n=\wt(c)-c(0)
-\]
-positions. A translation can change $c(0)$, hence the number of retained positions.
-\end{frame}
-
-\begin{frame}{Backup: a translated hyperplane can change syndrome rank}
-\talktext
-In three-bit coordinates $(x,y,z)$, translate the face $z=1$ by $001$:
-\[
-\{001,011,101,111\}\ \longrightarrow\ \{000,010,100,110\}.
-\]
-Treat each point as the responses of three checks to a phase error at that site:
-\[
-\begin{pmatrix}0&0&1&1\\0&1&0&1\\1&1&1&1\end{pmatrix}
-\ \longrightarrow\
-\begin{pmatrix}0&0&1&1\\0&1&0&1\\0&0&0&0\end{pmatrix}.
-\]
-Both sets need two independent displacement directions, so their affine dimension is two. Their columns span binary vector spaces of dimensions three and two, their respective ranks.
-
-A zero syndrome column can still have a nonzero logical label, hence a nonzero full generator column. This translation changes syndrome data and does not establish quantum-code equivalence.
-\end{frame}
-
-\begin{frame}{Backup: a polynomial factor confines the support}
-\talktext
-In the paper's rank-eight analysis, write a candidate indicator in variables $y_1,\ldots,y_8$. For polynomials $g,h$ in the first six variables, a vanishing component gives
-\[
-c=y_8(g\oplus y_7h)\quad\Longrightarrow\quad
-\supp(c)\subseteq\{y:y_8=1\}.
-\]
-The factor $y_8$ forces $c=0$ on $y_8=0$.
-For a containing hyperplane after a change of origin:
-\begin{itemize}
-\item Passing through zero bounds the actual column rank by seven.
-\item Avoiding zero, with proper support, supplies a missing direction for projection. A sum of two supported points lies in the parallel hyperplane through zero.
-\end{itemize}
-\source{Application requires the paper's CSS, three-logical-qubit, $d_Z\ge3$, Campbell--Howard, and distinct-nonzero-syndrome hypotheses. In the rank-eight exclusion, $n\le38<128$ leaves a missing point in the containing hyperplane.}
-\end{frame}
-
-\begin{frame}{Backup: derivatives recover polynomial coefficients}
-\talktext
-For an index set $I\subseteq\{1,\ldots,m\}$, let $u_I=\prod_{i\in I}u_i$, with empty product $1$.
-Write the algebraic normal form as
-\[
-f(u)=\bigoplus_{I\subseteq\{1,\ldots,m\}}c_Iu_I,\qquad c_I\in\F_2.
-\]
-Apply the derivatives in the directions indexed by $I$, then evaluate at zero:
-\[
-c_I=\left(\prod_{i\in I}D_{e_i}\right)f(0).
-\]
-The product of derivative operators means successive application. For our received table, $D_{e_1}D_{e_2}D_{e_3}r=1$.
-Every derivative of order greater than the degree vanishes.
-\takeaway{The third derivative on three variables XORs all eight entries. Every degree-at-most-two table passes this parity check.}
-\end{frame}
-
-\begin{frame}{Backup: low degree gives a minimum nonzero weight}
-\talktext
-For $u'=(u_1,\ldots,u_{m-1})$, write a nonzero function of degree at most $d$ as
-\[
-f(u',u_m)=g(u')\oplus u_mh(u').
-\]
-The two halves of its table are $g$ and $g\oplus h$, with $\deg g\le d$, $\deg h\le d-1$. Thus
-\[
-\wt(f)=\wt(g)+\wt(g\oplus h)\ge\wt(h).
-\]
-If $h\ne0$, induction gives $\wt(h)\ge2^{m-d}$. If $h=0$, the halves agree and the same bound follows by induction on $g$.
-The boundary case $d=m$ only requires weight at least one.
-\[
-\RM(d,m):\quad\left[2^m,\ \sum_{j=0}^d\binom mj,\ 2^{m-d}\right],\quad 0\le d\le m.
-\]
-\source{The monomial $u_1\cdots u_d$ attains the bound. The dimension counts the available monomials.}
-\end{frame}
-
-\begin{frame}{Backup: degree changes rate and error protection}
-\talktext
-Evaluate all degree-at-most-$d$ polynomials on the same eight addresses.
-\begin{center}
-\renewcommand{\arraystretch}{1.4}
-\begin{tabular}{ccl}
-degree bound & code parameters & guarantee\\\hline
-$0$ & $[8,1,8]$ & correct any three errors\\
-$1$ & $[8,4,4]$ & correct any one error\\
-$2$ & $[8,7,2]$ & detect any one error\\
-$3$ & $[8,8,1]$ & every word is allowed
-\end{tabular}
-\end{center}
-\takeaway{Adding monomials increases the number of message bits and decreases the minimum distance.}
-\end{frame}
-
-\begin{frame}{Backup: all Fourier coefficients of the received table}
-\talktext
-For a three-bit coefficient vector $a$, use the parity $a\cdot u$.
-The normalized correlation and its eight values are
-\[
-C_r(a)=\frac18\sum_{u\in\F_2^3}(-1)^{r(u)}(-1)^{a\cdot u},
-\qquad C_r(111)=\frac34,\quad C_r(a)=-\frac14\ (a\ne111).
-\]
-The unnormalized score $W_r(a)=8C_r(a)$ counts agreements minus disagreements.
-Allowing a constant $b$ gives the distance formula
-\[
-d(r,f_{a,b})=\frac{8-(-1)^bW_r(a)}2.
-\]
-\takeaway{The largest absolute correlation finds a nearest affine word. Its sign selects the constant term. Here the closest word is parity, at distance one.}
-\source{O'Donnell, Analysis of Boolean Functions, Chapter 1.}
-\end{frame}
-
-\begin{frame}{Backup: integer expansion of a binary sum}
-\talktext
-For Boolean functions $f,g,h$, XOR inside a weight and ordinary integer arithmetic outside it give
-\[
-\begin{aligned}
-\wt(f\oplus g\oplus h)={}&\wt(f)+\wt(g)+\wt(h)\\
-&-2[\wt(fg)+\wt(fh)+\wt(gh)]+4\wt(fgh).
-\end{aligned}
-\]
-The same formula holds for signed weight, since the identity holds at each coordinate before summation.
-An intersection of $j$ distinct rows has integer coefficient $(-2)^{j-1}$.
-\takeaway{Modulo eight, terms involving four or more rows vanish. Individual rows, pairs, and triples suffice to calculate the phase.}
-\end{frame}
-
 \begin{frame}{Backup: the eight-qubit quantum distance is two}
 \talktext
-Use the CSS description with $C=\RM(1,3)$ and $S=\{0,\mathbf1\}$, where $\mathbf1$ is the all-one word.
-\[
-d_X=\min_{v\in C\setminus S}\wt(v)=4.
-\]
-A phase error at one site changes the all-site flip check's outcome to $-1$, so its syndrome is nonzero.
-Phase errors at sites $000$ and $100$ together have zero syndrome but overlap $f_{100,0}$ in one position. The pair changes encoded information:
-\[
-d_Z=\min_{z\in S^\perp\setminus C^\perp}\wt(z)=2,
-\qquad d=\min(d_X,d_Z)=2.
-\]
-\takeaway{The classical affine distance is four. The quantum code also has phase errors to detect, and its distance is two.}
-\end{frame}
+The stabilizer checks detect every error acting on one physical qubit.
+A phase error at one site changes the all-site flip check's outcome to $-1$.
 
-\begin{frame}{Backup: checking every word in an encoded state}
-\talktext
-Let $a\in\F_2^3$ select logical rows and $y\in\F_2^s$ select stabilizer rows. Their XOR combination is
-\[
-c(a,y)=\bigoplus_{i=1}^3a_iK_i\ \oplus\ \bigoplus_{l=1}^s y_lS_l.
-\]
-A sign pattern implements CCZ without extra logical correction exactly when
-\[
-\sw_\gamma(c(a,y))\equiv4a_1a_2a_3\pmod8\quad\text{for every }a,y.
-\]
-Partitioning sites into blocks $B$, with $c_B,\gamma_B$ the restrictions to a block, gives the exact integer identity
-\[
-\sw_\gamma(c)=\sum_B[\wt(\gamma_B\oplus c_B)-\wt(\gamma_B)].
-\]
-\source{The stabilizer-containing overlap conditions remove dependence on $y$. The remaining eight logical inputs can then be checked at $y=0$.}
-\end{frame}
+Now put phase errors at addresses $000$ and $100$. Each anticommutes with the all-site flip, so together their two sign changes cancel. The pair has zero syndrome.
 
+The logical word $f_{100,0}=u_1$ is one at $100$ and zero at $000$. The error pair therefore changes the relative phase of the encoded state labeled by $a=100$:
+\[
+f_{100,0}(000)\oplus f_{100,0}(100)=0\oplus1=1.
+\]
+\takeaway{No one-site error is undetected, but this two-site phase error is undetected and acts logically. The toy code therefore has quantum distance two.}
+\end{frame}
 \begin{frame}{Backup: the 48-qubit logical Boolean functions}
 \talktext
 On each block $w$, the function $\kappa_i(u,w)$ evaluates to the logical row $K_i$. All $u_i$ are bits.
@@ -852,7 +649,6 @@ $11$ & $K_1$ & $u_4$\\
 \end{center}
 \source{The current paper's fixed label map. Together with the six coordinate rows, these rows have rank nine.}
 \end{frame}
-
 \begin{frame}{Backup: the 48-qubit rotation signs}
 \talktext
 For $u\in\F_2^4$ and $w\in\F_2^2\setminus\{0\}$, define
@@ -867,10 +663,11 @@ The sign function is
 Its weights on blocks $10,01,11$ are $6,6,10$. Value one selects $T^\dagger$, giving $22$ inverse rotations and $26$ forward rotations.
 \takeaway{The sign polynomial specifies the physical rotations. The fixed logical rows and signed-weight calculation establish the logical gate.}
 \end{frame}
-
 \begin{frame}{Backup: the scope of the length exclusion}
 \talktext
-The paper excludes CSS codes with three logical qubits, phase distance $d_Z\ge3$, and all nine Campbell--Howard parity conditions at lengths $n\le38$, for every stabilizer rank.
+The paper studies CSS codes with three logical qubits and phase distance $d_Z\ge3$.
+The class also obeys nine Campbell--Howard parity conditions on individual generator rows and their pair and triple intersections.
+Within this class, all lengths $n\le38$ are excluded, at every stabilizer rank.
 \begin{center}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{cl}
@@ -884,7 +681,6 @@ $n=48$ & the constructed code has such a pattern
 \takeaway{The explicit 48-qubit construction is not a proof of global minimality. The 47-qubit statement concerns one specified code.}
 \source{Current paper: length exclusion, fixed-label 47-qubit test, and explicit 48-qubit construction.}
 \end{frame}
-
 \begin{frame}{Sources}
 \talktext
 \textbf{Quantum results:} the author's current paper, \emph{A 48-qubit native CCZ code from projective geometry and a length lower bound}. The talk uses its fixed logical functions, rotation signs, signed-overlap criterion, and qualified exclusion.

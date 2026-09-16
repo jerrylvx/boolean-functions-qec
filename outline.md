@@ -4,7 +4,7 @@
 
 A 45-minute talk for mathematics, computer science, information theory, physics, and ECE audiences. Preserve the approved [abstract](abstract.md). The principal example starts with a completely specified classical encoder, becomes an eight-qubit encoding, and supplies the calculations needed to understand the author's 48-qubit construction. Adjacent applications follow that result. The closing slide returns to the research contributions.
 
-The deck contains one title, 21 numbered main slides, seven additional reveal pages, and 18 backups, for 47 PDF pages. Six main slides have overlays. The timings include the two seven-second audience pauses and have not yet been measured in a listener rehearsal.
+The deck contains one title, 21 numbered main slides, seven additional reveal pages, and six backups, for 35 PDF pages. Six main slides have overlays. The timings include the two seven-second audience pauses and have not yet been measured in a listener rehearsal.
 
 Error-correcting memory supplies the opening application. The eight-bit encoder is a teaching example, not a description of a particular memory product. The main talk does not claim that the 48-qubit construction is globally minimal.
 
@@ -88,7 +88,7 @@ Keep phases concealed. Ask “Do +4 and −4 give different phases when each cou
 
 Define bit and phase errors by their action on basis vectors. Flipping all eight sites exchanges complementary words and leaves every encoded state unchanged. This supplies an example of a stabilizer check. A phase error changes its check outcome. Define a syndrome as the binary record of those outcomes, then show that two phase-error responses XOR.
 
-A zero response column hides one phase error. Equal columns cancel and hide two. Define quantum distance in terms of undetected changes to encoded information. The toy code has distance two. Distance three is needed to correct an arbitrary error on one qubit. CSS terminology and dual-space calculations remain in backup.
+A zero response column hides one phase error. Equal columns cancel and hide two. Define quantum distance in terms of undetected changes to encoded information. The toy code has distance two. Distance three is needed to correct an arbitrary error on one qubit. A backup slide gives an explicit undetected two-site phase error without introducing the full dual-space formalism.
 
 ### 14. Deleting a subspace leaves weights 24 and 32 — 2 minutes
 
@@ -130,7 +130,7 @@ The cited theorem is Theorem 27 of Kudekar and coauthors. Its decoder uses the f
 
 Return to the received cubic table. Define uniform input sampling and count seven agreements and one disagreement with parity. Only after that count, reveal the conversion of bits to real signs and the normalized Fourier coefficient. Agreements contribute plus one and disagreements minus one, so the average is `3/4` and the agreement probability is `(1+3/4)/2=7/8`.
 
-Define a cryptographic Boolean component as computing one output bit from input bits. Accurate prediction by an affine function is undesirable for such a component. Degree three alone does not prevent the approximation seen here. Keep the full spectrum, transform nomenclature, and nearest-codeword formula in backup.
+Define a cryptographic Boolean component as computing one output bit from input bits. Accurate prediction by an affine function is undesirable for such a component. Degree three alone does not prevent the approximation seen here. Omit the full spectrum, transform nomenclature, and nearest-codeword formula from the presentation.
 
 ### 21. Contributions — 2 minutes
 
@@ -151,9 +151,9 @@ The layout reserves hidden content so common equations stay stationary. The firs
 
 ## Backups
 
-Eighteen optional slides define the CSS description and the nine Campbell–Howard parity conditions, then cover affine input equivalence, translated errors, output-affine addition, syndrome rank under translation, polynomial support restrictions, higher derivatives, general Reed–Muller distance, degree versus rate, the full Fourier spectrum, integer inclusion–exclusion, the toy distance, the full signed-word test, the actual logical functions, the rotation polynomial, the qualified length exclusion, and sources.
+Six optional slides cover input-affine equivalence, an explicit two-site error establishing the toy code's distance, the 48-qubit logical functions, the rotation-sign polynomial, the qualified length exclusion, and sources. These slides answer likely questions about the main calculations and the author's results. Higher derivatives, general Reed–Muller proofs, the full Fourier spectrum, syndrome-rank examples, polynomial reductions, and extended-affine classifications are omitted.
 
-The CSS, three-logical-qubit, phase-distance-at-least-three, and Campbell–Howard assumptions accompany the length exclusion. The interval 39–46 remains open. The 47-qubit statement concerns the particular code tested in the paper. No statement of global optimality is made. In the geometric reduction, distinguish a hyperplane through zero from an origin-avoiding hyperplane with a missing support point.
+The three-logical-qubit, phase-distance-at-least-three, CSS, and Campbell–Howard assumptions accompany the length exclusion. The interval 39–46 remains open. The 47-qubit statement concerns the particular code tested in the paper. No statement of global optimality is made.
 
 ## Sources and verification boundaries
 
@@ -163,6 +163,6 @@ The CSS, three-logical-qubit, phase-distance-at-least-three, and Campbell–Howa
 - Carlet, MacWilliams–Sloane, and Huffman–Pless provide the standard Boolean and coding background. The deck does not depend on a tour of external frontier results.
 - The current manuscript supplies the six coordinate rows, fixed logical functions, exact sign polynomial, signed-overlap criterion, distance parameters, and qualified length exclusion. The standalone source has no build dependency on the manuscript repository.
 
-Finite checks enumerate the 144 classical decoding cases, affine distances, toy phases, 63 nonzero six-variable linear functions, 129 signed row/pair/triple conditions, and 512 encoded-word phases. Checks also confirm the 26/22 signs, exact quantum distances, erasure examples, finite packing, Fourier coefficient, and rank-three/rank-two backup example. A clean local build and inspection of every reveal establish artifact correctness. The capacity theorem is checked against its source, not proved by these finite tests.
+Finite checks enumerate the 144 classical decoding cases, affine distances, toy phases, 63 nonzero six-variable linear functions, 129 signed row/pair/triple conditions, and 512 encoded-word phases. Checks also confirm the 26/22 signs, exact quantum distances, erasure examples, finite packing, and Fourier coefficient. A clean local build and inspection of every reveal establish artifact correctness. The capacity theorem is checked against its source, not proved by these finite tests.
 
 An outside-listener rehearsal remains a human acceptance step. Ask the listener to explain the encoder's four message bits versus three address bits, why both words of an encoded pair need equal phase, and why a finite distance guarantee differs from channel capacity. Measure the 45-minute timing in that rehearsal.

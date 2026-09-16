@@ -22,7 +22,7 @@ The deck uses pdfLaTeX and `latexmk`. It depends on standard TeX Live packages i
 make
 ```
 
-The build runs in `build/` and copies the completed document to `slides.pdf`. The verified deck has 47 PDF pages: one title page, 21 numbered main slides, seven additional overlay pages, and 18 backup slides. Six main slides use staged reveals. The 45-minute timing includes two seven-second audience pauses. An outside-listener rehearsal remains necessary to assess pacing and comprehension.
+The build runs in `build/` and copies the completed document to `slides.pdf`. The verified deck has 35 PDF pages: one title page, 21 numbered main slides, seven additional overlay pages, and six backup slides. Six main slides use staged reveals. The 45-minute timing includes two seven-second audience pauses. An outside-listener rehearsal remains necessary to assess pacing and comprehension.
 
 ## Edit with Overleaf and GitHub
 

@@ -39,7 +39,7 @@ Point to the same address order whenever a table returns. On a cube, distinguish
 - Classical codewords become physical basis words. Logical basis states are superpositions of several such words. Checking a phase on one representative does not check the entire encoded state.
 - Site geometry determines coordinate evaluation words. Logical functions and rotation signs complete the quantum construction.
 - A finite distance guarantee covers every error pattern up to a specified size. Channel capacity concerns a growing sequence of codes under a probabilistic noise model and specified decoding.
-- Input-coordinate relabeling transports whole truth tables. Translating syndrome entries changes check data. The backup rank example illustrates this distinction, not an equivalence claim.
+- Input-coordinate relabeling transports whole truth tables. The affine-equivalence backup states exactly what this preserves.
 
 Avoid extra terminology when an existing object is enough. Say “affine function,” “codeword,” “parity,” or “encoded state” according to the object being discussed. A formula's first appearance should follow its domains and one concrete example. Notes expand definitions already visible in the slides.
 
