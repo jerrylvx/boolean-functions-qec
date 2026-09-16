@@ -1,0 +1,68 @@
+% One-page landscape cue sheet. Build: make speaking-card
+\documentclass[10pt]{article}
+\usepackage[paperwidth=297mm,paperheight=210mm,margin=0pt,noheadfoot]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,multicol,amsmath,amssymb,xcolor,ragged2e}
+\definecolor{Navy}{HTML}{15324F}
+\definecolor{Teal}{HTML}{007F82}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\setlength{\columnsep}{5mm}
+\setlength{\columnseprule}{.2pt}
+\setlength{\multicolsep}{0pt}
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+\newcommand{\cue}[3]{\par\textbf{\color{Navy}#1\quad #2}\enspace #3}
+\newcommand{\turn}[1]{\par\textbf{\color{Teal}#1}}
+\begin{document}
+\fontsize{9.5}{11}\selectfont
+\begin{multicols*}{3}\RaggedRight
+\cue{00:00--00:30}{Opening}{Promise: construct a small error-correcting encoder, then use its Boolean-function counts to understand a quantum gate. One worked example.}
+\cue{00:30--01:30}{1\quad Memory}{Four message bits $\to$ eight stored bits $\to$ corrupted readout $\to$ decoder. At most one error; location unknown. Teaching example. Redundancy adds constraints, not information.}
+\cue{01:30--04:00}{2\quad Encoder}{XOR: equal bits give 0, unequal give 1. Message $(b,a_1,a_2,a_3)$; address $u$. Products mean AND. Hold the message fixed while changing the address. Work $101$: $b\oplus a_1\oplus a_3=0$. Reveal $01101001$.}
+\cue{04:00--05:30}{3\quad Affine code}{Boolean function = table; affine = constant XOR selected bits. $e_i$: one bit set. Recover $b=f(000)$ and $a_i=f(e_i)\oplus f(000)$. Therefore 16 distinct codewords in $C$, among 256 readouts.}
+\cue{05:30--07:30}{4\quad ANF}{First show parity $p$ and readout $r$. Error at $000$: $(1\oplus u_1)(1\oplus u_2)(1\oplus u_3)$. Expand to describe $r$. Degree = largest product size, not error count. ANF describes; decoder need not expand it.}
+\cue{07:30--09:30}{5\quad Derivative}{Point to $000,100$: comparison changes $1\to0$. Then $D_{e_i}f(u)=f(u\oplus e_i)\oplus f(u)$. Input displacement is not a memory error. Only one of four disjoint comparisons is spoiled.}
+\cue{09:30--11:30}{6\quad Decode}{Affine derivative equals $a_i$. Votes $0,1,1,1$. \textbf{Ask why majority works; wait 7 seconds.} Recover all $a_i=1$; subtract their XOR contribution. Residual $10000000$: seven votes give $b=0$.}
+\cue{11:30--13:15}{7\quad Intersections}{Support = ones; weight counts them. Two faces: $4+4$, common edge 2. XOR removes overlap twice: $d_H(f,g)=\mathrm{wt}(f\oplus g)$. Example $d_H(u_1,u_2)=4+4-2(2)=4$.}
+\cue{13:15--15:00}{8\quad Half count}{Choose an occurring input bit. Four disjoint pairs, one one per pair. Name affine hyperplane afterward. Parity-zero contains zero; parity-one is a translate. \textit{Coordinate-change question $\to$ backup.}}
+\cue{15:00--16:45}{9\quad Minimum distance}{Distinct affine differences have weight 4 or 8; a pair attains 4. Hence $d_{\min}(C)=4$. Two candidates within one error of $r$ would imply $4\le d_H(f,g)\le2$.}
+\cue{16:45--18:00}{10\quad Recap}{Encode; describe corruption; recover coefficients; prove uniqueness. $d_H(p,r)=1$ is one corruption; $d_{\min}(C)=4$ is code separation.}
+\turn{18:00 checkpoint: classical story complete.}
+Sixteen words form eight complementary pairs. Each pair will represent one quantum basis state.
+\columnbreak
+\cue{18:00--19:30}{11\quad States and phase}{Define $|0\rangle,|1\rangle$ before sums. Amplitudes have squared magnitudes summing to one. Relative sign changes the state; common overall phase does not. Bit flip exchanges basis vectors.}
+\cue{19:30--21:00}{12\quad Physical rotations}{Circle = unit complex multiplier, not Bloch sphere. $T$: $+\pi/4$ on the $|1\rangle$ amplitude; $T^\dagger$: inverse. $|v\rangle$ labels physical bits. In $00101$, two ones give two factors. Angles add.}
+\cue{21:00--23:30}{13\quad Encoding}{Start with $a=000$: normalized sum of all-zero and all-one words. Generally $|a\rangle_L=(|f_{a,0}\rangle+|f_{a,1}\rangle)/\sqrt2$. Eight disjoint pairs give eight orthogonal states: three logical qubits, eight physical. \textbf{Both words need the same phase.}}
+\cue{23:30--25:00}{14\quad Desired gate}{Only logical label $111$ changes sign; now name CCZ. Parity selects the physical $T/T^\dagger$ pattern. For word $p$, four ones at inverse sites give $-4$. Define $W(v)$ = ones at $T$ minus ones at $T^\dagger$; phase $e^{i\pi W(v)/4}$.}
+\cue{25:00--27:30}{15\quad Check all pairs}{Per-site identity gives $W(v)=d_H(p,v)-4$. Other labels: counts $0,0$; label $111$: $-4,+4$. \textbf{Ask whether $+4,-4$ give different phases; wait 7 seconds.} Both give $-1$. Equal phase within each pair; label-dependent phase implements CCZ.}
+\turn{27:30 checkpoint: toy gate complete.}
+The gate works. The next construction adds correction of an arbitrary one-qubit error.
+\cue{27:30--28:15}{16\quad Choose sites}{Announce six-bit addresses: $u$ now has four bits; $w$ has two. Four blocks of 16; delete $w=00$. $64-16=48$ physical qubits. Geometry alone does not specify the code. \textit{Why toy insufficient? $\to$ backup.}}
+\cue{28:15--29:45}{17\quad Weights}{Nonzero linear function has 32 ones. If any $u$ bit occurs, deleted block has 8 ones: $24$. Otherwise only $w$ bits occur; deleted block has 0: $32$. Examples $u_1,w_1$. Ordinary divisibility does not prove the signed test.}
+\cue{29:45--30:45}{18\quad Stabilizers}{Six coordinate words $S_i$; 64 XOR combinations $S$. Independence follows because no nonzero linear combination has weight zero. Equal sum has amplitude $1/8$. Flipping mask $S_i$ permutes summands: unchanged state. Name stabilizer after showing this.}
+\cue{30:45--31:45}{19\quad Logical words}{Three chosen words $K_i$; $K(a)=a_1K_1\oplus a_2K_2\oplus a_3K_3$. Show shift by $K_1$ first. Eight disjoint collections is a verified choice, not automatic. $|a\rangle_L=\frac18\sum_{v\in S}|K(a)\oplus v\rangle$. Each $S_i$ still permutes the terms. \textit{Actual functions? $\to$ backup.}}
+\columnbreak
+\cue{31:45--32:30}{20\quad Rotation pattern}{Blocks have $6,6,10$ inverse sites: $22T^\dagger+26T$. Read row/column Gray order. \textbf{$W$ now uses this fixed 48-site pattern.} \textit{Pattern formula? $\to$ backup.}}
+\cue{32:30--33:30}{21\quad Integer expansion}{Generator row = one of the six $S_i$ or three $K_i$. Products select common ones. Pair identity first, then triple: coefficients $1,-2,4$. At three common ones: $3-6+4=1$. XOR and ordinary addition are different.}
+\cue{33:30--35:30}{22\quad Exact phase test}{Phase depends on $W$ modulo 8. Distinct rows $g_1,g_2,g_3$:
+\[
+\begin{aligned}
+W(g_1)&\equiv0\pmod8,\\
+W(g_1g_2)&\equiv0\pmod4,\\
+W(g_1g_2g_3)&\equiv\begin{cases}1\pmod2&\text{logical triple},\\0\pmod2&\text{otherwise.}\end{cases}
+\end{aligned}
+\]
+Higher terms have coefficients divisible by 8. Hence $W(K(a)\oplus v)\equiv4a_1a_2a_3\pmod8$ for every $v\in S$. Same phase on all 64 words; logical CCZ.}
+\cue{35:30--37:00}{23\quad Protected result}{48 physical, 3 logical. Define $d_Q$: fewest sites in an undetected nontrivial logical bit/phase error. Paper proves $d_Q=3$ using \textbf{all} checks; arbitrary one-site correction. Gate test does not prove distance. \textit{Is 48 minimal? $\to$ qualified backup.}}
+\turn{37:00 checkpoint: own result complete.}
+Return to the classical example for the broader applications.
+\cue{37:00--39:00}{24\quad Reed--Muller}{Name $\mathrm{RM}(1,3)$; generalize to degree-bounded evaluations. Linear = closed under XOR. $[n,k,d_{\min}]$: stored bits, message bits, distance. Each codeword has 9 zero/one-error readouts; disjoint sets imply $16\times9=144\le256$.}
+\cue{39:00--40:45}{25\quad Erasures/capacity}{Missing value, known position. Rate = information per transmitted bit. Capacity = reliable-rate limit as blocks grow for a specified random channel. Suitable growing RM sequences achieve the independent-erasure limit under \textbf{optimal whole-block decoding}. No practical-decoder claim.}
+\cue{40:45--43:00}{26\quad Analysis/learning}{Seven of eight agreements, equally likely inputs. Fourier analysis measures parity correlations; recall derivatives for input changes. Learning: examples $\to$ predictions on new inputs; suitable structure helps. Cryptography resists unwanted prediction. Cubic degree alone did not prevent parity approximation. No transform derivation.}
+\cue{43:00--45:00}{27\quad Contributions}{Repeat: explicit protected encoding; $26T+22T^\dagger$ physical implementation; exact signed-intersection gate test. Opening counts prepared the final calculation. \textbf{Leave contributions visible.} Sources backup only if asked.}
+\turn{If late: shorten applications narration.}
+Preserve decoder assumptions, both phase checks, and the distance/gate distinction. Backups are outside the 45-minute budget; every return button restores the anchor’s final reveal.
+\end{multicols*}
+\end{document}
