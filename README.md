@@ -1,6 +1,6 @@
 # Boolean functions: applications in quantum error correction and beyond
 
-Source and presentation materials for a 45-minute talk by Bohan Lu. The talk uses one recurring Boolean-function example to connect message recovery, sensitivity, affine prediction, and a quantum error-correction construction implementing logical CCZ through single-qubit phase rotations.
+Source and presentation materials for a 45-minute talk by Bohan Lu. The talk develops an explicit eight-bit classical encoder, carries its Boolean functions into an eight-qubit gate calculation, and explains a 48-qubit quantum error-correction construction. Reed–Muller codes, erasure capacity, and Fourier prediction follow the quantum result.
 
 ## Abstract
 
@@ -22,7 +22,7 @@ The deck uses pdfLaTeX and `latexmk`. It depends on standard TeX Live packages i
 make
 ```
 
-The build runs in `build/` and copies the completed document to `slides.pdf`. The verified deck has 41 PDF pages: one title page, 20 numbered main slides, five additional overlay pages, and 15 backup slides.
+The build runs in `build/` and copies the completed document to `slides.pdf`. The verified deck has 47 PDF pages: one title page, 21 numbered main slides, seven additional overlay pages, and 18 backup slides. Six main slides use staged reveals. The 45-minute timing includes two seven-second audience pauses. An outside-listener rehearsal remains necessary to assess pacing and comprehension.
 
 ## Edit with Overleaf and GitHub
 

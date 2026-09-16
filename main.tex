@@ -33,6 +33,7 @@
 \newcommand{\source}[1]{\par\smallskip{\scriptsize\color{black!55}#1\par}}
 \newcommand{\storypart}[1]{\setbeamertemplate{frame footer}{\color{Teal}#1}}
 \setbeamercovered{invisible}
+\newcommand{\talktext}{\small\setlength{\parskip}{2.5pt}\setlength{\abovedisplayskip}{5pt}\setlength{\belowdisplayskip}{5pt}\setlength{\abovedisplayshortskip}{3pt}\setlength{\belowdisplayshortskip}{3pt}}
 \newcommand{\threechoices}[3]{%
 \begin{center}
 \begin{tikzpicture}[node distance=6mm]
@@ -57,6 +58,14 @@
 \foreach \i in {0,1}{\foreach \j in {0,1}{\foreach \k in {0,1}{\fill[Navy] (v\i\j\k) circle[radius=1.8pt];}}}
 \node[right,text=Teal,font=\small] at (2.55,1) {$u_1=1$};
 \node[above,text=Gold!80!black,font=\small] at (1.15,2.4) {$u_2=1$};
+\foreach \i in {0,1}{\foreach \j in {0,1}{\foreach \k in {0,1}{
+\pgfmathtruncatemacro{\vertexsum}{\i+\j+\k}
+\ifnum\vertexsum=3
+\node[above right,font=\scriptsize] at (v\i\j\k) {$\mathtt{\i\j\k}$};
+\else
+\node[below left,font=\scriptsize] at (v\i\j\k) {$\mathtt{\i\j\k}$};
+\fi
+}}}
 \end{tikzpicture}}
 % Corruption: 0 clean, 1 marked, 2 unmarked. Second argument highlights u1 edges.
 \newcommand{\cubepicture}[3]{%
@@ -111,604 +120,781 @@
 \vfill
 {\LARGE\bfseries\color{Navy}Boolean functions:\par}
 {\Large\bfseries\color{Navy}applications in quantum error correction and beyond\par}
-\vspace{6mm}
-{\large The same structure can recover a message, expose a predictor, and control a gate.\par}
+\vspace{7mm}
+{\large Bohan Lu\quad Duke University\par}
+\vspace{7mm}
+\textbf{One worked example:} encode four bits, correct one error, then use the same functions to calculate a quantum gate.\par
 \vspace{5mm}
-{\small\color{Teal}1 Recover a message\qquad 2 Understand a rule\qquad 3 Control a gate\par}
-\vspace{8mm}
-Bohan Lu\quad Duke University
+{\small\color{Teal}Classical encoding \quad Quantum construction \quad Further applications\par}
 \vfill
 \end{frame}
 
-% A1: 2 min
-\storypart{1 / 3\quad Recover a message}
-\begin{frame}{A damaged message can still contain an exact rule}
-\begin{columns}[c,onlytextwidth]
-\column{.44\textwidth}\centering\cubepicture{2}{0}{0}
-\column{.53\textwidth}
-A sender evaluates a simple binary rule at the eight vertices of a cube.
-
-One transmitted value is flipped.
-
-The receiver knows the rule was affine: an XOR of selected input bits, possibly plus a constant.
-\end{columns}
-\takeaway{Can we recover the message without knowing which entry is wrong?}
-\end{frame}
-
-% A2: 1.5 min
-\begin{frame}{A Boolean function becomes a transmitted word}
-A Boolean function maps $u\in\F_2^3$ to a bit. Our original rule is
-\[
-p(u)=u_1+u_2+u_3.
-\]
+% 1: 1.5 min
+\storypart{1 / 3\quad Classical encoding}
+\begin{frame}{Correcting a bit error in memory}
+\talktext
+Error-correcting memory stores extra bits so a changed bit can be recovered.
 \begin{center}
-\renewcommand{\arraystretch}{1.25}
-\begin{tabular}{c|cccccccc}
-$u$ & $000$&$001$&$010$&$011$&$100$&$101$&$110$&$111$\\\hline
-$p(u)$ &0&1&1&0&1&0&0&1\\
-received $r(u)$ &\textcolor{Gold}{1}&1&1&0&1&0&0&1
-\end{tabular}
+\begin{tikzpicture}[node distance=6mm,font=\small]
+\node[draw=Navy,fill=Pale,align=center] (a) {message\\$\mathtt{0111}$};
+\node[draw=Navy,fill=Pale,align=center,right=of a] (b) {encoder\\$\mathtt{01101001}$};
+\node[draw=Navy,fill=Gold!15,align=center,right=of b] (c) {memory readout\\$\textcolor{Gold}{\mathtt{1}}\mathtt{1101001}$};
+\node[draw=Navy,fill=Pale,align=center,right=of c] (d) {decoder\\$\mathtt{0111}$};
+\draw[-{Stealth},thick] (a)--(b);
+\draw[-{Stealth},thick] (b)--(c);
+\draw[-{Stealth},thick] (c)--(d);
+\end{tikzpicture}
 \end{center}
-\[
-\wt(p)=4,\qquad \wt(r)=5,\qquad d(p,r)=\wt(p+r)=1.
-\]
-\takeaway{Function addition is in $\F_2$: $1+1=0$. Weights and distances are ordinary integer counts.}
+The \emph{encoder} computes the stored bits from the message. The \emph{decoder} reconstructs the message from the values read back.
+
+\textbf{Assumption:} at most one stored bit changes. The decoder does not know which position changed.
+\takeaway{We will specify an eight-bit example and prove that its decoder corrects any one changed bit.}
+\source{Memory application: IBM, Troubleshooting Memory issues. The eight-bit example is a teaching construction.}
 \end{frame}
 
-% A3: 3 min
-\begin{frame}{ANF turns a truth table into a polynomial}
-Every Boolean function has a unique \emph{algebraic normal form}: a sum of square-free monomials over $\F_2$.
-\[
-p=u_1+u_2+u_3,\qquad \deg p=1.
-\]
-The indicator of the flipped vertex is
-\[
-\delta_{000}(u)=(1+u_1)(1+u_2)(1+u_3).
-\]
-Therefore the received table has polynomial
-\[
-r=p+\delta_{000}=1+u_1u_2+u_1u_3+u_2u_3+u_1u_2u_3.
-\]
-\takeaway{One flipped table entry raised the degree from $1$ to $3$, but the original codeword is still only one entry away.}
-\end{frame}
-
-% A4: 2.5 min
-\begin{frame}{Boolean derivatives turn edges into consistency checks}
-\begin{columns}[c,onlytextwidth]
-\column{.42\textwidth}\centering\cubepicture{1}{1}{0}
-\column{.55\textwidth}
-Let $e_1=(1,0,0)$. Define
-\[
-D_{e_1}f(u)=f(u+e_1)+f(u).
-\]
-The derivative is $1$ when the endpoints disagree.
-\begin{align*}
-D_{e_1}p&=1,\\
-D_{e_1}r&=1+(1+u_2)(1+u_3).
-\end{align*}
-\end{columns}
-\takeaway{An affine function has constant derivatives. One error spoils one of the four disjoint edge checks.}
-\end{frame}
-
-% A5: 3 min
-\begin{frame}{Local votes recover all four message bits}
-For an affine rule,
-\[
-f_{a,b}(u)=b+a_1u_1+a_2u_2+a_3u_3,
-\qquad D_{e_i}f_{a,b}=a_i.
-\]
+% 2: 2 min
+\begin{frame}{From four message bits to eight stored values}
+\talktext
+XOR returns $1$ exactly when its two bits differ. Write it as $\oplus$.
 \begin{center}
 \begin{tabular}{c|cccc}
-$e_1$ edge & $000$--$100$ & $001$--$101$ & $010$--$110$ & $011$--$111$\\\hline
-endpoint sum & \textcolor{Gold}{$0$} & $1$ & $1$ & $1$
+input pair & $00$ & $01$ & $10$ & $11$\\\hline
+XOR & $0$ & $1$ & $1$ & $0$
 \end{tabular}
 \end{center}
-\begin{uncoverenv}<2->
-Majority gives $a_1=1$. The other directions give $a_2=a_3=1$.
+The message is four bits $(b,a_1,a_2,a_3)$. A position is a three-bit address $u=(u_1,u_2,u_3)$.
+At address $u$, start with $b$ and XOR each $u_i$ for which $a_i=1$.
 
-Adding the recovered parity to $r$ leaves seven zeros and one one: majority gives $b=0$.
-\takeaway{The decoder recovers the exact message using only the received word and the degree-one promise.}
+For message $(0,1,1,1)$, the stored bit is the \emph{parity}, the XOR of the three address bits:
+\[
+p(u)=u_1\oplus u_2\oplus u_3,\qquad p(101)=1\oplus0\oplus1=0.
+\]
+\begin{center}
+\begin{tabular}{c|cccccccc}
+address $u$ & $000$&$001$&$010$&$011$&$100$&$101$&$110$&$111$\\\hline
+stored $p(u)$ & $0$&$1$&$1$&$0$&$1$&$0$&$0$&$1$
+\end{tabular}
+\end{center}
+\takeaway{The three address bits locate a stored value. The four message bits specify all eight stored values.}
+\end{frame}
+
+% 3: 1.5 min
+\begin{frame}{Affine Boolean functions}
+\talktext
+A \emph{Boolean function} assigns a bit to every binary address, as in the preceding table. Write $\F_2=\{0,1\}$ with XOR addition.
+
+The message coefficients define the \emph{affine Boolean function}
+\[
+f_{a,b}(u)=\underbrace{b}_{\text{constant}}\oplus
+\underbrace{a_1u_1\oplus a_2u_2\oplus a_3u_3}_{\text{selected coordinates}},
+\quad a=(a_1,a_2,a_3).
+\]
+A product $a_i u_i$ is $u_i$ when $a_i=1$, and $0$ when $a_i=0$.
+\[
+f_{100,0}(u)=u_1\ \longleftrightarrow\ \mathtt{00001111},
+\qquad f_{000,1}(u)=1\ \longleftrightarrow\ \mathtt{11111111}.
+\]
+An allowed stored word is a \emph{codeword}. The \emph{code} consists of the $16$ evaluation words, one for each four-bit message.
+\takeaway{The decoder knows this encoder, so it knows exactly which 16 stored words are allowed.}
+\end{frame}
+
+% 4: 2 min
+\begin{frame}{From a truth table to a polynomial}
+\talktext
+The \emph{algebraic normal form} (ANF) is the unique XOR of products of distinct variables representing a Boolean function.
+Products are AND: $u_1u_2=1$ only when both bits are $1$.
+The \emph{degree} is the largest number of variables in a nonzero product.
+
+Suppose the value at $000$ changes. Call the received table $r$.
+The \emph{indicator} of $000$ is $1$ there and $0$ at all other addresses:
+\[
+\delta_{000}(u)=(1\oplus u_1)(1\oplus u_2)(1\oplus u_3).
+\]
+Each factor tests whether one address bit is zero. Their product tests all three.
+\[
+\begin{aligned}
+r&=p\oplus\delta_{000}\\
+ &=1\oplus u_1u_2\oplus u_1u_3\oplus u_2u_3\oplus u_1u_2u_3.
+\end{aligned}
+\]
+\takeaway{Every allowed function has degree at most one. The received function has degree three, so its table is not an allowed codeword.}
+\end{frame}
+
+% 5: 2 min
+\begin{frame}{Comparing neighboring table entries}
+\talktext
+\begin{columns}[c,onlytextwidth]
+\column{.33\textwidth}\centering
+\resizebox{.80\linewidth}{!}{\cubepicture{1}{1}{0}}
+\par\scriptsize Below: address. Teal: $1$. White: $0$. Gold: first-bit edges. Ring: changed entry.
+\column{.64\textwidth}\small
+The direction $e_1=(1,0,0)$ toggles the first address bit. Vector XOR acts coordinate by coordinate.
+\[
+r(000)\oplus r(100)=1\oplus1=0.
+\]
+The \emph{Boolean derivative} records this comparison at each address:
+\[
+D_{e_i}f(u)=f(u\oplus e_i)\oplus f(u),
+\]
+where $e_i$ has a $1$ in position $i$ and zeros elsewhere.
+
+Derivatives of $p$ and $r$ along $e_1$:
+\[
+D_{e_1}p=1,\quad D_{e_1}r=1\oplus(1\oplus u_2)(1\oplus u_3).
+\]
+\end{columns}
+\takeaway{One changed vertex reverses exactly one of four disjoint edge comparisons in each fixed direction.}
+\end{frame}
+
+% 6: 2 min
+\begin{frame}{Recovering the four message coefficients}
+\talktext
+How can we recover $a_i$? Toggling $u_i$ changes only the term $a_i u_i$:
+\[
+D_{e_i}f_{a,b}=a_i.
+\]
+The four disjoint $e_1$ edges therefore give four estimates of $a_1$.
+\begin{center}
+\begin{tabular}{c|cccc}
+addresses & $000,100$ & $001,101$ & $010,110$ & $011,111$\\\hline
+received XOR & \textcolor{Gold}{$0$} & $1$ & $1$ & $1$
+\end{tabular}
+\end{center}
+At most one estimate is wrong, because the readout has at most one changed entry.
+\begin{uncoverenv}<2->
+Majority gives $a_1=1$. The other two directions give $a_2=a_3=1$.
+\[
+r(u)\oplus a_1u_1\oplus a_2u_2\oplus a_3u_3
+\quad\longleftrightarrow\quad \mathtt{10000000}.
+\]
+\takeaway{The remaining seven zeros recover $b=0$. The decoded message is $(0,1,1,1)$.}
 \end{uncoverenv}
 \end{frame}
 
-% A6: 2.5 min
-\begin{frame}{Affine rules split binary space into equal halves}
+% 7: 2.5 min
+\begin{frame}{Why distinct codewords differ in at least four positions}
+\talktext
+\setlength{\abovedisplayskip}{2pt}\setlength{\belowdisplayskip}{1pt}
+The \emph{weight} $\wt(f)$ counts the ones in the evaluation word.
+The \emph{Hamming distance} $d(f,g)$ counts positions where two words differ.
 \begin{columns}[c,onlytextwidth]
-\column{.35\textwidth}\centering\resizebox{.66\linewidth}{!}{\cubepicture{0}{0}{0}}
-\column{.62\textwidth}
-An \emph{affine hyperplane} is a level set of a nonconstant affine rule.
+\column{.28\textwidth}\centering
+\resizebox{.69\linewidth}{!}{\cubepicture{0}{1}{0}}
+\par\scriptsize Below: $u$. Circle: $p(u)$. Teal $1$, white $0$. Gold pairs.
+\column{.69\textwidth}
+Each pair has one zero and one one, so $\wt(p)=4$.
+For any nonconstant affine function, pair across a coordinate with coefficient $1$.
 \[
 H=\{u:p(u)=1\}=\{100,010,001,111\}.
 \]
-Four ones; four zeros.
+Such a level set is called an \emph{affine hyperplane}.
 \end{columns}
 \begin{uncoverenv}<2->
-For distinct affine rules,
+For distinct affine $f,g$, their XOR is either nonconstant or constant one:
 \[
-d(f,g)=\wt(f+g)\in\{4,8\}.
+d(f,g)=\wt(f\oplus g)=4\ \text{or}\ 8,\quad\text{respectively}.
 \]
-A nonconstant difference has four ones; the constant $1$ has eight.
-\takeaway{$\RM(1,3)$ is an $[8,4,4]$ code: eight bits, four message coefficients, distance four. Unique one-error correction.}
+Two codewords each one flip from $r$ would differ in at most two places. Distance at least four makes one-error recovery unique.
 \end{uncoverenv}
 \end{frame}
 
-% A7: 3 min
-\storypart{2 / 3\quad Understand a rule}
-\begin{frame}{Changing one input can change every output}
-Return to the clean parity $p(u)=u_1+u_2+u_3$, with uniformly random inputs.
+% 8: 2 min
+\storypart{2 / 3\quad Quantum construction}
+\begin{frame}{Counting intersections of Boolean supports}
+\talktext
+The \emph{support} $\supp(f)$ is the set of addresses where $f$ has value $1$.
+For functions $f,g$, the product $fg$ selects their common support.
 \begin{columns}[c,onlytextwidth]
-\column{.42\textwidth}\centering\cubepicture{0}{1}{0}
-\column{.55\textwidth}
-\textbf{Observe one input:} the output is still equally likely to be $0$ or $1$.
-
-\textbf{Flip that input:} the output always changes.
-\[
-D_{e_1}p(u)=1\quad\text{at every vertex}.
-\]
-\end{columns}
-\takeaway{Boolean derivatives identify which input changes reach a digital circuit's output. Sensitivity and predictability ask different questions.}
-\end{frame}
-
-% A8: 3 min
-\begin{frame}{Fourier analysis counts agreement with simple rules}
-Represent outputs by real signs. The Walsh/Fourier score of a parity is
-\[
-W_f(a)=\sum_{u\in\F_2^3}(-1)^{f(u)+a\cdot u}
-=\text{agreements}-\text{disagreements}.
-\]
-\begin{center}
-\begin{tikzpicture}[x=1cm,y=.15cm]
-\draw[black!40](-.5,0)--(7.6,0);
-\foreach \i/\a in {0/000,1/001,2/010,3/011,4/100,5/101,6/110,7/111}{
- \ifnum\i=7\def\score{6}\def\shade{Teal}\else\def\score{-2}\def\shade{black!30}\fi
- \fill[\shade]({\i-.26},0)rectangle({\i+.26},\score);
- \node[font=\small,below]at(\i,-2.7){$\a$};
- \ifnum\i=7\node[above,text=Teal]at(\i,6){$6=7-1$};\fi
-}
-\node[left,font=\small]at(-.55,-2){$-2$};
-\node[font=\small]at(3.5,-6.5){parity coefficients $a$};
-\end{tikzpicture}
-\end{center}
-\takeaway{For our received word $r$, the peak identifies $p$: seven agreements survive one error.}
-\source{Unnormalized Walsh transform; O'Donnell, Analysis of Boolean Functions.}
-\end{frame}
-
-% A9: 2.5 min
-\begin{frame}{A useful decoder can reveal an unwanted predictor}
-The same table $r$ has a cubic ANF, yet agrees with parity on seven of eight inputs:
-\[
-\deg r=3,\qquad \Pr_{u\ \mathrm{uniform}}[r(u)=p(u)]=\frac78.
-\]
-\begin{columns}[t,onlytextwidth]
-\column{.47\textwidth}
-\textbf{Communication}
-
-Agreement with an allowed rule lets a receiver identify a damaged message.
-\column{.47\textwidth}
-\textbf{Cryptography}
-
-Agreement with an XOR of inputs makes a Boolean output predictable from that combination.
-\end{columns}
-\takeaway{High algebraic degree alone does not prevent accurate affine prediction.}
-\source{Carlet, Boolean Functions for Cryptography and Coding Theory. Component correlations are one design criterion, not a full cipher-security test.}
-\end{frame}
-
-% A10: 2.5 min
-\storypart{3 / 3\quad Control a gate}
-\begin{frame}{From recognizing a pattern to engineering an operation}
-The coordinate hyperplanes $u_1=1$, $u_2=1$, and $u_3=1$ meet on the same cube.
-\begin{columns}[c,onlytextwidth]
-\column{.43\textwidth}\centering\facepicture
-\column{.53\textwidth}\centering
-\renewcommand{\arraystretch}{1.2}
+\column{.40\textwidth}\centering\resizebox{.80\linewidth}{!}{\facepicture}
+\par\scriptsize Dots: addresses. Teal: $u_1=1$. Gold: $u_2=1$. Dark edge: both equal $1$.
+\column{.57\textwidth}
 \begin{tabular}{ccl}
-function & weight & geometry\\\hline
-$u_1$ & $4$ & face\\
-$u_1u_2$ & $2$ & edge\\
-$u_1u_2u_3$ & $1$ & vertex
+function & weight & support\\\hline
+$u_1$ & $4$ & teal face\\
+$u_1u_2$ & $2$ & dark common edge\\
+$u_1u_2u_3$ & $1$ & endpoint $111$
 \end{tabular}
 \end{columns}
-XOR removes a shared one twice from the integer count:
+Ordinary addition counts a common $1$ twice. XOR counts it zero times:
 \[
-\wt(f+g)=\wt(f)+\wt(g)-2\wt(fg).
+\wt(f\oplus g)=\wt(f)+\wt(g)-2\wt(fg).
 \]
-\takeaway{Next: engineer these counts so that separate physical rotations give exactly the logical phase we want.}
 \end{frame}
 
-% B1: 2 min
-\begin{frame}{A quantum phase is a function of a binary word}
-A computational basis state $\ket{v}$ has one bit per physical qubit.
+% 9: 2 min
+\begin{frame}{Single-qubit rotations produce phases}
+\talktext
+A qubit is a unit vector in $\mathbb C^2$. Its computational basis vectors are
+$\ket0=(1,0)^{\mathsf T}$ and $\ket1=(0,1)^{\mathsf T}$.
+A \emph{relative phase} multiplies one component by $e^{i\theta}$ for a real angle $\theta$:
 \[
-T=\begin{pmatrix}1&0\\0&\omega\end{pmatrix},\qquad
-\omega=e^{i\pi/4}.
+\frac{\ket0+\ket1}{\sqrt2}\ \longmapsto\
+\frac{\ket0+e^{i\theta}\ket1}{\sqrt2}.
 \]
-Applying $T$ independently to every qubit gives
+For $\theta=\pi/4$, write $\omega=e^{i\pi/4}$ and call the rotation $T$.
+Its inverse $T^\dagger$ uses $\omega^{-1}$.
+For an $n$-bit physical word $v$, $\ket v$ is its basis vector.
+Applying $T$ separately at all $n$ sites, written $T^{\otimes n}$, multiplies one factor $\omega$ for each $1$:
 \[
-T^{\otimes n}\ket{v}=\omega^{\wt(v)}\ket{v}.
+T=\operatorname{diag}(1,\omega),\qquad
+T^{\otimes n}\ket v=\omega^{\wt(v)}\ket v.
 \]
-The logical operation we want is
+
+On three qubits we want only the basis vector $\ket{111}$ to change sign.
+This gate is \emph{controlled-controlled-$Z$} (CCZ):
 \[
 \CCZ\ket{a_1a_2a_3}=(-1)^{a_1a_2a_3}\ket{a_1a_2a_3}.
 \]
-\takeaway{Codeword weights determine relative phases. Only the logical label $111$ should acquire a minus sign.}
 \end{frame}
 
-% B2: 2 min
-\begin{frame}{Complementary codewords encode three quantum bits}
-Pair the affine tables with the same coefficient vector $a$:
-\[
-\ket{a}_{L}=\frac{\ket{f_{a,0}}+\ket{f_{a,1}}}{\sqrt{2}}.
-\]
+% 10: 2 min
+\begin{frame}{Encoding three qubits with complementary words}
+\talktext
+Keep the three-bit label $a$. Pair the words with $b=0$ and $b=1$:
 \begin{center}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{ccl}
-$a$ & $f_{a,0}$ & $f_{a,1}$\\\hline
+\begin{tabular}{c|cc}
+label $a$ & $f_{a,0}$ & $f_{a,1}$\\\hline
 $000$ & $\mathtt{00000000}$ & $\mathtt{11111111}$\\
 $100$ & $\mathtt{00001111}$ & $\mathtt{11110000}$\\
 $111$ & $\mathtt{01101001}$ & $\mathtt{10010110}$
 \end{tabular}
 \end{center}
-Eight disjoint pairs give eight orthogonal encoded basis states.
-\takeaway{The two strings in each pair must receive the same phase, or the gate leaves the encoded space.}
+The corresponding \emph{encoded basis state} is the normalized superposition
+\[
+\ket a_L=\frac{\ket{f_{a,0}}+\ket{f_{a,1}}}{\sqrt2}.
+\]
+Eight disjoint pairs give eight orthogonal states, encoding three logical qubits in eight physical qubits. A logical gate acts on these encoded states.
+\takeaway{An operation that only multiplies physical basis vectors by phases preserves this encoding only if both words in each pair receive the same phase.}
 \end{frame}
 
-% B3: 1.5 min
-\begin{frame}{Parity chooses where to reverse the physical rotation}
+% 11: 1.5 min
+\begin{frame}{Choosing $T$ and $T^\dagger$ with parity}
+\talktext
 \begin{columns}[c,onlytextwidth]
-\column{.42\textwidth}\centering\cubepicture{0}{0}{1}
-\column{.55\textwidth}
-Use our original parity $p(u)$ as the gate pattern:
-\[
-p(u)=0:\ T,\qquad p(u)=1:\ T^\dagger.
-\]
-For a table $v$, count a one with sign $(-1)^{p(u)}$:
+\column{.32\textwidth}\centering
+\resizebox{.93\linewidth}{!}{\cubepicture{0}{0}{1}}
+\par\scriptsize Below: physical address $u$. White: $p(u)=0$, apply $T$. Teal: $p(u)=1$, apply $T^\dagger$.
+\column{.65\textwidth}\small
+The word $v=p$ has its four ones at $T^\dagger$ sites: its total rotation angle is $-4(\pi/4)$.
+
+For any word $v$, count its ones at $T$ sites positively and its ones at $T^\dagger$ sites negatively. This is its \emph{signed weight}:
 \[
 \sw_p(v)=\sum_{u\in\F_2^3}(-1)^{p(u)}v(u).
 \]
-The phase is $\omega^{\sw_p(v)}$.
+The sum is an ordinary integer. The physical phase is $\omega^{\sw_p(v)}$.
 \end{columns}
-\takeaway{Four rotations and four inverse rotations act in one layer, with no gates between physical qubits.}
+\takeaway{The gate pattern depends on the physical address. Its action on an encoded state still needs to be checked.}
 \end{frame}
 
-% B4: 2 min
-\begin{frame}{The gate check is another Hamming-distance calculation}
-At each position, as an integer,
+% 12: 2 min
+\begin{frame}{Checking the eight-qubit logical gate}
+\talktext
+At one address, $p=0$ contributes $v$, while $p=1$ contributes $-v$.
+Both cases give the integer identity
 \[
-(-1)^{p(u)}v(u)=(p+v)(u)-p(u).
+(-1)^{p(u)}v(u)=(p\oplus v)(u)-p(u).
 \]
-Therefore
-\[
-\sw_p(v)=\wt(p+v)-\wt(p)=\wt(p+v)-4.
-\]
+Summing over addresses gives $\sw_p(v)=\wt(p\oplus v)-4$.
+For $a\ne111$, $p\oplus f_{a,b}$ is nonconstant affine, hence has weight four.
 \begin{center}
-\renewcommand{\arraystretch}{1.2}
 \begin{tabular}{c|cc|c}
 logical label $a$ & $\sw_p(f_{a,0})$ & $\sw_p(f_{a,1})$ & phase\\\hline
-$a\ne(1,1,1)$ & $0$ & $0$ & \uncover<2->{$+1$}\\
-$a=(1,1,1)$ & $-4$ & $4$ & \uncover<2->{$-1$}
+$a\ne111$ & $0$ & $0$ & \uncover<2->{$+1$}\\
+$a=111$ & $-4$ & $+4$ & \uncover<2->{$-1$}
 \end{tabular}
 \end{center}
 \begin{uncoverenv}<2->
-\takeaway{The distance calculation used for decoding now verifies a logical $\CCZ$.}
+\takeaway{$\omega^{4}=\omega^{-4}=-1$. Both words in every pair receive the same phase, and exactly the logical label $111$ changes sign: CCZ.}
 \end{uncoverenv}
 \end{frame}
 
-% B5: 1.5 min
-\begin{frame}{A working gate still needs protection against phase errors}
+% 13: 2.5 min
+\begin{frame}{What additional error protection requires}
+\talktext
+A bit error $X$ swaps $\ket0,\ket1$. A phase error $Z$ sends $\ket1$ to $-\ket1$ and fixes $\ket0$.
+A \emph{stabilizer check} is an observable with value $+1$ on every encoded state.
+
+Example: flipping all eight bits exchanges the two words in each pair, so $X^{\otimes8}$ is a check. A single-site $Z$ changes its outcome to $-1$.
+
+The \emph{syndrome} lists check outcomes as bits: $0$ for $+1$, $1$ for $-1$.
+For checks that flip selected sites, a single-site phase error has a column of responses:
 \[
-\qcode{8}{3}{2}\quad\longrightarrow\quad\qcode{48}{3}{3}.
+\text{columns }\binom10,\binom01,\binom11
+\quad\Longrightarrow\quad
+\text{first two errors give }\binom10\oplus\binom01=\binom11.
 \]
-The entries mean physical qubits, logical qubits, and quantum distance.
+A zero column hides one phase error. Equal columns cancel, hiding two. Nonzero, distinct columns exclude both cases.
 
-Distance two detects an arbitrary single-qubit error; distance three corrects one.
-
-A site's syndrome column lists the stabilizer-check responses to a phase error there. Distinct nonzero columns ensure that no one or two columns sum to zero.
-\takeaway{Choose the classical stabilizer code so that phase-error protection is built into the geometry.}
-\source{Current paper, subspace-complement construction and the projectivity condition.}
+\emph{Quantum distance} is the fewest sites on which a product of bit and phase errors can act undetected and change encoded information. The eight-qubit code has distance two. Distance three corrects an arbitrary one-qubit error.
 \end{frame}
 
-% B6: 2 min
-\begin{frame}{The 48-site geometry gives divisible codewords}
-Keep $\mathcal P=\{(u,w)\in\F_2^4\times\F_2^2:w\ne0\}$: $64-16=48$ sites.
+% 14: 2 min
+\begin{frame}{Deleting a subspace leaves weights 24 and 32}
+\talktext
 \begin{columns}[c,onlytextwidth]
-\column{.60\textwidth}\centering\resizebox{\linewidth}{!}{\blockpicture{0}}
-\column{.36\textwidth}
-Every nonzero linear rule has $32$ ones on the full space.
-
-On the deleted $w=0$ subspace: $8$ ones if $\alpha\ne0$, otherwise $0$.
-\end{columns}
+\column{.40\textwidth}
+Six-bit addresses have parts $u\in\F_2^4$ and $w\in\F_2^2$.
+Delete the subspace $w=00$, retaining
 \[
-\ell(u,w)=\alpha\cdot u+\beta\cdot w,\qquad
-\wt(\ell|_{\mathcal P})=
-\begin{cases}
-32-8=24,&\alpha\ne0,\\
-32-0=32,&\alpha=0,\ \beta\ne0.
-\end{cases}
+\mathcal P=\{(u,w):w\ne0\}.
 \]
-\takeaway{The same half-space count gives stabilizer weights divisible by eight.}
+\centering
+\resizebox{\linewidth}{!}{\blockpicture{0}}
+\par $64\text{ points}-16\text{ deleted}=48$.
+\par\scriptsize Each dot is one address. Each block contains all 16 choices of $u$.
+\column{.57\textwidth}
+For coefficients $\alpha\in\F_2^4$, $\beta\in\F_2^2$, use binary dot products:
+\[
+\alpha\cdot u=\alpha_1u_1\oplus\cdots\oplus\alpha_4u_4
+\]
+and similarly for $\beta\cdot w$. Define
+\[
+\ell(u,w)=\alpha\cdot u\oplus\beta\cdot w.
+\]
+Every nonzero $\ell$ has $32$ ones on all $64$ sites. On the deleted subspace, $\ell=\alpha\cdot u$: eight ones if $\alpha\ne0$, zero otherwise.
+On retained sites, written $\ell|_{\mathcal P}$,
+\[
+\wt(\ell|_{\mathcal P})=
+\begin{cases}32-8=24,&\alpha\ne0,\\32-0=32,&\alpha=0,\ \beta\ne0.\end{cases}
+\]
+\end{columns}
 \end{frame}
 
-% B7: 2 min
-\begin{frame}{Boolean label functions and signs complete the code}
-\threechoices{Choose physical sites}{Assign logical labels}{Choose rotation signs}
-\begin{center}\resizebox{.65\linewidth}{!}{\blockpicture{1}}\end{center}
-\takeaway{$26\ T$ and $22\ T^\dagger$ implement logical $\CCZ$ on $\qcode{48}{3}{3}$; $d_X=16$, $d_Z=3$.}
-\source{Current paper, fixed logical-label table and proposition giving the explicit sign polynomial.}
+% 15: 2 min
+\begin{frame}{Completing the 48-qubit code}
+\talktext
+The six address coordinates give words $S_1,\ldots,S_6$. Flipping their selected sites gives stabilizer checks. Their XOR combinations form a space $S$ of $64$ words.
+
+Three logical functions give words $K_1,K_2,K_3$. Let $K(a)=a_1K_1\oplus a_2K_2\oplus a_3K_3$ for the logical label $a$.
+\begin{columns}[c,onlytextwidth]
+\column{.46\textwidth}
+Add each stabilizer word to the logical word:
+\[
+\ket a_L=\frac1{8}\sum_{s\in S}\ket{K(a)\oplus s}.
+\]
+The sign function $\gamma$ selects $T$ at value $0$, $T^\dagger$ at value $1$.
+\column{.51\textwidth}\centering
+\resizebox{\linewidth}{!}{\blockpicture{1}}
+\par\scriptsize Actual signs: gold $T$, teal $T^\dagger$. Rows $u_1u_2$, columns $u_3u_4$, ordered $00,01,11,10$.
+\end{columns}
+\takeaway{The site geometry, logical functions, and rotation signs have separate roles. All three specify the construction.}
 \end{frame}
 
-% B8: 3 min
-\begin{frame}{The paper reduces phase correctness to row overlaps}
-For the fixed signs, let $\sw_\gamma(g)=\sum_j(-1)^{\gamma_j}g_j$.
-The exact conditions on distinct generator rows are
+% 16: 3 min
+\begin{frame}{Checking phases through row intersections}
+\talktext
+A \emph{generator row} is one of the nine evaluation words $K_1,K_2,K_3,S_1,\ldots,S_6$. For distinct rows $g,h,q$, products mean coordinatewise AND, hence intersect supports.
+The integer expansion at each site is
+\[
+g\oplus h\oplus q=g+h+q-2(gh+gq+hq)+4ghq.
+\]
+For a word $v$, set $\sw_\gamma(v)=\sum_{j=1}^{48}(-1)^{\gamma_j}v_j$.
+Congruence modulo $m$ means equality of integer remainders after division by $m$.
 \[
 \begin{aligned}
-\sw_\gamma(g)&\equiv0\pmod 8,\\
-\uncover<2->{\sw_\gamma(gg')}&\uncover<2->{\equiv0\pmod 4,}\\
-\uncover<3->{\sw_\gamma(gg'g'')}&\uncover<3->{\equiv
-\begin{cases}1\pmod2,&\text{the three logical rows},\\0\pmod2,&\text{every other triple}.
-\end{cases}}
+\sw_\gamma(g)&\equiv0\pmod8 &&\text{coefficient }1,\\
+\uncover<2->{\sw_\gamma(gh)}&\uncover<2->{\equiv0\pmod4} &&\uncover<2->{\text{coefficient }-2,}\\
+\uncover<3->{\sw_\gamma(ghq)}&\uncover<3->{\equiv\begin{cases}1\pmod2,&\{g,h,q\}=\{K_1,K_2,K_3\},\\0\pmod2,&\text{otherwise.}\end{cases}}
 \end{aligned}
 \]
-Products denote coordinatewise intersections, just as on the cube.
 \begin{uncoverenv}<3->
-\takeaway{The cubic overlap supplies $\CCZ$; the remaining conditions preserve each encoded superposition.}
+Four or more rows have coefficients divisible by eight. Only the logical triple contributes $4a_1a_2a_3$ modulo eight, producing CCZ.
 \end{uncoverenv}
-\source{Current paper, signed-overlap proposition; the block-weight identity extends the toy calculation.}
 \end{frame}
 
-% B9: 1.5 min
-\begin{frame}{Boolean structure also limits how short a code can be}
-\threechoices{Polynomial restrictions}{Geometric reductions}{Logical-label tests}
-Degree and weight restrict supports; geometric reductions and logical-label tests exclude candidates.
+% 17: 1 min
+\begin{frame}{The resulting quantum code}
+\talktext
+The paper constructs an encoding with
+\[
+\underbrace{48}_{\text{physical qubits}},\qquad
+\underbrace{3}_{\text{logical qubits}},\qquad
+\underbrace{3}_{\text{quantum distance}}.
+\]
+The standard notation for these three quantities is $\qcode{48}{3}{3}$.
 
-\textbf{Exclusion:} no $n\le38$ CSS code with $k=3$, $d_Z\ge3$, and the nine Campbell--Howard conditions.
+\textbf{Error correction:} the code corrects any error on one physical qubit.
 
-The conditions allow a diagonal Clifford correction after physical $T$ gates.
-\takeaway{Lengths $39$--$46$ remain open in this class. The $48$-qubit construction does not establish global minimality.}
-\source{Current paper, length-lower-bound theorem and hyperplane reductions.}
+\textbf{Logical operation:} the displayed $26T+22T^\dagger$ pattern implements CCZ, with equal phase on all $64$ words in each encoded basis state.
+\takeaway{The explicit functions give one construction. The signed-overlap conditions test phase correctness for any code specified by such rows and signs.}
+\source{Current paper: fixed logical labels, explicit sign pattern, and signed-overlap criterion.}
 \end{frame}
 
-% C: 1.5 min
-\begin{frame}{What the Boolean viewpoint made possible}
-\textbf{A construction:} $48$ physical qubits protect three logical qubits; single-qubit phase rotations implement logical $\CCZ$.
+% 18: 3 min
+\storypart{3 / 3\quad Further applications}
+\begin{frame}{Reed--Muller codes and finite-length bounds}
+\talktext
+Our classical code evaluates affine functions on three-bit addresses.
+It is the \emph{Reed--Muller code} $\RM(1,3)$.
+More generally, $\RM(d,m)$ evaluates degree-at-most-$d$ Boolean polynomials on all $m$-bit addresses.
 
-\textbf{An exact test:} signed codeword weights and overlaps certify the gate on every encoded state.
+A binary code closed under XOR is \emph{linear}. Its parameters $[n,k,d_{\min}]$ mean $n$ stored bits, $k$ message bits, and minimum distance $d_{\min}$. Our code is $[8,4,4]$.
 
-\textbf{A lower bound:} no $n\le38$ CSS code with three logical qubits, $d_Z\ge3$, and the nine Campbell--Howard conditions.
-\takeaway{Boolean structure lets us recover a message, expose a predictor, and engineer a quantum gate.}
+Each codeword has $9$ possible readouts with at most one error: itself and its $8$ single-bit changes. Unique correction requires these sets to be disjoint.
+\[
+\underbrace{16}_{\text{codewords}}\,
+\underbrace{(1+8)}_{\text{readouts per codeword}}
+=144\le\underbrace{2^8}_{\text{all readouts}}=256.
+\]
+For $M$ length-$n$ codewords correcting one error, the same count gives $M(1+n)\le2^n$, the one-error \emph{Hamming bound}.
+\takeaway{The bound limits the number of messages at a fixed length under a worst-case error guarantee.}
+\end{frame}
+
+% 19: 3 min
+\begin{frame}{Erasure recovery and channel capacity}
+\talktext
+An \emph{erasure} is a missing value with a known position, shown by $?$.
+The same code gives two different examples:
+\begin{center}
+\begin{tabular}{cl}
+readout & explanation\\\hline
+$\mathtt{?1101001}$ & only parity's codeword fits the seven known values\\
+$\mathtt{0??0?00?}$ & both $\mathtt{00000000}$ and $\mathtt{01101001}$ fit
+\end{tabular}
+\end{center}
+Now erase each position independently with probability $\varepsilon$.
+The \emph{rate} is message bits per stored bit, $R=k/n$, here $4/8=1/2$.
+\emph{Capacity} is the supremum of rates allowing error probability to approach zero as length grows.
+\begin{uncoverenv}<2->
+For this binary erasure channel, $C=1-\varepsilon$. For example, at $\varepsilon=1/4$, rates below $3/4$ can be made reliable.
+
+\emph{Optimal erasure decoding} finds the unique compatible codeword, or reports ambiguity.
+For every target $R\in(0,1)$, a sequence of Reed--Muller codes has lengths growing, rates tending to $R$, and whole-word recovery probability tending to one when $\varepsilon<1-R$.
+\source{Kudekar et al., Reed--Muller Codes Achieve Capacity on Erasure Channels, Theorem 27.}
+\end{uncoverenv}
+\end{frame}
+
+% 20: 3 min
+\begin{frame}{Predicting a Boolean output with parity}
+\talktext
+How often does parity predict this table? Choose each three-bit input with probability $1/8$ (uniform sampling).
+\begin{center}
+\begin{tabular}{c|cccccccc}
+$u$ & $000$&$001$&$010$&$011$&$100$&$101$&$110$&$111$\\\hline
+$r(u)$ & \textcolor{Gold}{$1$}&$1$&$1$&$0$&$1$&$0$&$0$&$1$\\
+$p(u)$ & \textcolor{Gold}{$0$}&$1$&$1$&$0$&$1$&$0$&$0$&$1$
+\end{tabular}
+\end{center}
+Seven agreements, one disagreement: prediction probability $7/8$.
+\begin{uncoverenv}<2->
+\small
+Encode a bit $z$ by $(-1)^z$: $0\mapsto+1$, $1\mapsto-1$.
+The average sign product is a normalized \emph{Fourier coefficient} of $(-1)^r$, at parity $p$:
+\[
+\frac18\sum_{u\in\F_2^3}(-1)^{r(u)}(-1)^{p(u)}
+=\frac{7-1}{8}=\frac34,
+\qquad \Pr[r=p]=\frac{1+3/4}{2}=\frac78.
+\]
+A cryptographic Boolean component computes one output bit from input bits. Accurate affine prediction is undesirable. This degree-three table still agrees with parity on $7/8$ of inputs.
+\end{uncoverenv}
+\end{frame}
+
+% 21: 2 min
+\begin{frame}{Contributions}
+\talktext
+\textbf{Explicit construction.} Forty-eight physical qubits encode three logical qubits and correct any one-qubit error.
+
+\textbf{Physical implementation.} Twenty-six $T$ and twenty-two $T^\dagger$ rotations implement logical CCZ without an additional logical correction.
+
+\textbf{Exact verification.} Signed weights must give one phase throughout each encoded superposition. The row-intersection conditions verify this requirement.
+\takeaway{In the worked example, affine-function weights proved classical distance. In the quantum construction, Boolean evaluation words and signed intersections determine both the encoding and the logical phase.}
 \end{frame}
 
 \appendix
-\storypart{Backup\quad Details and alternative viewpoints}
-\begin{frame}{Backup: affine equivalence is a change of coordinates}
-Use \emph{input-affine equivalence} to mean
+\storypart{Backup\quad Additional calculations}
+\begin{frame}{Backup: specifying the two types of stabilizer checks}
+\talktext
+For length-$n$ binary words, define the binary inner product
+$v\cdot z=\bigoplus_{j=1}^n v_jz_j$.
+Let $C$ be the XOR span of all generator rows, and $S\subset C$ the span of the stabilizer rows.
+The orthogonal space is $C^\perp=\{z:z\cdot c=0\text{ for every }c\in C\}$.
 \[
-g(u)=f(Au+t),\qquad A\in\operatorname{GL}(m,\F_2),\quad t\in\F_2^m.
+\ket a_L=|S|^{-1/2}\sum_{s\in S}\ket{K(a)\oplus s}.
 \]
-The bijection $u\mapsto Au+t$ permutes truth-table positions.
+Flips on a word $s\in S$ permute the summands. Phase errors on a word $z\in C^\perp$ multiply every summand by $+1$.
+These give the $X$ and $Z$ checks of a \emph{Calderbank--Shor--Steane} (CSS) code.
 \[
-\wt(g)=\wt(f),\qquad \deg g=\deg f
-\quad\text{for nonzero }f.
+d_X=\min_{v\in C\setminus S}\wt(v),\qquad
+d_Z=\min_{z\in S^\perp\setminus C^\perp}\wt(z).
 \]
-Under the same substitution for two functions, their distance is preserved. Derivatives transform as
-\[
-D_vg(u)=D_{Av}f(Au+t).
-\]
-\takeaway{A position permutation preserves the code when all codewords and physical signs are transported together. Translating syndrome entries is a different operation.}
-\source{Convention: output-affine additions are not included in this definition.}
+Here $d_X,d_Z$ are the minimum weights of undetected bit and phase errors that change the encoded information. Quantum distance is $\min(d_X,d_Z)$.
 \end{frame}
 
-\begin{frame}{Backup: one error location represents all eight locations}
-Translate the received function by $t=(1,0,0)$:
+\begin{frame}{Backup: the nine Campbell--Howard parity conditions}
+\talktext
+Let $K_1,K_2,K_3$ be logical rows and $S_1,\ldots,S_s$ independent stabilizer rows. Products intersect supports. Indices within a product are distinct.
+The \emph{Campbell--Howard conditions} require these overlap parities:
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{c|lll}
+rows involved & individual & pair & triple\\\hline
+logical only & $\wt(K_i)$ even & $\wt(K_iK_j)$ even & $\wt(K_1K_2K_3)$ odd\\
+mixed & & $\wt(K_iS_l)$ even & $\wt(K_iK_jS_l)$ even\\
+ & & & $\wt(K_iS_lS_t)$ even\\
+stabilizer only & $\wt(S_l)$ even & $\wt(S_lS_t)$ even & $\wt(S_lS_tS_v)$ even
+\end{tabular}
+\end{center}
+These nine parity conditions specify the class in the paper's length exclusion. They are weaker than the main talk's signed congruences modulo $8,4,2$.
+\takeaway{A code satisfying the parity conditions still needs a separate check of whether single-qubit $T/T^\dagger$ rotations implement CCZ without additional logical correction.}
+\end{frame}
+
+\begin{frame}{Backup: affine equivalence changes input coordinates}
+\talktext
+For $m$-bit inputs, let $A$ be an invertible binary $m\times m$ matrix and $t\in\F_2^m$ a translation. Matrix operations here use XOR addition.
+Functions $f,g$ are \emph{input-affine equivalent} if
 \[
-r_t(u)=r(u+t)=p(u)+1+\delta_t(u).
+g(u)=f(Au\oplus t).
 \]
-The error moves from $000$ to $100$ and the original parity becomes its complement.
+The bijection of input addresses permutes table positions. It preserves weight and, for nonzero functions, degree. Applying the same permutation to two tables preserves their distance.
+For a direction $v\in\F_2^m$, the derivatives satisfy
 \[
-\RM(1,3)\ \xrightarrow{\ u\mapsto Au+t\ }\ \RM(1,3).
+D_vg(u)=D_{Av}f(Au\oplus t).
 \]
-Every invertible affine substitution preserves the whole Reed--Muller family and its Hamming distances.
-\takeaway{Relabeling reduces duplicate cases in a search and transports a decoding argument to another coordinate system.}
+\takeaway{Permuting physical sites preserves a code and its gate action when every generator word and rotation sign is transported. Translating syndrome entries changes the check data instead.}
+\end{frame}
+
+\begin{frame}{Backup: translating the location of an error}
+\talktext
+For $t=(1,0,0)$, let $\delta_t(u)$ be one exactly at address $t$.
+Translate the received function by $t$:
+\[
+r_t(u)=r(u\oplus t)=p(u)\oplus1\oplus\delta_t(u).
+\]
+The error moves from $000$ to $100$. Parity becomes its complement because toggling the first input changes its output.
+\[
+\mathtt{11101001}\quad\longmapsto\quad\mathtt{10011110}.
+\]
+Every invertible affine substitution preserves the Reed--Muller family and all distances between its words.
+\takeaway{The same decoding argument applies after a consistent relabeling of addresses.}
 \end{frame}
 
 \begin{frame}{Backup: input equivalence and output addition differ}
-A broader convention, often called extended-affine equivalence, allows
+\talktext
+\emph{Extended-affine equivalence} also permits adding an affine output function $\ell$:
 \[
-g(u)=f(Au+t)+\ell(u),\qquad \deg\ell\le1.
+g(u)=f(Au\oplus t)\oplus\ell(u),\qquad \deg\ell\le1.
 \]
-Adding $\ell$ preserves distance to the affine code, but need not preserve weight:
+Adding $\ell$ permutes the affine code, so distance to that code is preserved. Weight need not be preserved:
 \[
-f=0,\quad \ell=u_1
-\qquad\Longrightarrow\qquad
-\wt(f)=0,\quad\wt(f+\ell)=4\quad(m=3).
+f=0,\quad\ell=u_1\quad\Longrightarrow\quad
+\wt(f)=0,\quad\wt(f\oplus\ell)=4\quad(m=3).
 \]
-In the paper's punctured support formula $n=\wt(c)-c(0)$, a translation can also change which value is deleted at the origin.
-\takeaway{A classification must specify its equivalence relation and track the distinguished puncture.}
-\source{Current paper, admissible-block-length theorem and normal-form reductions.}
+For a Boolean indicator $c$ of allowed positions, deleting the origin leaves
+\[
+n=\wt(c)-c(0)
+\]
+positions. A translation can change $c(0)$, hence the number of retained positions.
 \end{frame}
 
 \begin{frame}{Backup: a translated hyperplane can change syndrome rank}
-Translate the four-point face $z=1$ by $001$:
+\talktext
+In three-bit coordinates $(x,y,z)$, translate the face $z=1$ by $001$:
 \[
 \{001,011,101,111\}\ \longrightarrow\ \{000,010,100,110\}.
 \]
+Treat each point as the responses of three checks to a phase error at that site:
 \[
 \begin{pmatrix}0&0&1&1\\0&1&0&1\\1&1&1&1\end{pmatrix}
 \ \longrightarrow\
 \begin{pmatrix}0&0&1&1\\0&1&0&1\\0&0&0&0\end{pmatrix}.
 \]
-Both sets have affine dimension two; their column ranks are three and two.
+Both sets need two independent displacement directions, so their affine dimension is two. Their columns span binary vector spaces of dimensions three and two, their respective ranks.
 
-The translated origin has zero syndrome. A nonzero logical label there would still give a nonzero full generator column.
-\takeaway{The example illustrates syndrome geometry; translation alone does not guarantee preservation of quantum distance.}
+A zero syndrome column can still have a nonzero logical label, hence a nonzero full generator column. This translation changes syndrome data and does not establish quantum-code equivalence.
 \end{frame}
 
-\begin{frame}{Backup: a polynomial factor exposes a geometric reduction}
-In the paper's rank-eight candidate decomposition, $f=0$ gives
+\begin{frame}{Backup: a polynomial factor confines the support}
+\talktext
+In the paper's rank-eight analysis, write a candidate indicator in variables $y_1,\ldots,y_8$. For polynomials $g,h$ in the first six variables, a vanishing component gives
 \[
-c=y_8(g+y_7h)\quad\Longrightarrow\quad\supp(c)\subseteq\{y_8=1\}.
+c=y_8(g\oplus y_7h)\quad\Longrightarrow\quad
+\supp(c)\subseteq\{y:y_8=1\}.
 \]
-After choosing the origin, the containing hyperplane either:
+The factor $y_8$ forces $c=0$ on $y_8=0$.
+For a containing hyperplane after a change of origin:
 \begin{itemize}
-\item passes through zero, so actual rank is at most seven; or
-\item avoids zero and has a missing support point, supplying a projection direction.
+\item Passing through zero bounds the actual column rank by seven.
+\item Avoiding zero, with proper support, supplies a missing direction for projection. A sum of two supported points lies in the parallel hyperplane through zero.
 \end{itemize}
-In the origin-avoiding rank-eight case, $n\le38<128$ leaves a missing point $v$: no supported point or supported pair sum equals $v$.
-\takeaway{For that case, the paper's CH, $k=3$, $d_Z\ge3$, and distinct-nonzero-syndrome hypotheses permit projection to smaller rank at the same length.}
-\source{Current paper, hyperplane reduction and rank-eight exclusion; lower ranks have already been excluded.}
+\source{Application requires the paper's CSS, three-logical-qubit, $d_Z\ge3$, Campbell--Howard, and distinct-nonzero-syndrome hypotheses. In the rank-eight exclusion, $n\le38<128$ leaves a missing point in the containing hyperplane.}
 \end{frame}
 
-\begin{frame}{Backup: derivatives recover ANF coefficients}
-For $S\subseteq\{1,\ldots,m\}$, write $u_S=\prod_{i\in S}u_i$. Then
+\begin{frame}{Backup: derivatives recover polynomial coefficients}
+\talktext
+For an index set $I\subseteq\{1,\ldots,m\}$, let $u_I=\prod_{i\in I}u_i$, with empty product $1$.
+Write the algebraic normal form as
 \[
-f(u)=\sum_{S\subseteq\{1,\ldots,m\}}c_Su_S,
-\qquad
-c_S=\left(\prod_{i\in S}D_{e_i}\right)f(0).
+f(u)=\bigoplus_{I\subseteq\{1,\ldots,m\}}c_Iu_I,\qquad c_I\in\F_2.
 \]
-All arithmetic is in $\F_2$. Every derivative of order greater than $\deg f$ vanishes.
+Apply the derivatives in the directions indexed by $I$, then evaluate at zero:
 \[
-D_{e_1}D_{e_2}D_{e_3}r=1.
+c_I=\left(\prod_{i\in I}D_{e_i}\right)f(0).
 \]
-On three variables, the third derivative is the sum of all eight values: a parity check for $\RM(2,3)$.
-\takeaway{Higher derivatives turn polynomial degree constraints into local consistency tests.}
+The product of derivative operators means successive application. For our received table, $D_{e_1}D_{e_2}D_{e_3}r=1$.
+Every derivative of order greater than the degree vanishes.
+\takeaway{The third derivative on three variables XORs all eight entries. Every degree-at-most-two table passes this parity check.}
 \end{frame}
 
-\begin{frame}{Backup: why low degree forces nonzero weight}
-Write $f(u',u_m)=g(u')+u_mh(u')$, with $\deg g\le d$ and $\deg h\le d-1$.
-The two halves of the truth table are $g$ and $g+h$.
+\begin{frame}{Backup: low degree gives a minimum nonzero weight}
+\talktext
+For $u'=(u_1,\ldots,u_{m-1})$, write a nonzero function of degree at most $d$ as
 \[
-\wt(f)=\wt(g)+\wt(g+h)\ge\wt(h).
+f(u',u_m)=g(u')\oplus u_mh(u').
 \]
-If $h\ne0$, induction gives $\wt(h)\ge2^{(m-1)-(d-1)}=2^{m-d}$.
-If $h=0$, the two halves agree and induction gives the same bound.
+The two halves of its table are $g$ and $g\oplus h$, with $\deg g\le d$, $\deg h\le d-1$. Thus
 \[
-\RM(d,m):\qquad
-\left[2^m,\ \sum_{j=0}^{d}\binom mj,\ 2^{m-d}\right],\quad 0\le d\le m.
+\wt(f)=\wt(g)+\wt(g\oplus h)\ge\wt(h).
 \]
-\source{The monomial $u_1\cdots u_d$ attains the bound; the case $d=m$ has the trivial lower bound one.}
+If $h\ne0$, induction gives $\wt(h)\ge2^{m-d}$. If $h=0$, the halves agree and the same bound follows by induction on $g$.
+The boundary case $d=m$ only requires weight at least one.
+\[
+\RM(d,m):\quad\left[2^m,\ \sum_{j=0}^d\binom mj,\ 2^{m-d}\right],\quad 0\le d\le m.
+\]
+\source{The monomial $u_1\cdots u_d$ attains the bound. The dimension counts the available monomials.}
 \end{frame}
 
-\begin{frame}{Backup: degree trades information rate for protection}
-Evaluate all degree-at-most-$d$ polynomials on the same eight points.
+\begin{frame}{Backup: degree changes rate and error protection}
+\talktext
+Evaluate all degree-at-most-$d$ polynomials on the same eight addresses.
 \begin{center}
 \renewcommand{\arraystretch}{1.4}
 \begin{tabular}{ccl}
-degree bound $d$ & classical code & protection\\\hline
+degree bound & code parameters & guarantee\\\hline
 $0$ & $[8,1,8]$ & correct any three errors\\
 $1$ & $[8,4,4]$ & correct any one error\\
 $2$ & $[8,7,2]$ & detect any one error\\
 $3$ & $[8,8,1]$ & every word is allowed
 \end{tabular}
 \end{center}
-\takeaway{More monomials carry more information, but bring the allowed messages closer together.}
+\takeaway{Adding monomials increases the number of message bits and decreases the minimum distance.}
 \end{frame}
 
-\begin{frame}{Backup: Fourier analysis is another decoder}
-Represent the table by real signs and correlate with a parity:
+\begin{frame}{Backup: all Fourier coefficients of the received table}
+\talktext
+For a three-bit coefficient vector $a$, use the parity $a\cdot u$.
+The normalized correlation and its eight values are
 \[
-W_r(a)=\sum_{u\in\F_2^3}(-1)^{r(u)+a\cdot u}.
+C_r(a)=\frac18\sum_{u\in\F_2^3}(-1)^{r(u)}(-1)^{a\cdot u},
+\qquad C_r(111)=\frac34,\quad C_r(a)=-\frac14\ (a\ne111).
 \]
-The score is agreements minus disagreements, so
+The unnormalized score $W_r(a)=8C_r(a)$ counts agreements minus disagreements.
+Allowing a constant $b$ gives the distance formula
 \[
-d(r,f_{a,b})=\frac{8-(-1)^bW_r(a)}{2}.
+d(r,f_{a,b})=\frac{8-(-1)^bW_r(a)}2.
 \]
-For our received word, $W_r(111)=6$ and every other score is $-2$.
-\takeaway{The largest absolute correlation finds the nearest affine word; the sign determines its constant term.}
-\source{Walsh/Fourier viewpoint: O'Donnell, Analysis of Boolean Functions.}
+\takeaway{The largest absolute correlation finds a nearest affine word. Its sign selects the constant term. Here the closest word is parity, at distance one.}
+\source{O'Donnell, Analysis of Boolean Functions, Chapter 1.}
 \end{frame}
 
-\begin{frame}{Backup: inclusion--exclusion exposes the cubic term}
-For binary functions, the following identity holds over the integers:
+\begin{frame}{Backup: integer expansion of a binary sum}
+\talktext
+For Boolean functions $f,g,h$, XOR inside a weight and ordinary integer arithmetic outside it give
 \[
 \begin{aligned}
-\wt(f+g+h)={}&\wt(f)+\wt(g)+\wt(h)\\
-&-2\bigl[\wt(fg)+\wt(fh)+\wt(gh)\bigr]+4\wt(fgh).
+\wt(f\oplus g\oplus h)={}&\wt(f)+\wt(g)+\wt(h)\\
+&-2[\wt(fg)+\wt(fh)+\wt(gh)]+4\wt(fgh).
 \end{aligned}
 \]
-The same identity holds for signed weight, because the identity holds at every coordinate before summing.
-
-For sums of more rows, an intersection of $j$ rows carries coefficient $(-2)^{j-1}$.
-\takeaway{Modulo eight, intersections of four or more rows disappear. Row, pair, and triple tests determine the phase.}
+The same formula holds for signed weight, since the identity holds at each coordinate before summation.
+An intersection of $j$ distinct rows has integer coefficient $(-2)^{j-1}$.
+\takeaway{Modulo eight, terms involving four or more rows vanish. Individual rows, pairs, and triples suffice to calculate the phase.}
 \end{frame}
 
-\begin{frame}{Backup: why the toy quantum distance is two}
-Let $C_1=\RM(1,3)$ and $C_2=\langle\mathbf{1}\rangle$.
-The encoding pairs words in each coset of $C_2$ inside $C_1$.
+\begin{frame}{Backup: the eight-qubit quantum distance is two}
+\talktext
+Use the CSS description with $C=\RM(1,3)$ and $S=\{0,\mathbf1\}$, where $\mathbf1$ is the all-one word.
 \[
-d_X=\min_{v\in C_1\setminus C_2}\wt(v)=4.
+d_X=\min_{v\in C\setminus S}\wt(v)=4.
 \]
-A vector supported on sites $000$ and $100$ has even weight, but overlaps $f_{100,0}$ in one position. Therefore
+A phase error at one site changes the all-site flip check's outcome to $-1$, so its syndrome is nonzero.
+Phase errors at sites $000$ and $100$ together have zero syndrome but overlap $f_{100,0}$ in one position. The pair changes encoded information:
 \[
-d_Z=\min_{v\in C_2^\perp\setminus C_1^\perp}\wt(v)=2,
+d_Z=\min_{z\in S^\perp\setminus C^\perp}\wt(z)=2,
 \qquad d=\min(d_X,d_Z)=2.
 \]
-\takeaway{Classical distance protects against one kind of error; quantum distance must also account for the dual constraints.}
+\takeaway{The classical affine distance is four. The quantum code also has phase errors to detect, and its distance is two.}
 \end{frame}
 
-\begin{frame}{Backup: the full signed-weight and block tests}
-For generator rows $G=[K;S]$, an encoded basis state superposes
+\begin{frame}{Backup: checking every word in an encoded state}
+\talktext
+Let $a\in\F_2^3$ select logical rows and $y\in\F_2^s$ select stabilizer rows. Their XOR combination is
 \[
-c(a,y)=K^{\mathsf T}a+S^{\mathsf T}y.
+c(a,y)=\bigoplus_{i=1}^3a_iK_i\ \oplus\ \bigoplus_{l=1}^s y_lS_l.
 \]
-A native sign pattern must satisfy
+A sign pattern implements CCZ without extra logical correction exactly when
 \[
-\sw_\gamma(c(a,y))\equiv4a_1a_2a_3\pmod8\quad\text{for all }a,y.
+\sw_\gamma(c(a,y))\equiv4a_1a_2a_3\pmod8\quad\text{for every }a,y.
 \]
-The paper's block criterion is the exact integer identity
+Partitioning sites into blocks $B$, with $c_B,\gamma_B$ the restrictions to a block, gives the exact integer identity
 \[
-\sw_\gamma(c)=\sum_b\bigl[\wt(\gamma_b+c_b)-\wt(\gamma_b)\bigr].
+\sw_\gamma(c)=\sum_B[\wt(\gamma_B\oplus c_B)-\wt(\gamma_B)].
 \]
-Once the signed-overlap conditions involving stabilizer rows hold, only the eight logical inputs at $y=0$ need to be checked.
-\source{Current paper, signed-overlap and block-criterion propositions.}
+\source{The stabilizer-containing overlap conditions remove dependence on $y$. The remaining eight logical inputs can then be checked at $y=0$.}
 \end{frame}
 
-\begin{frame}{Backup: the 48-qubit sign polynomial}
-On $(u,w)\in\F_2^4\times\bigl(\F_2^2\setminus\{0\}\bigr)$,
-\[
-\gamma(u,w)=u_3+w_1Q_1(u)+w_2Q_2(u),
-\]
-\begin{align*}
-Q_1(u)&=u_1+u_2+u_3+u_1u_3+u_2u_3+u_2u_4,\\
-Q_2(u)&=u_3+u_4+u_1u_2+u_1u_4+u_3u_4.
-\end{align*}
-All sums in these polynomials are in $\F_2$.
-Each restriction to a fixed $w$ is quadratic; the block weights are $6,6,10$.
-\takeaway{The polynomial specifies the physical rotations; the fixed logical rows and signed-weight test establish the gate action.}
-\source{Current paper, explicit sign-pattern proposition. Diagram rows: $u_1u_2$; columns: $u_3u_4$, both ordered $00,01,11,10$.}
-\end{frame}
-
-\begin{frame}{Backup: how short can the code be?}
-\small
-The paper considers CSS codes with $k=3$, $d_Z\ge3$, and the nine Campbell--Howard conditions.
+\begin{frame}{Backup: the 48-qubit logical Boolean functions}
+\talktext
+On each block $w$, the function $\kappa_i(u,w)$ evaluates to the logical row $K_i$. All $u_i$ are bits.
 \begin{center}
-\renewcommand{\arraystretch}{1.15}
-\begin{tabular}{cl}
-length & result in the paper\\\hline
-$n\le38$ & no code in this class, at any stabilizer rank\\
-$39\le n\le46$ & existence remains open\\
-$n=47$ & the cited code has no native $T/T^\dagger$ pattern\\
-$n=48$ & the constructed code has a native pattern
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{c|cl}
+$w$ & row & Boolean function\\\hline
+$10$ & $K_1$ & $u_1\oplus u_3$\\
+ & $K_2$ & $1\oplus u_1\oplus u_2\oplus u_3\oplus u_4$\\
+ & $K_3$ & $1\oplus u_1\oplus u_1u_2\oplus u_1u_4\oplus u_3u_4$\\\hline
+$01$ & $K_1$ & $1\oplus u_3$\\
+ & $K_2$ & $1\oplus u_1\oplus u_3\oplus u_1u_3\oplus u_1u_4$\\
+ & $K_3$ & $u_1\oplus u_1u_2\oplus u_2u_3\oplus u_2u_4\oplus u_3u_4$\\\hline
+$11$ & $K_1$ & $u_4$\\
+ & $K_2$ & $u_3\oplus u_4\oplus u_1u_3\oplus u_1u_4$\\
+ & $K_3$ & $u_1\oplus u_3\oplus u_1u_4\oplus u_2u_3\oplus u_2u_4$
 \end{tabular}
 \end{center}
-For projective support of stabilizer rank $s$,
-\[
-\chi_S\in\RM(s-4,s)+\langle\delta_0\rangle,
-\qquad n=\wt(c)-c(0),\quad c\in\RM(s-4,s),
-\]
-and the nonzero support must span $\F_2^s$.
-\source{The 47-qubit statement concerns that particular code. The 48-qubit construction is not a proof of global minimality.}
+\source{The current paper's fixed label map. Together with the six coordinate rows, these rows have rank nine.}
 \end{frame}
 
-\begin{frame}{Sources for this talk}
-\textbf{Research results:} the current paper, \emph{A 48-qubit native CCZ code from projective geometry and a length lower bound}.
-\begin{itemize}
-\item Subspace-complement construction and fixed logical labels.
-\item Signed-overlap criterion, block-weight identity, and explicit sign pattern.
-\item Reed--Muller support restrictions and the conditional length lower bound.
-\end{itemize}
-\smallskip
-\textbf{Fundamentals:} MacWilliams--Sloane and Huffman--Pless for classical codes; Carlet for ANF, derivatives, affine prediction, and equivalence.
+\begin{frame}{Backup: the 48-qubit rotation signs}
+\talktext
+For $u\in\F_2^4$ and $w\in\F_2^2\setminus\{0\}$, define
+\begin{align*}
+Q_1(u)&=u_1\oplus u_2\oplus u_3\oplus u_1u_3\oplus u_2u_3\oplus u_2u_4,\\
+Q_2(u)&=u_3\oplus u_4\oplus u_1u_2\oplus u_1u_4\oplus u_3u_4.
+\end{align*}
+The sign function is
+\[
+\gamma(u,w)=u_3\oplus w_1Q_1(u)\oplus w_2Q_2(u).
+\]
+Its weights on blocks $10,01,11$ are $6,6,10$. Value one selects $T^\dagger$, giving $22$ inverse rotations and $26$ forward rotations.
+\takeaway{The sign polynomial specifies the physical rotations. The fixed logical rows and signed-weight calculation establish the logical gate.}
+\end{frame}
 
-\textbf{Spectral viewpoint:} O'Donnell, \emph{Analysis of Boolean Functions}.
+\begin{frame}{Backup: the scope of the length exclusion}
+\talktext
+The paper excludes CSS codes with three logical qubits, phase distance $d_Z\ge3$, and all nine Campbell--Howard parity conditions at lengths $n\le38$, for every stabilizer rank.
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{cl}
+physical length & conclusion\\\hline
+$n\le38$ & no code in this specified class\\
+$39\le n\le46$ & existence remains open\\
+$n=47$ & the particular cited code has no $T/T^\dagger$-only CCZ pattern\\
+$n=48$ & the constructed code has such a pattern
+\end{tabular}
+\end{center}
+\takeaway{The explicit 48-qubit construction is not a proof of global minimality. The 47-qubit statement concerns one specified code.}
+\source{Current paper: length exclusion, fixed-label 47-qubit test, and explicit 48-qubit construction.}
+\end{frame}
+
+\begin{frame}{Sources}
+\talktext
+\textbf{Quantum results:} the author's current paper, \emph{A 48-qubit native CCZ code from projective geometry and a length lower bound}. The talk uses its fixed logical functions, rotation signs, signed-overlap criterion, and qualified exclusion.
+
+\textbf{Memory context:} \href{https://www.ibm.com/support/pages/troubleshooting-memory-issues}{IBM, Troubleshooting Memory issues}. The eight-bit encoder is a teaching example.
+
+\textbf{Erasure capacity:} \href{https://arxiv.org/abs/1601.04689}{Kudekar, Kumar, Mondelli, Pfister, Şaşoğlu, and Urbanke, Reed--Muller Codes Achieve Capacity on Erasure Channels}, Theorem 27.
+
+\textbf{Boolean fundamentals:} Carlet, \emph{Boolean Functions for Cryptography and Coding Theory}. Fourier agreement: \href{https://www.cs.cmu.edu/~odonnell/papers/Analysis-of-Boolean-Functions-by-Ryan-ODonnell.pdf}{O'Donnell, Analysis of Boolean Functions}, Chapter 1.
+
+\textbf{Classical coding:} MacWilliams--Sloane, \emph{The Theory of Error-Correcting Codes}, and Huffman--Pless, \emph{Fundamentals of Error-Correcting Codes}.
 \end{frame}
 \end{document}
