@@ -11,7 +11,7 @@ Four main frames use overlays (slides 9, 13, 19, 20).
 | Portion | Time | Duration |
 | --- | --- | ---: |
 | Title and 1–2: problem and roadmap | 00:00–03:30 | 3:30 |
-| 3–10: Boolean functions as a language for codes, cube code | 03:30–19:00 | 15:30 |
+| 3–10: Boolean functions and codes, cube code | 03:30–19:00 | 15:30 |
 | 11–16: gate criterion | 19:00–27:30 | 8:30 |
 | 17–24: construction of Q48 | 27:30–42:00 | 14:30 |
 | 25: summary | 42:00–45:00 | 3:00 |
@@ -26,17 +26,17 @@ Four main frames use overlays (slides 9, 13, 19, 20).
 | 3. Codewords are truth tables | 03:30–06:00 | Truth table, f_{a,b}, RM(1,3), columns as points |
 | 4. Truth tables are polynomials | 06:00–07:30 | Algebraic normal form, degree, f ∧ g, RM(ℓ,m) |
 | 5. Overlaps count shared ones | 07:30–09:30 | Weight, overlap, \|f ⊕ g\| = \|f\| + \|g\| − 2\|f ∧ g\| |
-| 6. Nonconstant affine functions are balanced | 09:30–11:00 | Weight 2^{m−1} |
-| 7. Degree controls divisibility | 11:00–13:30 | McEliece bound, 15-qubit code, PG(3,2) |
-| 8. Why Boolean functions, for QEC and for this project | 13:30–15:30 | Dictionary and project payoffs |
-| 9. Warm-up: the eight-qubit cube code | 15:30–18:00 | f_a, parity p, signed weight sw, ω |
+| 6. Nonconstant affine functions have weight 2^{m−1} | 09:30–11:00 | Weight 2^{m−1} |
+| 7. Low degree implies divisible weights | 11:00–13:30 | McEliece bound, 15-qubit code, PG(3,2) |
+| 8. QEC objects as Boolean functions | 13:30–15:30 | Correspondence table and project use |
+| 9. The eight-qubit cube code | 15:30–18:00 | f_a, parity p, signed weight sw, ω |
 | 10. The cube code has distance two | 18:00–19:00 | Z_u, d_Z = 2 |
 | 11. A CSS code as a binary matrix | 19:00–20:30 | G = [K; S], coset sum, d_X, d_Z |
-| 12. The logical gate becomes a phase condition | 20:30–22:00 | Pattern Γ, sw_Γ, native CCZ condition |
-| 13. XOR turns the phase into overlap counts | 22:00–23:00 | Triple identity, truncation mod 8 |
-| 14. Signed overlaps decide the native gate | 23:00–24:30 | Native criterion |
+| 12. Native CCZ as a phase condition | 20:30–22:00 | Pattern Γ, sw_Γ, native CCZ condition |
+| 13. Signed weight of an XOR in terms of overlaps | 22:00–23:00 | Triple identity, truncation mod 8 |
+| 14. Native criterion in signed overlaps | 23:00–24:30 | Native criterion |
 | 15. Quasi-transversal versus native | 24:30–26:00 | Nine conditions, phase gate P |
-| 16. One Boolean function packages every overlap | 26:00–27:30 | Column indicator χ_G |
+| 16. The column indicator encodes all overlap parities | 26:00–27:30 | Column indicator χ_G |
 | 17. The construction runs in three steps | 27:30–28:30 | S, then K, then signs |
 | 18. Distinct nonzero columns give d_Z ≥ 3 | 28:30–30:00 | Syndrome, PG(s−1,2) |
 | 19. Weights are read from hyperplane sections | 30:00–31:30 | 8-divisible, H_a |
@@ -57,5 +57,5 @@ Four main frames use overlays (slides 9, 13, 19, 20).
 | Stabilizer conditions restrict the length | Slide 25 | How does the lower bound work? (step 1) |
 | No code below length 39 | Previous backup | How does the lower bound work? (step 2) |
 | A family with all-T CCZ | Slide 25 | Which longer codes need no T†? |
-| Affine changes of coordinates preserve everything | Lower-bound proof | Why one support per affine class? |
+| Affine coordinate changes preserve the conditions | Lower-bound proof | Why one support per affine class? |
 | Sources | Slide 25 | Where can I read more? |

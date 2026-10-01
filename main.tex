@@ -112,8 +112,6 @@
 \vspace{9mm}
 {\large Bohan Lu\par}
 \vspace{2mm}
-{\normalsize Joint work with Kenneth R.\ Brown\par}
-{\normalsize Duke Quantum Center, Duke University\par}
 \vfill
 \note{00:00--00:30. Audience: knows stabilizer and CSS codes, Clifford+T, magic states. Narration: One sentence promise. We build a three-logical-qubit code whose logical CCZ is one layer of physical T and T-dagger gates, explain why the construction works, and say how short such codes can be. Transition: Start from why such a gate layer is worth having.}
 \end{frame}
@@ -128,7 +126,7 @@ CCZ changes the sign of $\ket{111}$ only, and Clifford gates plus CCZ are univer
 \begin{columns}[T,onlytextwidth]
 \column{.48\textwidth}
 \begin{block}{Magic-state distillation}
-Standard route. Prepares noisy resource states and distills them, at a large space-time overhead.
+Standard method. Prepares noisy resource states and distills them, at a large space-time overhead.
 \end{block}
 \column{.48\textwidth}
 \begin{block}{Transversal gate}
@@ -150,18 +148,18 @@ We call such an implementation \emph{native}. A single-qubit gate cannot spread 
 \textbf{Result.} $Q_{48}=\qcode{48}{3}{3}$: logical CCZ from one layer of $26\,T+22\,T^\dagger$ on the data qubits.
 It is the shortest known code with a native CCZ and distance three.
 \par\bigskip
-\begin{enumerate}\setlength{\itemsep}{6pt}
-\item \textbf{Boolean functions as a language for codes.} Truth tables, polynomials, overlaps, and why low degree controls weights.
-\item \textbf{The gate criterion.} A native CCZ is a statement about overlap counts of rows.
-\item \textbf{Construction of $Q_{48}$.} Geometry picks the stabilizers, SAT picks the logical rows, a linear system picks the signs.
+\begin{enumerate}\setlength{\itemsep}{3pt}
+\item \textbf{Boolean functions and codes.} Truth tables, polynomials, overlaps, and how degree bounds weight divisibility.
+\item \textbf{The gate criterion.} Native CCZ is equivalent to parity, mod-4, and mod-8 conditions on overlap counts of rows.
+\item \textbf{Construction of $Q_{48}$.} Stabilizer rows from projective geometry, logical rows from a SAT solver, signs from a linear system over $\mathbb Z_4$.
 \item \textbf{Summary.} Known and open lengths.
 \end{enumerate}
-\takeaway{Thesis: questions about transversal gates become questions about weights of products of low-degree Boolean functions.}
-\note{02:30--03:30. Prerequisite: The target from slide 1. Terms: Q48. Narration: State the result once, then the four parts. Most of the intuition comes first, so that the criterion and the construction read as consequences. Reveals: One state. Transition: Start with the oldest idea: a codeword is a truth table.}
+\takeaway{The phase of a transversal diagonal gate depends only on weights of rows and of their products. Rows are Boolean functions.}
+\note{02:30--03:30. Prerequisite: The target from slide 1. Terms: Q48. Narration: State the result once, then the four parts. Most of the intuition comes first, so that the criterion and the construction read as consequences. Reveals: One state. Transition: Start with the truth-table view of a codeword.}
 \end{frame}
 
 % 3 | 03:30--06:00
-\storypart{2 / 5\quad Boolean functions as a language for codes}
+\storypart{2 / 5\quad Boolean functions and codes}
 \begin{frame}[label=slide3]{Codewords are truth tables}
 \talktext
 A \emph{Boolean function} $f\colon\F_2^3\to\F_2$ is stored as its \emph{truth table}: the 8-bit word of values at the addresses $u=000,001,\ldots,111$.
@@ -182,7 +180,7 @@ Affine functions $f_{a,b}(u)=b\oplus a_1u_1\oplus a_2u_2\oplus a_3u_3$.
 Their 16 truth tables form the Reed--Muller code $\RM(1,3)$, the $[8,4,4]$ extended Hamming code.
 Its generator matrix has rows $1,u_1,u_2,u_3$ and one column per address $u$.
 \end{columns}
-\takeaway{Any linear code reads this way: each column is a point, each row is a function evaluated on the points.}
+\takeaway{Every linear code has this form: each column is a point, each row is a function evaluated at the points.}
 \note{03:30--06:00. Prerequisite: Linear codes, generator matrices. Terms: Boolean function; truth table; f\_{a,b}; RM(1,3). Narration: The audience knows the extended Hamming code. Show that its generator matrix is a list of truth tables: the constant function and the three coordinate functions, evaluated at the eight points of the cube. Read one column: it is the point u with a 1 prepended. Every linear code has this description once the columns are called points. Reveals: One state. Transition: A truth table is also a polynomial, and the polynomial carries information the table hides.}
 \end{frame}
 
@@ -200,8 +198,8 @@ The indicator of the single point $000$ has degree three:
 \delta_{000}=(1\oplus u_1)(1\oplus u_2)(1\oplus u_3)=1\oplus u_1\oplus u_2\oplus u_3\oplus u_1u_2\oplus u_1u_3\oplus u_2u_3\oplus u_1u_2u_3.
 \]
 $\RM(\ell,m)$ is the set of truth tables of degree at most $\ell$ on $m$ variables.
-\takeaway{Preview: the logical rows of $Q_{48}$ have degree two, and its $T/T^\dagger$ pattern is one cubic polynomial.}
-\note{06:00--07:30. Prerequisite: Truth tables. Terms: algebraic normal form; degree; f wedge g; RM(l,m). Narration: The polynomial form is unique. Multiplying functions is AND on truth tables, which selects common ones. A single point is the most concentrated function and has full degree, while affine functions are spread out. Reed--Muller codes are the low-degree truth tables. Reveals: One state. Transition: Products select common ones, and common ones are what XOR counts get wrong.}
+\takeaway{In $Q_{48}$, the logical rows have degree two (slide 22) and the $T/T^\dagger$ pattern is a cubic polynomial (slide 23).}
+\note{06:00--07:30. Prerequisite: Truth tables. Terms: algebraic normal form; degree; f wedge g; RM(l,m). Narration: The polynomial form is unique. Multiplying functions is AND on truth tables, which selects common ones. A single-point indicator has weight 1 and degree m. A nonconstant affine function has weight 2 to the m minus 1 and degree 1. Reed--Muller codes are the low-degree truth tables. Reveals: One state. Transition: Products select common ones, and common ones are what XOR counts get wrong.}
 \end{frame}
 
 % 5 | 07:30--09:30
@@ -226,17 +224,17 @@ XOR keeps the positions in exactly one support, so the common edge is removed tw
 \end{columns}
 \par\medskip
 In QEC, an $X$ row and a $Z$ row commute exactly when their overlap is even.
-\takeaway{Weights of XORs are not additive. Overlaps are the correction term.}
-\note{07:30--09:30. Prerequisite: Products as AND. Terms: weight; overlap. Narration: Point to the two coordinate faces and the shared edge. Four plus four counts the edge twice, and XOR excludes it, so subtract twice the overlap. The audience already uses overlap parity every day: it decides whether an X and a Z operator commute. In this talk overlaps will matter mod 8, not only mod 2. Reveals: One state. Transition: Before we use overlaps, one weight fact that every later count relies on.}
+\takeaway{$\w{f\oplus g}$ differs from $\w f+\w g$ by twice the overlap.}
+\note{07:30--09:30. Prerequisite: Products as AND. Terms: weight; overlap. Narration: Point to the two coordinate faces and the shared edge. Four plus four counts the edge twice, and XOR excludes it, so subtract twice the overlap. Overlap parity decides whether an X and a Z operator commute. In this talk overlaps will matter mod 8, not only mod 2. Reveals: One state. Transition: Before we use overlaps, one weight fact that every later count relies on.}
 \end{frame}
 
 % 6 | 09:30--11:00
-\begin{frame}[label=slide6]{Nonconstant affine functions are balanced}
+\begin{frame}[label=slide6]{Nonconstant affine functions have weight $2^{m-1}$}
 \talktext
 \begin{columns}[c,onlytextwidth]
 \column{.38\textwidth}\centering
 \resizebox{!}{34mm}{\cubepicture{0}{1}{0}}
-\par\scriptsize Parity $u_1\oplus u_2\oplus u_3$. Each gold edge toggles $u_1$ and holds one 0 and one 1.
+\par\scriptsize Parity $u_1\oplus u_2\oplus u_3$. Each gold edge changes $u_1$, and its endpoints have values 0 and 1.
 \column{.59\textwidth}
 Let $f$ be nonconstant affine on $m$ variables, and pick a variable $u_i$ that appears in it.
 Toggling $u_i$ flips the output.
@@ -248,12 +246,12 @@ So $\RM(1,m)$ has weights $0$, $2^{m-1}$, $2^m$ only.
 $m=3$: weights $0,4,8$, so $d=4$.\\
 $m=6$: $32$ ones on $64$ points (used for FG48).
 \end{columns}
-\takeaway{Balance is the first divisibility statement: degree one forces weights divisible by $2^{m-1}$.}
+\takeaway{Every weight in $\RM(1,m)$ is divisible by $2^{m-1}$.}
 \note{09:30--11:00. Prerequisite: Affine functions. Terms: balanced. Narration: Pair each input with its neighbor across the gold edges. Each pair contains exactly one one, so exactly half the inputs give one. This gives the minimum distance of RM(1,m), and it will give the weights of the 48-qubit stabilizer code. Reveals: One state. Transition: Higher degree gives weaker but still useful divisibility.}
 \end{frame}
 
 % 7 | 11:00--13:30
-\begin{frame}[label=slide7]{Degree controls divisibility}
+\begin{frame}[label=slide7]{Low degree implies divisible weights}
 \talktext
 \begin{block}{Theorem (McEliece, after Ax)}
 Every weight in $\RM(\ell,m)$ is divisible by $2^{\lceil m/\ell\rceil-1}$.
@@ -269,14 +267,14 @@ $\RM(2,6)$ & $4$ & $0,16,24,28,32,36,40,48,64$\\
 \bottomrule
 \end{tabular}
 \end{center}
-Why QEC cares: $T^{\otimes n}$ multiplies a word $c$ by $\omega^{\w c}$ with $\omega=e^{i\pi/4}$. Weights divisible by $8$ are invisible to it.
+For transversal $T$: $T^{\otimes n}$ multiplies a word $c$ by $\omega^{\w c}$ with $\omega=e^{i\pi/4}$. A word whose weight is divisible by $8$ gets phase $1$.
 \par\medskip
 \textbf{Example.} The 15-qubit code with transversal $T$ has the $[15,4,8]$ simplex code as $X$ stabilizers: columns are the $15$ nonzero points of $\F_2^4$ (the projective space $\PG(3,2)$), every nonzero weight is $8$.
-\note{11:00--13:30. Prerequisite: Balanced affine functions. Terms: McEliece divisibility; simplex code; PG(3,2). Narration: Low degree in many variables forces high powers of two to divide every weight. Transversal T sees weights mod 8, so divisibility by eight is exactly invisibility. The 15-qubit code is the familiar example: its X stabilizers are the coordinate functions on all nonzero points of F2 to the 4, a balanced code with weight 8. Remember PG(3,2): the 48-qubit code removes exactly such a set from a larger space. Reveals: One state. Transition: Collect the translations between the two languages.}
+\note{11:00--13:30. Prerequisite: Balanced affine functions. Terms: McEliece divisibility; simplex code; PG(3,2). Narration: Low degree in many variables forces high powers of two to divide every weight. Transversal T sees weights mod 8, so divisibility by eight is exactly invisibility. In the 15-qubit code, the X stabilizers are the coordinate functions on the 15 nonzero points of F2 to the 4, and every nonzero weight is 8. These 15 points form PG(3,2). The 48-qubit code removes a copy of PG(3,2) from PG(5,2). Reveals: One state. Transition: List the correspondences between QEC objects and Boolean functions.}
 \end{frame}
 
 % 8 | 13:30--15:30
-\begin{frame}[label=slide8]{Why Boolean functions, for QEC and for this project}
+\begin{frame}[label=slide8]{QEC objects as Boolean functions}
 \talktext
 \begin{columns}[T,onlytextwidth]
 \column{.54\textwidth}
@@ -298,18 +296,18 @@ whole column set & indicator function $\chi$\\
 \column{.43\textwidth}
 \textbf{For this project}
 \begin{itemize}\setlength{\itemsep}{3pt}
-\item The stabilizer support is a point set chosen by geometry: projective space minus a subspace.
+\item The stabilizer support is a projective space minus a subspace.
 \item The logical rows are degree-2 polynomials found by SAT.
 \item The $T/T^\dagger$ pattern is one cubic polynomial.
 \end{itemize}
 \end{columns}
-\takeaway{A search over $48$-column matrices becomes a search over a few low-degree polynomials on a structured point set.}
-\note{13:30--15:30. Prerequisite: Slides 3 to 7. Terms: none new. Narration: Read the dictionary from top to bottom. Each line is an exact identity, not an analogy. The right column previews how the dictionary is used: geometry fixes the points, low-degree polynomials give the rows and the pattern. The payoff is size: the unstructured search is hopeless, the structured one is small. Reveals: One state. Transition: Test the dictionary on the smallest code with a transversal CCZ.}
+\takeaway{With the point set fixed, the logical rows are $144$ unknown bits (slide 21), not a search over all binary matrices with $48$ columns.}
+\note{13:30--15:30. Prerequisite: Slides 3 to 7. Terms: none new. Narration: Read the table from top to bottom. Each line is an exact equality. The right column states how the project uses it: the points are a projective space minus a subspace, the logical rows and the sign pattern are low-degree polynomials. With the points fixed, the logical rows are 144 unknown bits. Reveals: One state. Transition: Apply these correspondences to the smallest code with a transversal CCZ.}
 \end{frame}
 
 
 % 9 | 15:30--18:00
-\begin{frame}[label=slide9]{Warm-up: the eight-qubit cube code}
+\begin{frame}[label=slide9]{The eight-qubit cube code}
 \talktext
 \begin{columns}[c,onlytextwidth]
 \column{.34\textwidth}\centering
@@ -350,7 +348,7 @@ The only $X$-type stabilizer is $X^{\otimes8}$. It commutes with this weight-2 e
 \[
 \qcode{8}{3}{2},\qquad d_Z=2,\quad d_X=4.
 \]
-\takeaway{Goal: keep the gate mechanism and raise $d_Z$ to $3$. That requires a larger code and a systematic criterion.}
+\takeaway{Goal: transversal CCZ with $d_Z\ge3$. This needs more qubits and a general criterion for the gate.}
 \note{18:00--19:00. Prerequisite: The cube code. Terms: Z\_u; d\_Z, d\_X. Narration: A two-qubit Z error along a first-coordinate edge applies a logical phase that depends on a1. Its overlap with the all-ones stabilizer is two, which is even, so no X check sees it. Distance two detects single errors but cannot correct them. Reveals: One state. Transition: To search for longer codes, write any CSS code as a binary matrix.}
 \end{frame}
 
@@ -374,7 +372,7 @@ Distances: $d_X=\min\{\w c:c\in\mathcal C_1\setminus\mathcal C_2\}$ and $d_Z=\mi
 \end{frame}
 
 % 12 | 20:30--22:00
-\begin{frame}[label=slide12]{The logical gate becomes a phase condition}
+\begin{frame}[label=slide12]{Native CCZ as a phase condition}
 \talktext
 A pattern $\Gamma\in\{\pm1\}^n$ applies $T$ where $\Gamma_j=+1$ and $T^\dagger$ where $\Gamma_j=-1$.
 A basis word $c$ gets the phase $\omega^{\sw_\Gamma(c)}$, with
@@ -399,7 +397,7 @@ phase equal to $(-1)^{x_1x_2x_3}$ & the logical action must be CCZ\\
 \end{frame}
 
 % 13 | 22:00--23:00
-\begin{frame}[label=slide13]{XOR turns the phase into overlap counts}
+\begin{frame}[label=slide13]{Signed weight of an XOR in terms of overlaps}
 \talktext
 Slide 5 gave the pair rule. Applied twice, at each coordinate as integers,
 \[
@@ -407,11 +405,11 @@ a\oplus b\oplus c=a+b+c-2(a\wedge b+a\wedge c+b\wedge c)+4\,a\wedge b\wedge c.
 \]
 \begin{uncoverenv}<2->
 In general, an XOR of $m$ rows expands with coefficient $(-2)^{t-1}$ on each $t$-fold product.
-The signed weight $\sw_\Gamma$ is a weighted sum of coordinates, so it respects these integer identities:
+The signed weight $\sw_\Gamma$ is a weighted sum of coordinates, so the same identity holds for $\sw_\Gamma$:
 \[
 \sw_\Gamma(a\oplus b\oplus c)=\textstyle\sum_{\text{rows}}\sw_\Gamma(a)-2\sum_{\text{pairs}}\sw_\Gamma(a\wedge b)+4\,\sw_\Gamma(a\wedge b\wedge c).
 \]
-Products of four or more rows have coefficients divisible by $8$ and drop out mod $8$.
+Products of four or more rows have coefficients divisible by $8$ and vanish mod $8$.
 \end{uncoverenv}
 \begin{uncoverenv}<3->
 \par\medskip\textbf{Check:} supports $\{1,2\},\{2,3\},\{2,4\}$ have weights $2$, pair overlaps $1$, triple overlap $1$:
@@ -421,7 +419,7 @@ $\ \w{a\oplus b\oplus c}=6-2(3)+4=4$.
 \end{frame}
 
 % 14 | 23:00--24:30
-\begin{frame}[label=slide14]{Signed overlaps decide the native gate}
+\begin{frame}[label=slide14]{Native criterion in signed overlaps}
 \talktext
 A codeword $K^{\!\top}x\oplus S^{\!\top}y$ is the XOR of the rows $g$ selected by $(x,y)$.
 Matching coefficients of $1$, $-2$, and $4$ against $4x_1x_2x_3$ gives:
@@ -459,11 +457,11 @@ K3: $\w{K_1\wedge K_2\wedge K_3}$ \textbf{odd} & KS3: $\w{K_i\wedge S_l\wedge S_
 \textbf{Native} is the special case whose correction is $P^\dagger$ on single qubits, since $TP^\dagger=T^\dagger$.
 So every native code meets the nine conditions. The converse fails (slide 25).
 \vfill\hfill\hyperlink{backup-ch}{\beamerbutton{Index ranges?}}
-\note{24:30--26:00. Prerequisite: Native criterion. Terms: quasi-transversal; CH conditions K1--K3, KS1--KS3, S1--S3. Narration: Campbell--Howard proved sufficiency, Hu--Liang--Calderbank necessity. The nine conditions are parities of the same row, pair, and triple overlaps, now unsigned. K3 is the only odd one. A native pattern is an all-T layer followed by P-dagger on the T-dagger sites, which is a diagonal Clifford, so native implies the conditions. P is the Clifford phase gate, renamed to avoid a clash with the stabilizer matrix S. The lower bound later excludes even the weaker quasi-transversal case. Reveals: One state. Backup trigger: exact index ranges. Transition: One Boolean function packages all these parities.}
+\note{24:30--26:00. Prerequisite: Native criterion. Terms: quasi-transversal; CH conditions K1--K3, KS1--KS3, S1--S3. Narration: Campbell--Howard proved sufficiency, Hu--Liang--Calderbank necessity. The nine conditions are parities of the same row, pair, and triple overlaps, now unsigned. K3 is the only odd one. A native pattern is an all-T layer followed by P-dagger on the T-dagger sites, which is a diagonal Clifford, so native implies the conditions. P is the Clifford phase gate, renamed to avoid a clash with the stabilizer matrix S. The lower bound later excludes even the weaker quasi-transversal case. Reveals: One state. Backup trigger: exact index ranges. Transition: The column indicator of G encodes all these parities.}
 \end{frame}
 
 % 16 | 26:00--27:30
-\begin{frame}[label=slide16]{One Boolean function packages every overlap}
+\begin{frame}[label=slide16]{The column indicator encodes all overlap parities}
 \talktext
 Let $G$ have $r$ rows and distinct columns. Its \emph{column indicator} $\chi_G\colon\F_2^r\to\F_2$ equals $1$ exactly on the columns of $G$.
 For a test polynomial $m$ in the row variables $z_1,\ldots,z_r$,
@@ -482,7 +480,7 @@ $z_iz_jz_l$ & the triple overlap of rows $i,j,l$\\
 \end{tabular}
 \end{center}
 The nine conditions prescribe $\langle\chi_G,m\rangle$ for every monomial of degree $1$ to $3$.
-\takeaway{A code becomes a set of points in $\F_2^r$. Its overlap conditions become degree conditions on one Boolean function (Nezami--Haah).}
+\takeaway{With distinct columns, $G$ is determined by its column set, and the nine conditions are conditions on $\chi_G$ (Nezami--Haah).}
 \note{26:00--27:30. Prerequisite: Overlap parities. Terms: column indicator chi\_G; inner product with a monomial. Narration: A column z contributes to the weight of row i exactly when z\_i is one. A pair overlap counts columns with z\_i z\_j equal to one. Distinct columns let the set of points replace the matrix. Nezami and Haah used this to classify small triorthogonal codes. We use it to construct. Reveals: One state. Transition: Choose the point set first.}
 \end{frame}
 
@@ -500,8 +498,8 @@ The nine conditions prescribe $\langle\chi_G,m\rangle$ for every monomial of deg
 \draw[arr] (s)--(k);\draw[arr] (k)--(g);
 \end{tikzpicture}
 \end{center}
-Each step fixes one group of conditions and never revisits the previous one.
-\takeaway{Geometry settles the distance before any search begins.}
+Each step fixes one group of conditions and leaves earlier choices unchanged.
+\takeaway{Step 1 alone gives $d_Z\ge3$. Steps 2 and 3 do not check distance.}
 \note{27:30--28:30. Prerequisite: The three groups of conditions. Terms: none new. Narration: The stabilizer conditions and the Z distance depend on S alone. The logical conditions depend on K given S. The signs are chosen last. This order keeps every search small. Reveals: One state. Transition: Step one starts with the distance.}
 \end{frame}
 
@@ -595,7 +593,6 @@ For FG48 ($n=48$, $s=6$):
 \[
 3n=144\ \text{Boolean variables},\qquad 7+6s+3\tbinom s2=88\ \text{constraints},\ \text{no distance constraint}.
 \]
-\takeaway{Fixing a projective, 8-divisible $S$ first turns the code search into a small satisfiability problem.}
 \note{34:00--36:00. Prerequisite: The nine conditions and FG48. Terms: label alpha\_j; SAT. Narration: Each qubit gets a three-bit label, its column of K. The distance needs no constraint because the support already guarantees it. The S-only conditions hold already. What remains is 88 parity constraints in 144 bits. KS1 is linear in the labels, KS2 quadratic, K3 cubic, so a SAT solver handles them as XOR clauses. Reveals: One state. Transition: Here is the solution the solver returns, written as polynomials.}
 \end{frame}
 
@@ -675,7 +672,7 @@ $n\ge64$ & a family on subspace complements with $T$ on every qubit (this work)\
 \end{tabular}
 \end{center}
 \textbf{Open:} lengths $39$ to $46$, the largest $d_X$ on a fixed support, other gates, and $k>3$.
-\takeaway{Boolean functions turn the gate into overlap counts. Projective geometry makes those counts controllable.}
+\takeaway{The gate conditions are overlap counts of rows. For $Q_{48}$: stabilizer rows from projective geometry, logical rows from SAT, signs from a $\mathbb Z_4$ linear system.}
 \par\smallskip\hfill
 \hyperlink{backup-nonnative}{\beamerbutton{Why is 47 not native?}}\
 \hyperlink{backup-lengths}{\beamerbutton{Lower bound?}}\
@@ -775,7 +772,7 @@ No CSS code with $k=3$ and $d_Z\ge3$ meets the nine conditions at $n\le38$, at a
 \end{block}
 \begin{enumerate}\setlength{\itemsep}{1pt}
 \item Make $\mathcal C_2$ projective and lower $s$ while $2^s-1>n+\lfloor\binom n2/2\rfloor$. At $n\le38$ this removes every $s\ge9$.
-\item $s\le5$: few admissible supports, all flats but one, and a direct search settles the last.
+\item $s\le5$: few admissible supports, all flats but one, and a direct search decides the last.
 \item Supports that are affine flats of dimension at most $4$ fail K3. This removes $n=15,16$.
 \item $s=6,7,8$: one support per affine-equivalence class of $c\in\RM(s-4,s)$, then an exact computer-assisted label search on each.
 \end{enumerate}
@@ -801,7 +798,7 @@ $Q_{48}$ has $s=6$, below this family, and needs $22$ $T^\dagger$ gates.
 \vfill\hfill\hyperlink{anchor25}{\beamergotobutton{Return to slide 25}}
 \end{frame}
 
-\begin{frame}[label=backupAffine]{Affine changes of coordinates preserve everything}
+\begin{frame}[label=backupAffine]{Affine coordinate changes preserve the conditions}
 \hypertarget{backup-affine}{}\talktext
 \textbf{Question from the lower-bound proof:} why is one support per affine-equivalence class enough?
 \par\medskip
