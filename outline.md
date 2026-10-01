@@ -5,51 +5,57 @@
 Audience: general quantum error correction. The talk assumes stabilizer and CSS codes, Clifford+T, magic-state distillation, and transversal gates.
 Content follows the paper *Building codes with transversal CCZ using projective geometry and SAT solvers* (Lu and Brown).
 
-The deck has **23 numbered main slides, 4 backup frames, and 33 PDF pages**.
-Four main frames use overlays (slides 3, 7, 13, 14).
+The deck has **25 numbered main slides, 8 backup frames, and 39 PDF pages**.
+Four main frames use overlays (slides 9, 13, 19, 20).
 
 | Portion | Time | Duration |
 | --- | --- | ---: |
-| Title and 1–4: problem, results, cube code | 00:00–07:30 | 7:30 |
-| 5–10: Boolean-function criterion | 07:30–19:00 | 11:30 |
-| 11–18: construction of Q48 | 19:00–33:00 | 14:00 |
-| 19–22: limits | 33:00–42:00 | 9:00 |
-| 23: summary and open problems | 42:00–45:00 | 3:00 |
+| Title and 1–2: problem and roadmap | 00:00–03:30 | 3:30 |
+| 3–10: Boolean functions as a language for codes, cube code | 03:30–19:00 | 15:30 |
+| 11–16: gate criterion | 19:00–27:30 | 8:30 |
+| 17–24: construction of Q48 | 27:30–42:00 | 14:30 |
+| 25: summary | 42:00–45:00 | 3:00 |
 
 ## Running order
 
 | Slide | Time | Focus and notation |
 | --- | --- | --- |
 | Title | 00:00–00:30 | Promise |
-| 1. Why a native CCZ gate | 00:30–02:30 | Distillation versus transversal gates, native implementation, target |
-| 2. Results: known and open lengths | 02:30–04:00 | n ≤ 38 excluded, 39–46 open, 47 not native, 48 native |
-| 3. Warm-up: the eight-qubit cube code | 04:00–06:30 | f_a, parity p, signed weight sw, ω = e^{iπ/4} |
-| 4. The cube code has distance two | 06:30–07:30 | Z_u, d_Z = 2 |
-| 5. A CSS code as a binary matrix | 07:30–09:30 | G = [K; S], C₂ ⊂ C₁, coset sum, d_X, d_Z |
-| 6. The logical gate becomes a phase condition | 09:30–11:30 | Pattern Γ, sw_Γ, native CCZ condition |
-| 7. XOR turns the phase into overlap counts | 11:30–13:30 | ∧, coefficient (−2)^{t−1}, truncation mod 8 |
-| 8. Signed overlaps decide the native gate | 13:30–15:30 | Native criterion |
-| 9. Quasi-transversal versus native | 15:30–17:30 | Nine conditions K1–K3, KS1–KS3, S1–S3, phase gate P |
-| 10. One Boolean function packages every overlap | 17:30–19:00 | Column indicator χ_G |
-| 11. The construction runs in three steps | 19:00–20:00 | S, then K, then signs |
-| 12. Distinct nonzero columns give d_Z ≥ 3 | 20:00–21:30 | Syndrome β_j, PG(s−1,2), projective code |
-| 13. Weights are read from hyperplane sections | 21:30–23:00 | 8-divisible, hyperplane H_a |
-| 14. FG48: projective space minus a solid | 23:00–25:30 | (u, w), weights 24 and 32, uniqueness |
-| 15. Logical rows by SAT | 25:30–27:30 | Labels α_j, 144 variables, 88 constraints |
-| 16. The logical rows of Q48 | 27:30–29:00 | K₁, K₂, K₃ per block |
-| 17. Signs from a linear system over Z₄ | 29:00–31:00 | γ, Q₁, Q₂, 26 T + 22 T† |
-| 18. The code Q48 = [[48,3,3]] | 31:00–33:00 | d_X = 16, weight-3 Z logical |
-| 19. The nine conditions do not imply native | 33:00–35:00 | Jacinto et al. [[47,3,3]] |
-| 20. Stabilizer conditions restrict the length | 35:00–37:30 | χ_S ∈ RM(s−4, s) + ⟨δ₀⟩ |
-| 21. No code below length 39 | 37:30–40:00 | Lower-bound proof structure |
-| 22. A family with all-T CCZ | 40:00–42:00 | Subspace complements, n = 2^s − 2^p ≥ 64 |
-| 23. Summary and open problems | 42:00–45:00 | No new notation |
+| 1. Why a native CCZ gate | 00:30–02:30 | Distillation versus transversal gates, native implementation |
+| 2. This talk | 02:30–03:30 | Result and four-part roadmap |
+| 3. Codewords are truth tables | 03:30–06:00 | Truth table, f_{a,b}, RM(1,3), columns as points |
+| 4. Truth tables are polynomials | 06:00–07:30 | Algebraic normal form, degree, f ∧ g, RM(ℓ,m) |
+| 5. Overlaps count shared ones | 07:30–09:30 | Weight, overlap, \|f ⊕ g\| = \|f\| + \|g\| − 2\|f ∧ g\| |
+| 6. Nonconstant affine functions are balanced | 09:30–11:00 | Weight 2^{m−1} |
+| 7. Degree controls divisibility | 11:00–13:30 | McEliece bound, 15-qubit code, PG(3,2) |
+| 8. Why Boolean functions, for QEC and for this project | 13:30–15:30 | Dictionary and project payoffs |
+| 9. Warm-up: the eight-qubit cube code | 15:30–18:00 | f_a, parity p, signed weight sw, ω |
+| 10. The cube code has distance two | 18:00–19:00 | Z_u, d_Z = 2 |
+| 11. A CSS code as a binary matrix | 19:00–20:30 | G = [K; S], coset sum, d_X, d_Z |
+| 12. The logical gate becomes a phase condition | 20:30–22:00 | Pattern Γ, sw_Γ, native CCZ condition |
+| 13. XOR turns the phase into overlap counts | 22:00–23:00 | Triple identity, truncation mod 8 |
+| 14. Signed overlaps decide the native gate | 23:00–24:30 | Native criterion |
+| 15. Quasi-transversal versus native | 24:30–26:00 | Nine conditions, phase gate P |
+| 16. One Boolean function packages every overlap | 26:00–27:30 | Column indicator χ_G |
+| 17. The construction runs in three steps | 27:30–28:30 | S, then K, then signs |
+| 18. Distinct nonzero columns give d_Z ≥ 3 | 28:30–30:00 | Syndrome, PG(s−1,2) |
+| 19. Weights are read from hyperplane sections | 30:00–31:30 | 8-divisible, H_a |
+| 20. FG48: projective space minus a solid | 31:30–34:00 | Weights 24 and 32, uniqueness |
+| 21. Logical rows by SAT | 34:00–36:00 | 144 variables, 88 constraints |
+| 22. The logical rows of Q48 | 36:00–37:30 | K₁, K₂, K₃ per block |
+| 23. Signs from a linear system over Z₄ | 37:30–39:30 | γ, Q₁, Q₂, 26 T + 22 T† |
+| 24. The code Q48 = [[48,3,3]] | 39:30–42:00 | d_X = 16, weight-3 Z logical |
+| 25. Summary: known and open lengths | 42:00–45:00 | Lengths table, open problems |
 
 ## Backups
 
 | Backup | Anchor | Question |
 | --- | --- | --- |
-| The nine conditions with index ranges | Slide 9 | Which rows enter each condition? |
-| Why FG48 has only weights 24 and 32 | Slide 14 | Why two weights, and why unique? |
-| Affine changes of coordinates preserve everything | Slide 21 | Why one support per affine class? |
-| Sources | Slide 23 | Where can I read more? |
+| The nine conditions with index ranges | Slide 15 | Which rows enter each condition? |
+| Why FG48 has only weights 24 and 32 | Slide 20 | Why two weights, and why unique? |
+| The nine conditions do not imply native | Slide 25 | Why is the 47-qubit code not native? |
+| Stabilizer conditions restrict the length | Slide 25 | How does the lower bound work? (step 1) |
+| No code below length 39 | Previous backup | How does the lower bound work? (step 2) |
+| A family with all-T CCZ | Slide 25 | Which longer codes need no T†? |
+| Affine changes of coordinates preserve everything | Lower-bound proof | Why one support per affine class? |
+| Sources | Slide 25 | Where can I read more? |

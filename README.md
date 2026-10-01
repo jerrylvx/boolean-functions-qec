@@ -1,6 +1,6 @@
 # Boolean functions: applications in quantum error correction and beyond
 
-Source for a 45-minute talk by Bohan Lu for a general quantum error-correction audience. The talk presents the native-CCZ construction of the paper *Building codes with transversal CCZ using projective geometry and SAT solvers* (Lu and Brown): the warm-up eight-qubit cube code, the signed-overlap criterion for a native $T/T^\dagger$ CCZ, the 48-qubit code $Q_{48}$ built from the FG48 stabilizer support, the non-native 47-qubit comparison code, the length lower bound $n\le38$, and an all-$T$ family on subspace complements.
+Source for a 45-minute talk by Bohan Lu for a general quantum error-correction audience. The talk presents the native-CCZ construction of the paper *Building codes with transversal CCZ using projective geometry and SAT solvers* (Lu and Brown): an introduction to Boolean functions as a language for codes, the warm-up eight-qubit cube code, the signed-overlap criterion for a native $T/T^\dagger$ CCZ, the 48-qubit code $Q_{48}$ built from the FG48 stabilizer support, the non-native 47-qubit comparison code, the length lower bound $n\le38$, and an all-$T$ family on subspace complements.
 
 This branch (`qec-audience-talk`) replaces the seminar deck. The seminar version, *Boolean functions: applications in quantum error correction and beyond*, remains on `main`. [`abstract.md`](abstract.md), [`speaking_notes.md`](speaking_notes.md), and [`speaking_card.tex`](speaking_card.tex) still describe the seminar version.
 
@@ -23,7 +23,7 @@ The deck uses pdfLaTeX and `latexmk`. It depends on standard TeX Live packages i
 make
 ```
 
-The build runs in `build/` and refreshes `slides.pdf` and `speaking_card.pdf`. Run `make pdf` for the deck alone or `make speaking-card` for the one-page card. The card uses landscape A4 with zero outer margins and no title; borderless printing or a tablet preserves its full area. The deck has 33 PDF pages: one title page, 23 numbered main slides, 5 additional main reveal pages, and 4 backup frames. Every backup has an anchor question and a clickable return to its anchor slide. An outside-listener rehearsal remains necessary to assess pacing.
+The build runs in `build/` and refreshes `slides.pdf` and `speaking_card.pdf`. Run `make pdf` for the deck alone or `make speaking-card` for the one-page card. The card uses landscape A4 with zero outer margins and no title; borderless printing or a tablet preserves its full area. The deck has 39 PDF pages: one title page, 25 numbered main slides, 5 additional main reveal pages, and 8 backup frames. The first part builds Boolean-function intuition (truth tables, polynomials, overlaps, balance, divisibility) before the gate criterion and the construction. The length bounds and the all-$T$ family are summarized on one slide, with their details in backups. Every backup has an anchor question and a clickable return. An outside-listener rehearsal remains necessary to assess pacing.
 
 ## Edit with Overleaf and GitHub
 
