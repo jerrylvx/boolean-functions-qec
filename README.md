@@ -1,17 +1,16 @@
 # Boolean functions: applications in quantum error correction and beyond
 
-Source and presentation materials for a 45-minute talk by Bohan Lu. The talk develops an explicit eight-bit classical encoder, derives its decoder and minimum distance, carries the same Boolean functions into an eight-qubit gate calculation, and explains a 48-qubit quantum error-correction construction. A concrete Reed–Muller coding example and a brief visual overview of erasure capacity, Fourier analysis, learning, and cryptography follow the quantum result.
+Source for a 45-minute talk by Bohan Lu for a general quantum error-correction audience. The talk presents the native-CCZ construction of the paper *Building codes with transversal CCZ using projective geometry and SAT solvers* (Lu and Brown): the warm-up eight-qubit cube code, the signed-overlap criterion for a native $T/T^\dagger$ CCZ, the 48-qubit code $Q_{48}$ built from the FG48 stabilizer support, the non-native 47-qubit comparison code, the length lower bound $n\le38$, and an all-$T$ family on subspace complements.
 
-## Abstract
-
-Boolean functions serve as a meeting ground for algebra, geometry, and Fourier analysis, with applications in computation, communication, and cryptography. Their algebraic and spectral properties help determine how reliably messages can be recovered from noise, how changing individual inputs affects a computation, and how predictable a cryptographic output is from combinations of its inputs. The talk culminates in my work in quantum error correction, where Boolean-function methods help design codes that protect quantum information while implementing logical gates through single-qubit phase rotations.
+This branch (`qec-audience-talk`) replaces the seminar deck. The seminar version, *Boolean functions: applications in quantum error correction and beyond*, remains on `main`. [`abstract.md`](abstract.md), [`speaking_notes.md`](speaking_notes.md), and [`speaking_card.tex`](speaking_card.tex) still describe the seminar version.
 
 ## Files
 
 - [`main.tex`](main.tex): Overleaf entry point and Beamer source
 - [`slides.pdf`](slides.pdf): last locally verified build
 - [`abstract.md`](abstract.md): title and abstract
-- [`outline.md`](outline.md): complete 45-minute running order, per-slide timing and notation cues, reveals, and backup map
+- [`outline.md`](outline.md): 45-minute running order and backup map for this deck
+- [`figures/hypercube6.tex`](figures/hypercube6.tex): the $Q_{48}$ hypercube figure, copied from the paper repository and recolored
 - [`speaking_card.pdf`](speaking_card.pdf): one-page, margin-free landscape timing and narration card
 - [`speaking_card.tex`](speaking_card.tex): editable source for the cue card
 - [`speaking_notes.md`](speaking_notes.md): slide-by-slide narration, prerequisites, transitions, and sequential cold-read findings following Patrick Winston's *How to Speak* principles
@@ -24,7 +23,7 @@ The deck uses pdfLaTeX and `latexmk`. It depends on standard TeX Live packages i
 make
 ```
 
-The build runs in `build/` and refreshes `slides.pdf` and `speaking_card.pdf`. Run `make pdf` for the deck alone or `make speaking-card` for the one-page card. The card uses landscape A4 with zero outer margins and no title; borderless printing or a tablet preserves its full area. The deck has 61 PDF pages: one title page, 27 numbered main slides, 25 additional main reveal pages, six backup frames, and two additional reveal pages in the logical-function backup. Twenty-one main slides use staged reveals. Every backup has a specific anchor question and a clickable return to the anchor’s final state. The classical section distinguishes a particular Hamming distance from the code's minimum distance, and the quantum section introduces quantum distance separately. The 45-minute timing includes two seven-second audience pauses. An outside-listener rehearsal remains necessary to assess pacing and comprehension.
+The build runs in `build/` and refreshes `slides.pdf` and `speaking_card.pdf`. Run `make pdf` for the deck alone or `make speaking-card` for the one-page card. The card uses landscape A4 with zero outer margins and no title; borderless printing or a tablet preserves its full area. The deck has 33 PDF pages: one title page, 23 numbered main slides, 5 additional main reveal pages, and 4 backup frames. Every backup has an anchor question and a clickable return to its anchor slide. An outside-listener rehearsal remains necessary to assess pacing.
 
 ## Edit with Overleaf and GitHub
 
