@@ -10,3 +10,7 @@
 * **Is code length the number of factory qubits?** No. n counts code positions or noisy T inputs; N counts the circuit footprint in the cited distillation description. A 47-input protocol can have footprint 9.
 * **What hardware benefit is demonstrated?** The paper establishes code and gate properties. Full noisy circuits and resource comparisons are future work.
 * **What do the new citations add?** Wills–Jain–Singh supply the finite classification and short-length exclusion. DalFavero et al. supply general SAT code discovery/extension with prescribed errors; error detection alone does not guarantee fault-tolerant logical operations.
+
+* **Is Q48 an ordinary triorthogonal T code?** No. Its odd logical triple implements CCZ and violates the ordinary distinct-triple even condition. The stabilizer-side unital-space/indicator methods can still be used.
+* **What is a triorthogonal space versus a matrix?** A space satisfies the triple condition for every triple, including repeats; a Bravyi–Haah matrix constrains distinct row indices and can contain odd logical rows. Unital adds the all-ones vector.
+* **Did we originate the Reed–Muller indicator method?** No. Nezami and Haah provide the indicator representation and its classification connection; our paper applies the stabilizer-support version to the CCZ constraint class.

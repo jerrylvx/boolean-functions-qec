@@ -152,6 +152,7 @@ $X$ flips a physical bit. $Z$ changes its sign when that bit is 1.
 The $X$ checks come from $\C_2$; the $Z$ checks come from $\C_1^\perp$.
 \takeaway{Logical basis states are equal superpositions over distinct classical cosets.}
 
+\source{CSS encoding: Lu--Brown, Sec. 1; \href{https://arxiv.org/abs/1209.2426}{Bravyi--Haah (2012), Sec. IV}.}
 \note{Assume binary linear codes, introduce only the required quantum notation. Ket c is the computational basis vector labelled by the binary word c. The normalization follows from orthogonality of distinct words. Two nested codes specify this CSS code. Do not recite the stabilizer formalism beyond X flips and Z signs.}
 \end{frame}
 
@@ -228,6 +229,7 @@ Two physical $Z$ errors commute with the all-$X$ check and can change a logical 
 Thus the cube code has parameters $\qcode{8}{3}{2}$.
 \takeaway{The 48-qubit construction keeps the phase mechanism and raises the distance to 3.}
 
+\source{Cube example and gate pattern: Lu--Brown, Sec. 1.}
 \note{For an affine function other than p and p+1, the Hamming distance to p is four. The two exceptional functions have distances zero and eight. Plus and minus four both produce phase minus one. The cube has dX four and dZ two. A single Z has odd parity syndrome, but two Zs can cancel; this explains why the toy is inadequate for the target.}
 \end{frame}
 
@@ -287,7 +289,49 @@ The parity conditions alone allow a diagonal Clifford correction: \emph{quasi-tr
 The signed congruences demand physical $T/T^\dagger$ alone.
 \vfill\hfill\hyperlink{backup-ch}{\beamerbutton{All nine parity conditions}}
 
+\source{\href{https://arxiv.org/abs/1606.01904}{Campbell--Howard (2017)}: overlap parities; Lu--Brown, Proposition 3.5: physical signs.}
 \note{Derive the coefficients from the previous slide rather than reading a condition list. Minus two forces pair divisibility by four. Four times an odd logical triple supplies the CCZ sign. Gamma is odd, so signed and unsigned triple weights agree modulo two. Parity conditions are necessary for signed implementation but are not sufficient. Explain the term quasi-transversal on this slide only.}
+\end{frame}
+
+
+\begin{frame}[label=slidehistory1]{From magic-state distillation to triorthogonal codes}
+\talktext
+\begin{description}\setlength{\itemsep}{5pt}
+\item[2005] \href{https://arxiv.org/abs/quant-ph/0403025}{Bravyi--Kitaev}: distill non-Clifford resource states using ideal Clifford operations.
+\item[2012] \href{https://arxiv.org/abs/1209.2426}{Bravyi--Haah}: triorthogonal matrices give CSS codes with logical $T$ gates, allowing Clifford corrections.
+\item[2017] \href{https://arxiv.org/abs/1606.01904}{Campbell--Howard}: combine distillation and multiqubit gate synthesis, including CCZ.
+\item[2022] \href{https://arxiv.org/abs/2107.09684}{Nezami--Haah}: classify small triorthogonal codes with $n+k\le38$ through unital spaces and Reed--Muller indicators.
+\end{description}
+\takeaway{Our logical CCZ uses an odd logical triple, unlike the even distinct-triple overlaps of ordinary triorthogonal matrices.}
+\note{Prior work is part of the mechanism, not only a reference list. Bravyi-Kitaev motivates distilling a non-Clifford resource using trusted Clifford operations. Bravyi-Haah turns gate action into constraints on binary rows. Campbell-Howard develops multiqubit synthesis and distillation, supplying the parity constraints used here. Nezami-Haah supplies the unital-space and indicator route to finite classification. Their n+k bound is not our n<=38 result. The 2026 generalized classification will appear in the length comparison.}
+\end{frame}
+
+\begin{frame}[label=slidehistory2]{A triorthogonal matrix and a triorthogonal space differ}
+\talktext
+\begin{columns}[T,onlytextwidth]
+\column{.48\textwidth}
+\textbf{Bravyi--Haah matrix $G$}
+\[
+\begin{aligned}
+\wt(g_a\wedge g_b)&\equiv0\pmod2,\\
+\wt(g_a\wedge g_b\wedge g_c)&\equiv0\pmod2.
+\end{aligned}
+\]
+Indices are distinct. Odd-weight rows label logical $T$ outputs; even-weight rows give $X$ checks.
+\column{.48\textwidth}
+\textbf{Nezami--Haah space $\mathcal H$}
+\[
+\sum_{j=1}^{L}u_jv_jw_j=0\pmod2
+\]
+for all $u,v,w\in\mathcal H\subseteq\F_2^L$, including repeated vectors.
+\par\smallskip
+\emph{Unital}: $\mathbf1_L\in\mathcal H$.
+Every word in $\mathcal H$ has even weight.
+\end{columns}
+\par\medskip
+Nezami--Haah classify parent spaces, then obtain codes by puncturing and deleting coordinates.
+\source{\href{https://arxiv.org/abs/1209.2426}{Bravyi--Haah (2012), Sec. III}; \href{https://arxiv.org/abs/2107.09684}{Nezami--Haah (2022), Definition 1 and Sec. II}.}
+\note{Do not identify the row span of an ordinary triorthogonal matrix with a triorthogonal space: odd rows violate the space definition when repeated three times. A space quantifies over every triple of vectors, not only distinct generator rows. Setting u=v=w proves even weight. Unital means the all-ones vector is present, so the ambient length is even. Puncturing a parent space produces odd logical rows in descendant T codes. The distinction explains why classifying spaces can organize many codes and why our CCZ odd logical triple needs generalized conditions.}
 \end{frame}
 
 \begin{frame}[label=slide10]{Geometry fixes the stabilizers before the search}
@@ -303,6 +347,7 @@ The signed congruences demand physical $T/T^\dagger$ alone.
 The mixed and logical-row conditions remain to be solved.
 \takeaway{The solver does not rediscover distance or the geometric stabilizer structure.}
 
+\source{Construction: Lu--Brown, Secs. 2--3.}
 \note{Separate design assumptions from necessary conditions. Eight-divisibility is our stabilizer construction choice, not the definition of generalized triorthogonality. The target is dZ at least three and the completed code has dX at least three too. Transition from abstract criteria to explicit geometry.}
 \end{frame}
 
@@ -321,6 +366,7 @@ Thus distinct nonzero columns detect every weight-two $Z$ error.
 Over $\F_2$, those columns are points of $\PG(s-1,2)$.
 \takeaway{$d_Z\ge3$ follows from the stabilizer support, independently of the logical labels.}
 
+\source{Lu--Brown, Lemma 2.1 and projective-support corollary.}
 \note{Give the short proof. Classical coding theorists recognize the parity-check columns of a distance-three code. In CSS language S is the X check matrix, hence a Z syndrome. This is Z-distance, not a proof of gate-gadget performance or dX.}
 \end{frame}
 
@@ -353,7 +399,7 @@ A stabilizer word is the evaluation of
 \wt(\ell)=|\mathcal P|-|\mathcal P\cap\{\ell=0\}|.
 \]
 \takeaway{Weights 24 and 32 are multiples of 8. Geometry supplies the divisibility.}
-\source{Calderbank--Kantor: two-weight codes and finite geometry.}
+\source{\href{https://doi.org/10.1112/blms/18.2.97}{Calderbank--Kantor (1986)}: two-weight codes and finite geometry; Lu--Brown, Sec. 2.}
 
 \note{Show the two cases, which prove both rank six and eight-divisibility. All nonzero coordinate combinations have positive weight, so rows are independent. This is the classical coding-theory engine. The classification uniqueness of this support is useful but not needed for construction; reserve it for a question.}
 \end{frame}
@@ -374,6 +420,7 @@ Unknowns: the column labels $\alpha_j\in\F_2^3$ of $K$.
 \end{itemize}
 \vfill\hfill\hyperlink{backup-logicals}{\beamerbutton{Explicit logical rows}}
 
+\source{Lu--Brown, Sec. 1 and Appendix B; counts are parity constraints, not CNF clauses.}
 \note{The count is parity constraints, not the number of ordinary CNF clauses; solver auxiliary variables depend on encoding. SAT finds a candidate, which is then independently checked. Not every compatible labeling has signs. Q48 came from enumeration retaining a labeling with a feasible sign pattern, rather than assuming the first SAT model works.}
 \end{frame}
 
@@ -408,13 +455,16 @@ Q_{48}=\qcode{48}{3}{3},\qquad(d_X,d_Z)=(16,3).
 \]
 \takeaway{Projectivity proves $d_Z\ge3$; the explicit witness proves $d_Z\le3$.}
 
+\source{Lu--Brown, Sec. 3.2 and the code matrices in the public repository.}
 \note{No X check sees the three sites because the columns sum to zero. The label sum is nonzero, so it is not a stabilizer. The dX value is separately verified for the supplied code; the simple witness only proves dZ. Do not confuse the asymmetry with a completed biased-noise hardware analysis.}
 \end{frame}
 
 \begin{frame}[label=slide17]{The lower bound turns supports into Reed--Muller words}
 \talktext
 
-For a projective support $\mathcal P\subset\F_2^s$, let $\chi_{\mathcal P}$ be its Boolean indicator.
+Nezami--Haah encode column supports by Boolean indicator polynomials and classify their low-weight Reed--Muller words.
+\par\smallskip
+For our projective stabilizer support $\mathcal P\subset\F_2^s$, let $\chi_{\mathcal P}$ be its indicator.
 The stabilizer-overlap parities constrain its algebraic degree.
 \[
 c\in\RM(s-4,s),\qquad n=\wt(c)-c(0).
@@ -422,10 +472,10 @@ c\in\RM(s-4,s),\qquad n=\wt(c)-c(0).
 The indicator may differ from $c$ at the origin.
 \par\medskip
 A short code must therefore arise from a low-weight Reed--Muller word, followed by compatible logical labels.
-\takeaway{Classification of low-weight Boolean polynomials supplies a finite exclusion problem.}
+\source{\href{https://arxiv.org/abs/2107.09684}{Nezami--Haah (2022), Sec. III.B and Lemma 5}; Lu--Brown, Theorem 4.1.}
 \vfill\hfill\hyperlink{backup-lower}{\beamerbutton{Indicator correspondence}}
 
-\note{Give the mechanism, not the full classification. A polynomial indicator records which columns occur. Orthogonality against degree-at-most-three tests comes from the stabilizer overlap parities. The origin does not affect those positive-degree tests, hence n is weight minus c zero. The rank reduction is part of the proof, not an arbitrary rank cutoff.}
+\note{Attribute the indicator representation explicitly to Nezami-Haah. Their Lemma 5 identifies a rank-r unital-space indicator with an element of RM(r-5,r-1), when generator columns are distinct and the first row is all one. Our stabilizer-only version has c in RM(s-4,s) and n=weight(c)-c(0). The same polynomial language applies, but the classified T-code objects and our CCZ class differ. A polynomial indicator records which columns occur. Orthogonality against degree-at-most-three tests comes from the stabilizer overlap parities. The origin does not affect those positive-degree tests, hence n is weight minus c zero. The rank reduction is part of the proof, not an arbitrary rank cutoff.}
 \end{frame}
 
 \begin{frame}[label=slide18]{Our exclusion argument covers every length through 38}
@@ -584,7 +634,7 @@ Then $c\perp\RM(3,s)$, hence
 c\in\RM(3,s)^\perp=\RM(s-4,s),\qquad n=\wt(c)-c(0).
 \]
 Rank reduction and cited low-weight classifications make the $n\le38$ search finite.
-\source{Lu and Brown, Theorem 4.1 and Appendix D.}
+\source{\href{https://arxiv.org/abs/2107.09684}{Nezami--Haah (2022), Lemma 5}; Lu--Brown, Theorem 4.1 and Appendix D.}
 \vfill\hfill\hyperlink{slide17}{\beamerbutton{Return to main talk}}
 \end{frame}
 
