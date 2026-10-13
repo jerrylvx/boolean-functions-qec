@@ -1,6 +1,6 @@
 # Virginia Tech Applied Algebra Seminar — third talk version
 
-October 22, 2026. Target: 40 minutes with time for questions within the one-hour seminar. This branch preserves the broad seminar on `main` and the earlier QEC audience deck on `qec-audience-talk`.
+October 22, 2026. Target: 40 minutes with time for questions within the one-hour seminar. The latest Virginia Tech version is on `main`. The previous broad seminar is preserved on `seminar-broad-2026-09`; the earlier QEC audience deck remains on `qec-audience-talk`, and the prepared Virginia Tech snapshot remains on `vt-applied-algebra-2026-10-22`.
 
 Build with `make`. `main.tex` is the Overleaf entry point. `slides.pdf` is the verified slide build; `speaking_card.pdf` is the one-page cue card. `outline.md`, `speaking_notes.md`, `abstract.md`, and `questions.md` belong to this version. There are 24 numbered main slides, one unnumbered title page, and six linked backups (31 PDF pages).
 
@@ -11,3 +11,7 @@ The timing is a planned narration budget. A live rehearsal has not been performe
 The existing 16:9 Metropolis design is retained. The paper's actual gate-pattern grids are used. Source code and licensed paper figures are editable/reusable under the repository's CC BY 4.0 license.
 
 Historical context: slides 10–11 distinguish the Bravyi–Haah matrix, Nezami–Haah unital space, and the generalized CCZ constraints. `references.md` records sources and slide locations.
+
+## Edit in Overleaf
+
+Pull the GitHub changes into the linked Overleaf project before editing. Use `main.tex` as the main document and pdfLaTeX as the compiler. If Overleaf has unpublished edits, preserve and reconcile those edits before pulling. GitHub synchronization is manual: push Overleaf edits back to GitHub, then pull locally and rebuild the PDFs. The tracked `slides.pdf` and `speaking_card.pdf` represent the last verified local build.
