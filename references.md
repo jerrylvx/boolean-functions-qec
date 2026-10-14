@@ -1,8 +1,11 @@
 # Sources and slide map
 
+Slides cite in author–year form in the text, with the full reference at the bottom of the slide. Section and theorem pointers below are for preparation only and do not appear on slides.
+
+- Calderbank and Shor, *Good quantum error-correcting codes exist*, Phys. Rev. A 54, 1098 (1996); Steane, *Multiple particle interference and quantum error correction*, Proc. R. Soc. Lond. A 452, 2551 (1996) — slide 2, CSS encoding.
 - Bravyi and Kitaev, *Universal Quantum Computation with ideal Clifford gates and noisy ancillas*, Phys. Rev. A 71, 022316 (2005). https://arxiv.org/abs/quant-ph/0403025 — slide 10, magic-state distillation context.
 - Bravyi and Haah, *Magic-state distillation with low overhead*, Phys. Rev. A 86, 052329 (2012). https://arxiv.org/abs/1209.2426 — slides 2, 10–11, triorthogonal matrix, odd/even generator rows, CSS gate construction. Distinct-row pair/triple parities differ from the space definition.
-- Campbell and Howard, *Unified framework for magic state distillation and multiqubit gate synthesis with reduced resource cost*, Phys. Rev. A 95, 022316 (2017). https://arxiv.org/abs/1606.01904 — slides 9–10 and parity backup, joint gate synthesis/distillation and overlap constraints.
+- Campbell and Howard, *Unified framework for magic state distillation and multiqubit gate synthesis with reduced resource cost*, Phys. Rev. A 95, 022316 (2017). https://arxiv.org/abs/1606.01904 — slides 6 (eight-qubit cube code), 9–10, and parity backup, joint gate synthesis/distillation and overlap constraints.
 - Nezami and Haah, *Classification of small triorthogonal codes*, Phys. Rev. A 106, 012437 (2022). https://arxiv.org/abs/2107.09684 — slides 10–11, 19, and indicator backup. Read Definition 1, Section II descendants, Lemma 5, and the classification scope n+k≤38. The count of distinguished spaces is deliberately omitted because Wills–Jain–Singh report two omitted length-36 spaces. The scope n+k≤38 is not our n≤38 lower bound for CCZ.
 - Calderbank and Kantor, *The geometry of two-weight codes*, Bull. London Math. Soc. 18, 97–122 (1986). https://doi.org/10.1112/blms/18.2.97 — slide 15, classical two-weight/finite-geometry context.
 - Wills, Jain, and Singh, *Classification of Generalised Triorthogonal Codes through Length 54* (2026). https://arxiv.org/abs/2609.30860 — slide 21 and comparison backup: n≤54, dZ≥3, CNOT+S output equivalence; no universal physical-sign feasibility claim.
