@@ -103,7 +103,7 @@
 \newcommand{\w}[1]{\lvert #1\rvert}
 
 \newcommand{\C}{\mathcal C}
-\title{Building quantum codes with transversal CCZ from projective geometry}
+\title{Building quantum codes with transversal CCZ from projective geometry and SAT solvers}
 \author{Bohan Lu}
 \date{Virginia Tech Applied Algebra Seminar, October 22, 2026}
 \begin{document}
@@ -112,11 +112,11 @@
 {\LARGE\bfseries\color{Navy}Building quantum codes with transversal CCZ\par}
 \vspace{3mm}{\Large from projective geometry\par}
 \vspace{8mm}{\large Bohan Lu\par}
-\vspace{3mm}Joint work with Kenneth R. Brown\par
+\vspace{3mm}Joint work with Ken Brown\par
 \vspace{3mm}Virginia Tech Applied Algebra Seminar\par October 22, 2026
 \vfill
-\href{https://arxiv.org/abs/2610.09341}{arXiv:2610.09341}\quad
-\href{https://github.com/jerrylvx/gate2code-public}{Code and data}
+\href{https://arxiv.org/abs/2610.09341}{arXiv:2610.09341}
+
 \end{frame}
 \begin{frame}[label=slide1]{A code can protect information and implement a gate}
 \talktext
@@ -531,33 +531,6 @@ Existence is not automatic from the point count.
 \source{Lu and Brown, Corollary 2.4 and Table 3.}
 
 \note{This is a family of finite constructions, not an asymptotic threshold claim. Only the marked fixed-support census is complete; other counts are lower bounds on inequivalent codes found. Use the formula to recover forty-eight at p four q two. Higher dX and dZ construction questions remain meaningful after the short-length gap closes.}
-\end{frame}
-
-\begin{frame}[label=slide21]{Gate-aware search complements general SAT code design}
-\talktext
-
-\begin{columns}[T,onlytextwidth]
-\column{.48\textwidth}
-\textbf{DalFavero et al.}
-\begin{itemize}
-\item Discover or extend stabilizer codes.
-\item Prescribe detectable or correctable errors.
-\item Incorporate symmetries and hardware noise.
-\end{itemize}
-\column{.48\textwidth}
-\textbf{This construction}
-\begin{itemize}
-\item Fix geometric stabilizers first.
-\item Search the logical rows for CCZ.
-\item Test the physical gate signs.
-\end{itemize}
-\end{columns}
-\par\medskip
-Error-detection constraints alone do not guarantee fault-tolerant logical operations.
-\vfill\hfill\hyperlink{backup-msd}{\beamerbutton{Code length and circuit footprint}}
-\source{\href{https://arxiv.org/abs/2608.23460}{DalFavero et al., arXiv:2608.23460}, Sections VI and Appendix E.}
-
-\note{Keep the comparison factual, not a novelty competition. SAT as a tool is shared; prescribed logical gate constraints are our focus. Their paper explicitly identifies logical-operation fault tolerance as not guaranteed by its current error-detection formulation. Our transversal gate result also does not by itself cost the entire architecture.}
 \end{frame}
 
 \begin{frame}[label=slide22]{Open questions connect algebra to implementation}
