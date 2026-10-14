@@ -8,7 +8,7 @@
 \usefonttheme[onlymath]{serif}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\usepackage{amsmath,amssymb,mathtools,stmaryrd,booktabs,appendixnumberbeamer,tikz}
+\usepackage{amsmath,amssymb,mathtools,stmaryrd,booktabs,appendixnumberbeamer,tikz,qrcode}
 \usetikzlibrary{arrows.meta,positioning}
 \definecolor{Navy}{HTML}{15324F}
 \definecolor{Teal}{HTML}{007F82}
@@ -568,18 +568,23 @@ Error-detection constraints alone do not guarantee fault-tolerant logical operat
 
 \begin{frame}[label=slide22]{Open questions connect algebra to implementation}
 \talktext
-
-\begin{itemize}\setlength{\itemsep}{6pt}
+\begin{columns}[T,onlytextwidth]
+\column{.50\textwidth}
+\begin{itemize}\setlength{\itemsep}{1pt}
 \item Characterize geometric supports admitting compatible logical rows and physical signs.
 \item Construct higher-distance families and extensions to other non-Clifford gates or more logical qubits.
 \item Determine the minimum length for physical $T/T^\dagger$ CCZ without a correction.
 \item Compare full circuits, noise, and resource costs before claiming a practical advantage.
 \end{itemize}
+\column{.46\textwidth}\centering
+\qrcode[height=2.8cm]{https://arxiv.org/abs/2610.09341}\hspace{4mm}\qrcode[height=2.8cm]{https://github.com/jerrylvx/gate2code-public}
+\par\smallskip
+{\scriptsize\begin{tabular}{@{}p{2.8cm}@{\hspace{4mm}}p{2.8cm}@{}}\centering Paper\\arXiv:2610.09341 & \centering Code and data\\github.com/\\jerrylvx/\\\mbox{gate2code-public}\end{tabular}}
+\end{columns}
 \takeaway{Geometry supplies distance and divisibility; logical labels and signed weights supply the gate.}
 \source{Joint work with Kenneth R. Brown. Thanks to Robert Calderbank for classical coding-theory pointers.}
-\href{https://arxiv.org/abs/2610.09341}{Paper: 2610.09341}\quad\href{https://github.com/jerrylvx/gate2code-public}{Code and data}
 
-\note{Return to the promised bridge between classical codes and logical quantum gates. Forty-seven quasi-transversal minimality is settled, while sign feasibility is a distinct question. Invite classical ideas about divisible codes and completions. Reserve twenty minutes for questions and discussion; do not start a backup without a question.}
+\note{Return to the promised bridge between classical codes and logical quantum gates. Forty-seven quasi-transversal minimality is settled, while sign feasibility is a distinct question. Invite classical ideas about divisible codes and completions. Reserve twenty minutes for questions and discussion; do not start a backup without a question. The two QR codes open the arXiv paper and the public code repository; leave this slide up during questions.}
 \end{frame}
 
 \appendix
