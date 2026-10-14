@@ -1,6 +1,6 @@
 # Sources and slide map
 
-Slides cite in author–year form in the text, with the full reference at the bottom of the slide. Section and theorem pointers below are for preparation only and do not appear on slides.
+Slides cite with alpha tags (author initials plus the last two digits of the year), and the full reference, prefixed by the same tag, is at the bottom of the slide. Tags: [CS96] Calderbank–Shor, [Ste96] Steane, [BK05] Bravyi–Kitaev, [BH12] Bravyi–Haah, [CH17] Campbell–Howard, [NH22] Nezami–Haah, [CK86] Calderbank–Kantor, [WJS26] Wills–Jain–Singh, [JVB+26] Jacinto et al., [DWL+26] DalFavero et al., [LB26] Lu–Brown. Section and theorem pointers below are for preparation only and do not appear on slides.
 
 - Calderbank and Shor, *Good quantum error-correcting codes exist*, Phys. Rev. A 54, 1098 (1996); Steane, *Multiple particle interference and quantum error correction*, Proc. R. Soc. Lond. A 452, 2551 (1996) — slide 2, CSS encoding.
 - Bravyi and Kitaev, *Universal Quantum Computation with ideal Clifford gates and noisy ancillas*, Phys. Rev. A 71, 022316 (2005). https://arxiv.org/abs/quant-ph/0403025 — slide 10, magic-state distillation context.
