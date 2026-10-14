@@ -2,7 +2,7 @@
 \documentclass[10pt]{article}
 \usepackage[paperwidth=297mm,paperheight=210mm,margin=0pt,noheadfoot]{geometry}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern,multicol,amsmath,amssymb,xcolor,ragged2e}
+\usepackage{lmodern,multicol,amsmath,amssymb,stmaryrd,xcolor,ragged2e}
 \definecolor{Navy}{HTML}{15324F}
 \definecolor{Teal}{HTML}{007F82}
 \pagestyle{empty}
@@ -16,30 +16,36 @@
 \newcommand{\cue}[3]{\par\textbf{\color{Navy}#1\quad #2}\enspace #3}
 \newcommand{\turn}[1]{\par\textbf{\color{Teal}#1}}
 \begin{document}\fontsize{10}{12}\selectfont\begin{multicols*}{3}\RaggedRight
-\cue{0--1.5 min / 1}{A code can protect information and implement a gate}{Lead with the result.}
-\cue{1.5--3 min / 2}{Binary codes describe a quantum encoding}{Assume binary linear codes, introduce only the required quantum notation.}
-\cue{3--5 min / 3}{The eight-qubit cube starts with affine functions}{The picture labels vertices by u and shows the parity truth table, not a noisy readout.}
-\cue{5--7 min / 4}{Complementary words encode three logical qubits}{Explain relative phase on the pair: changing the sign of only one word leaves the encoding subspace.}
-\cue{7--8.5 min / 5}{Single-qubit phases can produce a three-qubit CCZ}{T is a phase rotation on physical basis bit 1.}
-\cue{8.5--10 min / 6}{The toy gate works, but its distance is two}{For an affine function other than p and p+1, the Hamming distance to p is four.}
-\cue{10--11.5 min / 7}{Overlap counts control weights of sums}{Use the face/edge intuition from the cube, but avoid a second running example.}
-\cue{11.5--13.5 min / 8}{The general gate condition is a signed-weight congruence}{This is the quantum-to-classical bridge.}
+\turn{a. The cube code (5 min)}
+\cue{0--1.5 min / 1}{The cube code $\llbracket 8,3,2\rrbracket$}{Set the notation once: words are functions on the cube, CSS states are coset superpositions. Step 3: Z000 Z100 is a weight-two logical.}
+\cue{1.5--3 min / 2}{A transversal T/T$^\dagger$ layer gives logical CCZ on the cube}{W equals the distance to p minus four. Both words of a logical pair get the same phase.}
+\cue{3--4 min / 3}{Weights of sums expand into overlaps}{General formula only. Pointwise check gives signed weights too. Terms with four or more words vanish mod 8.}
+\cue{4--5 min / 4}{The gate condition is a congruence on generator rows}{Coefficients 1, minus 2, 4 give the mod 8, mod 4 and mod 2 conditions. The cube satisfies them.}
+\turn{b. History and the CH conditions (5 min)}
+\cue{5--7 min / 5}{From magic-state distillation to triorthogonal codes}{Cite the CSS-T line of Camps-Moreno, L\'opez, Matthews et al. Nezami-Haah n+k at most 38 is not our bound.}
+\cue{7--8.5 min / 6}{A triorthogonal matrix and a triorthogonal space differ}{Odd rows break the space definition. CCZ needs an odd logical triple.}
+\cue{8.5--10 min / 7}{The nine CH conditions}{Mod 2 reduction of the row congruences. Quasi-transversal means up to a diagonal Clifford correction.}
+\turn{c. Results and finite geometry (10 min)}
+\cue{10--12 min / 8}{Result: a 48-qubit code with a transversal T/T$^\dagger$ CCZ}{State the result now that every term is defined. 39 to 46 excluded by Wills, Jain and Singh.}
+\cue{12--14 min / 9}{Fix S using finite/projective geometry code}{Four steps. Only the logical rows are searched.}
 \columnbreak
-\cue{13.5--15.5 min / 9}{Only single, pair, and triple overlaps are needed}{Derive the coefficients from the previous slide rather than reading a condition list.}
-\cue{15.5--17 min / 10}{From magic-state distillation to triorthogonal codes}{Prior work is part of the mechanism, not only a reference list.}
-\cue{17--18.5 min / 11}{A triorthogonal matrix and a triorthogonal space differ}{Do not identify the row span of an ordinary triorthogonal matrix with a triorthogonal space: odd rows violate the space definition when repeated three times.}
-\cue{18.5--19.5 min / 12}{Geometry fixes the stabilizers before the search}{Separate design assumptions from necessary conditions.}
-\cue{19.5--21 min / 13}{Projectivity rules out weight-one and weight-two Z logicals}{Give the short proof.}
-\cue{21--22.5 min / 14}{The support is projective space minus a subspace}{Recall a point in binary projective space is simply a nonzero vector.}
-\cue{22.5--24 min / 15}{Hyperplane sections give the two nonzero weights}{Show the two cases, which prove both rank six and eight-divisibility.}
-\cue{24--25.5 min / 16}{SAT assigns three logical bits to each geometric point}{The count is parity constraints, not the number of ordinary CNF clauses; solver auxiliary variables depend on encoding.}
+\cue{14--15.5 min / 10}{Projectivity rules out weight-one and weight-two Z logicals}{Parity-check argument. Covers d\_Z only.}
+\cue{15.5--17.5 min / 11}{The support is projective space minus a subspace}{63 points, remove the 15 with w = 00, three blocks of 16. This picture stays for the rest of the construction.}
+\cue{17.5--20 min / 12}{Hyperplane sections give the two nonzero weights}{u1 cuts each block in half: 24. w1 takes two blocks: 32. Both divisible by 8.}
+\turn{d. Indicators, Reed--Muller codes, SAT (10 min)}
+\cue{20--21.5 min / 13}{Column indicators record the generator matrix}{Cube: chi\_G = y. Q48: chi\_S = w1 + w2 + w1 w2.}
+\cue{21.5--23.5 min / 14}{The CH conditions are inner products with monomials}{Overlap parity equals an inner product with a monomial. Coset of RM(r-4, r).}
+\cue{23.5--25.5 min / 15}{The label map turns logical rows into Boolean unknowns}{chi\_G factors through the labels. Step 2 shows the support of K1.}
+\cue{25.5--27 min / 16}{SAT assigns three logical bits to each geometric point}{144 label bits, 88 parity constraints, no distance constraints.}
+\cue{27--28.5 min / 17}{The signs solve a linear system over $\mathbb Z_4$}{Binary unknowns, linear over Z4. Pattern 26 T plus 22 T-dagger, checked on 512 codewords.}
+\cue{28.5--30 min / 18}{A three-point witness makes the Z-distance exact}{Syndromes cancel, label sum 101 is nonzero.}
 \columnbreak
-\cue{25.5--27 min / 17}{The published pattern is a layer of 48 phase gates}{Show the actual paper figure, not an independently invented pattern.}
-\cue{27--28.5 min / 18}{A three-point witness makes the Z-distance exact}{No X check sees the three sites because the columns sum to zero.}
-\cue{28.5--30.5 min / 19}{The lower bound turns supports into Reed--Muller words}{Attribute the indicator representation explicitly to Nezami-Haah.}
-\cue{30.5--33 min / 20}{Our exclusion argument covers every length through 38}{Describe analytic reductions plus finite enumeration honestly.}
-\cue{33--35 min / 21}{Concurrent classification closes the 39--46 gap}{The original preprint left 39 through 46 open; the seminar reflects the concurrent classification.}
-\cue{35--37 min / 22}{The geometric construction produces a family}{This is a family of finite constructions, not an asymptotic threshold claim.}
-\cue{37--38.5 min / 23}{Gate-aware search complements general SAT code design}{Keep the comparison factual, not a novelty competition.}
-\cue{38.5--40 min / 24}{Open questions connect algebra to implementation}{Return to the promised bridge between classical codes and logical quantum gates.}
+\turn{e. Bounds and implications (10 min)}
+\cue{30--32 min / 19}{Stabilizer supports are Reed--Muller words}{Indicator method from Nezami-Haah. Q48 gives a word of RM(2,6).}
+\cue{32--34 min / 20}{Our exclusion argument covers every length through 38}{Analytic reductions plus a complete finite enumeration.}
+\cue{34--36 min / 21}{Concurrent classification closes the 39--46 gap}{CNOT plus S equivalence. No uniqueness claim at 47.}
+\cue{36--37.5 min / 22}{What the 47-qubit comparison establishes}{The Jacinto code has no sign vector. This concerns that code only.}
+\cue{37.5--38.5 min / 23}{Code length and distillation footprint are different resources}{n is not the only cost. No resource claim for Q48.}
+\cue{38.5--39.5 min / 24}{The geometric construction produces a family}{p = 4, q = 2 gives 48. Lower bounds on counts except the 48 census.}
+\cue{39.5--40 min / 25}{Open questions connect algebra to implementation}{Leave the QR codes up during questions.}
 \turn{40 minutes: finish and invite questions.}\end{multicols*}\end{document}
