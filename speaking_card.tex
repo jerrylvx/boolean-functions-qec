@@ -16,36 +16,38 @@
 \newcommand{\cue}[3]{\par\textbf{\color{Navy}#1\quad #2}\enspace #3}
 \newcommand{\turn}[1]{\par\textbf{\color{Teal}#1}}
 \begin{document}\fontsize{10}{12}\selectfont\begin{multicols*}{3}\RaggedRight
-\turn{a. The cube code (5 min)}
-\cue{0--1.5 min / 1}{The cube code $\llbracket 8,3,2\rrbracket$}{Set the notation once: words are functions on the cube, CSS states are coset superpositions. Step 3: Z000 Z100 is a weight-two logical.}
-\cue{1.5--3 min / 2}{A transversal T/T$^\dagger$ layer gives logical CCZ on the cube}{W equals the distance to p minus four. Both words of a logical pair get the same phase.}
-\cue{3--4 min / 3}{Weights of sums expand into overlaps}{General formula only. Pointwise check gives signed weights too. Terms with four or more words vanish mod 8.}
-\cue{4--5 min / 4}{The gate condition is a congruence on generator rows}{Coefficients 1, minus 2, 4 give the mod 8, mod 4 and mod 2 conditions. The cube satisfies them.}
+\turn{a. The cube code (9 min)}
+\cue{0--1.5 min / 1}{Qubits indexed by the points of $\mathbb F_2^3$}{Words are functions on the points. Steps: u1, u2, u3, then the constant word. They span RM(1,3).}
+\cue{1.5--3 min / 2}{CSS codes from two nested binary codes}{Define the logical basis, the X and Z checks, and d\_X, d\_Z.}
+\cue{3--4.5 min / 3}{The cube code $\llbracket 8,3,2\rrbracket$}{K has rows u1, u2, u3, which is why qubits are points. Z000 Z100 gives d\_Z = 2.}
+\cue{4.5--5 min / 4}{Transversal gates}{Product of single-qubit gates. A fault stays on one qubit. Define T and CCZ.}
+\cue{5--6 min / 5}{The signed weight gives the phase}{T sites minus T-dagger sites. The gate condition mod 8.}
+\cue{6--7.5 min / 6}{Choosing the signs on the cube}{p is the logical word of label 111. Distance to p is 4 for every other affine word.}
+\cue{7.5--8.5 min / 7}{Weights of sums expand into overlaps}{The bit identity, summed over positions. Terms with four or more words vanish mod 8.}
+\cue{8.5--9 min / 8}{The gate condition becomes conditions on generator rows}{Mod 8, mod 4, mod 2. Define the bracket. The cube passes.}
 \turn{b. History and the CH conditions (5 min)}
-\cue{5--7 min / 5}{From magic-state distillation to triorthogonal codes}{Cite the CSS-T line of Camps-Moreno, L\'opez, Matthews et al. Nezami-Haah n+k at most 38 is not our bound.}
-\cue{7--8.5 min / 6}{A triorthogonal matrix and a triorthogonal space differ}{Odd rows break the space definition. CCZ needs an odd logical triple.}
-\cue{8.5--10 min / 7}{The nine CH conditions}{Mod 2 reduction of the row congruences. Quasi-transversal means up to a diagonal Clifford correction.}
-\turn{c. Results and finite geometry (10 min)}
-\cue{10--12 min / 8}{Result: a 48-qubit code with a transversal T/T$^\dagger$ CCZ}{State the result now that every term is defined. 39 to 46 excluded by Wills, Jain and Singh.}
-\cue{12--14 min / 9}{Fix S using finite/projective geometry code}{Four steps. Only the logical rows are searched.}
+\cue{9--11 min / 9}{Historical context}{Cite the CSS-T work of Camps-Moreno, L\'opez, Matthews et al.}
+\cue{11--12.5 min / 10}{Triorthogonal matrix and triorthogonal space}{Nezami-Haah puncture parent spaces. We fix S first and find K.}
+\cue{12.5--14 min / 11}{Conditions for quasi-transversal CCZ}{Mod 2 reduction gives the nine parities. A physical layer needs the signed congruences.}
 \columnbreak
-\cue{14--15.5 min / 10}{Projectivity rules out weight-one and weight-two Z logicals}{Parity-check argument. Covers d\_Z only.}
-\cue{15.5--17.5 min / 11}{The support is projective space minus a subspace}{63 points, remove the 15 with w = 00, three blocks of 16. This picture stays for the rest of the construction.}
-\cue{17.5--20 min / 12}{Hyperplane sections give the two nonzero weights}{u1 cuts each block in half: 24. w1 takes two blocks: 32. Both divisible by 8.}
-\turn{d. Indicators, Reed--Muller codes, SAT (10 min)}
-\cue{20--21.5 min / 13}{Column indicators record the generator matrix}{Cube: chi\_G = y. Q48: chi\_S = w1 + w2 + w1 w2.}
-\cue{21.5--23.5 min / 14}{The CH conditions are inner products with monomials}{Overlap parity equals an inner product with a monomial. Coset of RM(r-4, r).}
-\cue{23.5--25.5 min / 15}{The label map turns logical rows into Boolean unknowns}{chi\_G factors through the labels. Step 2 shows the support of K1.}
-\cue{25.5--27 min / 16}{SAT assigns three logical bits to each geometric point}{144 label bits, 88 parity constraints, no distance constraints.}
-\cue{27--28.5 min / 17}{The signs solve a linear system over $\mathbb Z_4$}{Binary unknowns, linear over Z4. Pattern 26 T plus 22 T-dagger, checked on 512 codewords.}
-\cue{28.5--30 min / 18}{A three-point witness makes the Z-distance exact}{Syndromes cancel, label sum 101 is nonzero.}
+\turn{c. Results and finite geometry (8 min)}
+\cue{14--15.5 min / 12}{Result: a 48-qubit code with a transversal T/T$^\dagger$ CCZ}{39 to 46 excluded by Wills, Jain and Singh.}
+\cue{15.5--17 min / 13}{Fix S using finite/projective geometry code}{Four steps. Only the logical rows are searched.}
+\cue{17--18 min / 14}{Projectivity rules out weight-one and weight-two Z logicals}{Parity-check argument. Covers d\_Z only.}
+\cue{18--19.5 min / 15}{Complement of a projective subspace}{63 points, remove the 15 with w = 00, three blocks of 16.}
+\cue{19.5--21 min / 16}{Hyperplane sections and codeword weights}{u1 gives 24, w1 gives 32. Both divisible by 8.}
+\cue{21--22 min / 17}{The geometric construction produces a family}{p = 4, q = 2 gives 48. Lengths 48 to 496.}
+\turn{d. Column picture and search (9.5 min)}
+\cue{22--23.5 min / 18}{Column indicators from the generator matrix}{Show G for the cube. chi\_G = y because every x occurs with y = 1.}
+\cue{23.5--25.5 min / 19}{The CH conditions are inner products with monomials}{Overlap parity is an inner product. Coset of RM(r-4, r).}
+\cue{25.5--27.5 min / 20}{Logical rows in the column picture}{Define the logical label, T\_K, T\_S and the bracket. Step 2 shows K1.}
+\cue{27.5--30 min / 21}{Finding the logical rows}{Algorithm 1: V\_P, pairs, then Gaussian elimination for kappa 3. Witness gives d\_Z = 3.}
+\cue{30--31.5 min / 22}{Solving for the T/T$^\dagger$ pattern}{Binary unknowns, linear over Z4. 26 T plus 22 T-dagger.}
 \columnbreak
-\turn{e. Bounds and implications (10 min)}
-\cue{30--32 min / 19}{Stabilizer supports are Reed--Muller words}{Indicator method from Nezami-Haah. Q48 gives a word of RM(2,6).}
-\cue{32--34 min / 20}{Our exclusion argument covers every length through 38}{Analytic reductions plus a complete finite enumeration.}
-\cue{34--36 min / 21}{Concurrent classification closes the 39--46 gap}{CNOT plus S equivalence. No uniqueness claim at 47.}
-\cue{36--37.5 min / 22}{What the 47-qubit comparison establishes}{The Jacinto code has no sign vector. This concerns that code only.}
-\cue{37.5--38.5 min / 23}{Code length and distillation footprint are different resources}{n is not the only cost. No resource claim for Q48.}
-\cue{38.5--39.5 min / 24}{The geometric construction produces a family}{p = 4, q = 2 gives 48. Lower bounds on counts except the 48 census.}
-\cue{39.5--40 min / 25}{Open questions connect algebra to implementation}{Leave the QR codes up during questions.}
+\turn{e. Bounds and implications (8.5 min)}
+\cue{31.5--33.5 min / 23}{Stabilizer supports are Reed--Muller codewords}{Indicator method from Nezami-Haah. Q48 gives a word of RM(2,6).}
+\cue{33.5--35.5 min / 24}{Our exclusion argument covers every length through 38}{Analytic reductions plus a complete finite enumeration.}
+\cue{35.5--37 min / 25}{Concurrent classification closes the 39--46 gap}{CNOT plus S equivalence.}
+\cue{37--38.5 min / 26}{What the 47-qubit comparison establishes}{No sign vector for the Jacinto code. Footprint numbers are theirs, not ours.}
+\cue{38.5--40 min / 27}{Takeaways and open questions}{Leave the QR codes up during questions.}
 \turn{40 minutes: finish and invite questions.}\end{multicols*}\end{document}
