@@ -116,20 +116,34 @@
 arXiv:2610.09341
 \end{frame}
 
-\begin{frame}[label=css]{Qubits and CSS codes}
+\begin{frame}[label=qec]{Quantum error correction: qubits and checks}
 \talktext
-The state of $n$ qubits lies in $(\mathbb C^2)^{\otimes n}$, with basis $\ket c$ for $c\in\F_2^n$. $X_u$ flips bit $u$ of $\ket c$, and $Z_u\ket c=(-1)^{c_u}\ket c$. Then $X^v=\prod_uX_u^{v_u}$ and $Z^z=\prod_uZ_u^{z_u}$ satisfy $X^vZ^z=(-1)^{v\cdot z}Z^zX^v$.
-\par
+The state of $n$ qubits lies in $(\mathbb C^2)^{\otimes n}$, with basis $\ket c$ for $c\in\F_2^n$.
+\[
+X_u\ket c=\ket{c\oplus\mathbf 1_u},\qquad Z_u\ket c=(-1)^{c_u}\ket c,\qquad X^v=\prod_uX_u^{v_u},\quad Z^z=\prod_uZ_u^{z_u}.
+\]
+Here $v,z\in\F_2^n$, and $X^vZ^z=(-1)^{v\cdot z}Z^zX^v$.
+\begin{itemize}\setlength{\itemsep}{3pt}
+\item<2-> An error expands in products $X^vZ^z$. Its weight is the number of qubits $u$ with $v_u=1$ or $z_u=1$.
+\item<3-> A \emph{check} is a product $X^vZ^z$ whose outcome $\pm1$ is measured. An error that anticommutes with a check flips its outcome. The outcomes of all checks form the \emph{syndrome}.
+\item<4-> The code space is the $+1$ eigenspace of the checks. $\qcode nkd$ has dimension $2^k$, and every error of weight less than $d$ is detected or acts as a scalar on the code space.
+\end{itemize}
+\note{Only the notation used later is introduced. A basis state is labelled by a binary vector, X flips bits and Z gives signs. Errors are expanded in products of X and Z, so it suffices to detect and correct those. A check that anticommutes with an error flips its outcome, so the syndrome locates the error. The distance is the smallest weight of an error that is not detected and not a scalar on the code space.}
+\end{frame}
+
+\begin{frame}[label=css]{CSS codes}
+\talktext
 Let the stabilizer rows $S$ ($s\times n$) and the logical rows $K$ ($k\times n$) be independent, with $\C_2=\operatorname{rowspan}S\subset\C_1=\operatorname{rowspan}\left[\begin{smallmatrix}K\\S\end{smallmatrix}\right]$. The CSS code [CS96, Ste96] has the logical basis
 \[
-\ket{x}_L=|\C_2|^{-1/2}\textstyle\sum_{v\in\C_2}\ket{xK\oplus v},\qquad x\in\F_2^k.
+\ket{x}_L=|\C_2|^{-1/2}\sum_{v\in\C_2}\ket{xK\oplus v},\qquad x\in\F_2^k.
 \]
-\begin{itemize}\setlength{\itemsep}{0pt}
-\item<2-> Checks: $X^v$, $v\in\C_2$, and $Z^z$, $z\in\C_1^\perp$. $Z^e$ has syndrome $Se^{\mathsf T}$. $Z^e$ and $X^e$ are undetected if and only if $e\in\C_2^\perp$ and $e\in\C_1$, so errors are decoded with the binary codes $\C_2^\perp$ and $\C_1$.
-\item<3-> Logical operators: $X^v$, $v\in\C_1\setminus\C_2$, and $Z^z$, $z\in\C_2^\perp\setminus\C_1^\perp$. With $d_X=\min\wt(\C_1\setminus\C_2)$ and $d_Z=\min\wt(\C_2^\perp\setminus\C_1^\perp)$, the code is $\qcode nkd$ with $d=\min(d_X,d_Z)$.
+\begin{itemize}\setlength{\itemsep}{3pt}
+\item<2-> Checks: $X^v$ with $v\in\C_2$, and $Z^z$ with $z\in\C_1^\perp$. They commute because $\C_2\perp\C_1^\perp$.
+\item<2-> $Z^e$ has syndrome $Se^{\mathsf T}$ and is undetected if and only if $e\in\C_2^\perp$. $X^e$ is undetected if and only if $e\in\C_1$. So errors are decoded with the binary codes $\C_2^\perp$ and $\C_1$.
+\item<3-> Logical operators: $X^v$ with $v\in\C_1\setminus\C_2$, and $Z^z$ with $z\in\C_2^\perp\setminus\C_1^\perp$. With $d_X=\min\wt(\C_1\setminus\C_2)$ and $d_Z=\min\wt(\C_2^\perp\setminus\C_1^\perp)$, the code is $\qcode nkd$ with $d=\min(d_X,d_Z)$.
 \end{itemize}
 \source{\refCS\par\refSt}
-\note{Only the notation used later is introduced. A basis state is labelled by a binary vector, X flips bits and Z gives signs. Each logical basis state is a uniform superposition over a coset of the stabilizer code C2. The quantum problem splits into two problems over F2: Z errors are detected by the X checks, whose syndrome is S times e, and X errors by the Z checks, which are the parity checks of C1. Errors in C2 or in the dual of C1 act trivially. The distance is the smaller of the two minimum weights of nontrivial logical operators.}
+\note{Each logical basis state is a uniform superposition over a coset of the stabilizer code C2. The quantum problem splits into two problems over F2: Z errors are detected by the X checks, whose syndrome is S times e, and X errors by the Z checks, which are the parity checks of C1. Errors in C2 or in the dual of C1 act trivially. The distance is the smaller of the two minimum weights of nontrivial logical operators.}
 \end{frame}
 
 \begin{frame}[label=transversal]{Transversal gates and their limits}
