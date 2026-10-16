@@ -40,7 +40,6 @@
 \newcommand{\refWJS}{[WJS26] A. Wills, S. P. Jain, and S. Singh, Classification of generalised triorthogonal codes through length 54, \href{https://arxiv.org/abs/2609.30860}{arXiv:2609.30860} (2026).}
 \newcommand{\refJ}{[JVB+26] H. Jacinto et al., Exploring the landscape of compact magic-state distillation factories, \href{https://arxiv.org/abs/2606.07734}{arXiv:2606.07734} (2026).}
 \newcommand{\refLB}{[LB26] B. Lu and K. R. Brown, Building codes with transversal CCZ using projective geometry and SAT solvers, \href{https://arxiv.org/abs/2610.09341}{arXiv:2610.09341} (2026).}
-\newcommand{\refGot}{[Got97] D. Gottesman, Stabilizer codes and quantum error correction, Ph.D. thesis, Caltech (1997), \href{https://arxiv.org/abs/quant-ph/9705052}{arXiv:quant-ph/9705052}.}
 \newcommand{\refEK}{[EK09] B. Eastin and E. Knill, Restrictions on transversal encoded quantum gate sets, Phys. Rev. Lett. 102, 110502 (2009), \href{https://arxiv.org/abs/0811.4262}{arXiv:0811.4262}.}
 \newcommand{\storypart}[1]{\setbeamertemplate{frame footer}{\color{Teal}#1}}
 \setbeamercovered{invisible}
@@ -117,33 +116,20 @@
 arXiv:2610.09341
 \end{frame}
 
-\begin{frame}[label=qec]{Quantum error correction}
+\begin{frame}[label=css]{Qubits and CSS codes}
 \talktext
-The state of $n$ qubits lies in $(\mathbb C^2)^{\otimes n}$, with basis $\ket c$ for $c\in\F_2^n$.
-The Pauli matrices $X=\left(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\right)$, $Z=\left(\begin{smallmatrix}1&0\\0&-1\end{smallmatrix}\right)$, $Y=iXZ$ and $I$ span the $2\times2$ complex matrices, so an error on one qubit expands in $I,X,Y,Z$. The weight of a Pauli product on $n$ qubits is the number of qubits where it is not $I$.
-\begin{itemize}\setlength{\itemsep}{2pt}
-\item<2-> A \emph{stabilizer code} is the joint $+1$ eigenspace of an abelian group $\mathcal S$ of Pauli products with $-I\notin\mathcal S$ [Got97]. Its generators are the checks.
-\item<2-> Measuring the checks gives the syndrome. An error flips the outcome of every check it anticommutes with.
-\item<3-> $\qcode nkd$: $n$ qubits, a code space of dimension $2^k$, and every Pauli product of weight less than $d$ is detected or acts as a scalar on the code space.
-\end{itemize}
-\source{\refGot}
-\note{Errors are expanded in Pauli products, so it suffices to detect and correct Pauli errors. A stabilizer code is fixed by the checks, and the syndrome records which checks anticommute with the error. The distance is the smallest weight of a Pauli product that commutes with every check and is not itself in the stabilizer group.}
-\end{frame}
-
-\begin{frame}[label=css]{CSS codes: two binary codes}
-\talktext
-$X_u$ flips bit $u$ of $\ket c$, and $Z_u\ket c=(-1)^{c_u}\ket c$. For $v,z\in\F_2^n$, $X^v=\prod_uX_u^{v_u}$ and $Z^z=\prod_uZ_u^{z_u}$ satisfy $X^vZ^z=(-1)^{v\cdot z}Z^zX^v$.
+The state of $n$ qubits lies in $(\mathbb C^2)^{\otimes n}$, with basis $\ket c$ for $c\in\F_2^n$. $X_u$ flips bit $u$ of $\ket c$, and $Z_u\ket c=(-1)^{c_u}\ket c$. Then $X^v=\prod_uX_u^{v_u}$ and $Z^z=\prod_uZ_u^{z_u}$ satisfy $X^vZ^z=(-1)^{v\cdot z}Z^zX^v$.
 \par
-For binary codes $\C_2\subset\C_1\subseteq\F_2^n$, the CSS code [CS96, Ste96] has the checks $X^v$, $v\in\C_2$, and $Z^z$, $z\in\C_1^\perp$. They commute because $\C_2\perp\C_1^\perp$.
-\begin{itemize}\setlength{\itemsep}{1pt}
-\item<2-> $X^e$ flips $Z^z$ when $z\cdot e=1$. It is undetected if and only if $e\in\C_1$, so correcting $X$ errors is decoding $\C_1$.
-\item<2-> $Z^e$ is undetected if and only if $e\in\C_2^\perp$, so correcting $Z$ errors is decoding $\C_2^\perp$.
-\item<3-> Logical operators are $X^v$, $v\in\C_1\setminus\C_2$, and $Z^z$, $z\in\C_2^\perp\setminus\C_1^\perp$. So $k=\dim\C_1-\dim\C_2$, $d=\min(d_X,d_Z)$ with
-$d_X=\min\wt(\C_1\setminus\C_2)$ and $d_Z=\min\wt(\C_2^\perp\setminus\C_1^\perp)$.
+Let the stabilizer rows $S$ ($s\times n$) and the logical rows $K$ ($k\times n$) be independent, with $\C_2=\operatorname{rowspan}S\subset\C_1=\operatorname{rowspan}\left[\begin{smallmatrix}K\\S\end{smallmatrix}\right]$. The CSS code [CS96, Ste96] has the logical basis
+\[
+\ket{x}_L=|\C_2|^{-1/2}\textstyle\sum_{v\in\C_2}\ket{xK\oplus v},\qquad x\in\F_2^k.
+\]
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item<2-> Checks: $X^v$, $v\in\C_2$, and $Z^z$, $z\in\C_1^\perp$. $Z^e$ has syndrome $Se^{\mathsf T}$. $Z^e$ and $X^e$ are undetected if and only if $e\in\C_2^\perp$ and $e\in\C_1$, so errors are decoded with the binary codes $\C_2^\perp$ and $\C_1$.
+\item<3-> Logical operators: $X^v$, $v\in\C_1\setminus\C_2$, and $Z^z$, $z\in\C_2^\perp\setminus\C_1^\perp$. With $d_X=\min\wt(\C_1\setminus\C_2)$ and $d_Z=\min\wt(\C_2^\perp\setminus\C_1^\perp)$, the code is $\qcode nkd$ with $d=\min(d_X,d_Z)$.
 \end{itemize}
-\onslide<4->{With $\C_2=\operatorname{rowspan}S$ and $\C_1=\operatorname{rowspan}\left[\begin{smallmatrix}K\\S\end{smallmatrix}\right]$, the logical basis is $\ket{x}_L=|\C_2|^{-1/2}\sum_{v\in\C_2}\ket{xK\oplus v}$, $x\in\F_2^k$.}
 \source{\refCS\par\refSt}
-\note{The quantum problem splits into two classical problems over F2. Bit flips are caught by the Z checks, which are the parity checks of C1. Phase flips are caught by the X checks, which are the parity checks of the dual of C2. An error in the stabilizer code C2 or in the dual of C1 acts trivially, so decoding is only needed up to those codes. S lists the X-type stabilizer generators and K lists logical representatives.}
+\note{Only the notation used later is introduced. A basis state is labelled by a binary vector, X flips bits and Z gives signs. Each logical basis state is a uniform superposition over a coset of the stabilizer code C2. The quantum problem splits into two problems over F2: Z errors are detected by the X checks, whose syndrome is S times e, and X errors by the Z checks, which are the parity checks of C1. Errors in C2 or in the dual of C1 act trivially. The distance is the smaller of the two minimum weights of nontrivial logical operators.}
 \end{frame}
 
 \begin{frame}[label=transversal]{Transversal gates and their limits}

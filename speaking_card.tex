@@ -16,41 +16,40 @@
 \newcommand{\cue}[3]{\par\textbf{\color{Navy}#1\quad #2}\enspace #3}
 \newcommand{\turn}[1]{\par\textbf{\color{Teal}#1}}
 \begin{document}\fontsize{10}{12}\selectfont\begin{multicols*}{3}\RaggedRight
-\turn{0. Brief introduction to quantum error correction (6.5 min)}
-\cue{0--1.5 min / 1}{Quantum error correction}{Pauli errors, stabilizer codes, syndrome, $\llbracket n,k,d\rrbracket$ [Got97].}
-\cue{1.5--3.5 min / 2}{CSS codes: two binary codes}{X errors: decode C1. Z errors: decode the dual of C2. Logical basis from S and K.}
-\cue{3.5--5 min / 3}{Transversal gates and their limits}{Clifford plus T or CCZ is universal. Eastin--Knill: no code has a universal transversal set. Distillation supplies the missing gate.}
-\cue{5--6.5 min / 4}{Codes with different transversal gates}{Steane: Clifford. 15 qubits: T. 8 qubits: CCZ. State the question.}
-\turn{a. The cube code (7 min)}
-\cue{6.5--7.5 min / 5}{Qubits indexed by the points of $\mathbb F_2^3$}{Binary vectors are functions on the points. Steps: u1, u2, u3, then the constant vector. They span RM(1,3).}
-\cue{7.5--8 min / 6}{The cube code $\llbracket 8,3,2\rrbracket$}{K has rows u1, u2, u3, which is why qubits are points.}
-\cue{8--9 min / 7}{Distances of the cube code}{Z000 Z100 commutes with the check and flips x1: d\_Z = 2. The smallest interesting colour code.}
-\cue{9--9.5 min / 8}{Codeword weight, physical phase, and logical phase}{T sites minus T-dagger sites. The gate condition mod 8.}
-\cue{9.5--11 min / 9}{Choosing the signs on the cube}{Affine functions have 4 ones. p is the codeword of label 111. Define d\_H.}
-\cue{11--13 min / 10}{Reading the cube phase from overlaps}{Per-position parity identity. Face, edge, vertex: W = 0, 0, -1, so the phase is CCZ.}
-\cue{13--13.5 min / 11}{The gate condition becomes conditions on generator rows}{Mod 8, mod 4, mod 2. Define the bracket.}
+\turn{0. Brief introduction to quantum error correction (5 min)}
+\cue{0--2 min / 1}{Qubits and CSS codes}{Logical basis from S and K first. Z errors: syndrome S e, decode the dual of C2. X errors: decode C1.}
+\cue{2--3.5 min / 2}{Transversal gates and their limits}{Clifford plus T or CCZ is universal. Eastin--Knill: no code has a universal transversal set. Distillation supplies the missing gate.}
+\cue{3.5--5 min / 3}{Codes with different transversal gates}{Steane: Clifford. 15 qubits: T. 8 qubits: CCZ. State the question.}
+\turn{a. The cube code (8 min)}
+\cue{5--6.5 min / 4}{Qubits indexed by the points of $\mathbb F_2^3$}{Binary vectors are functions on the points. Steps: u1, u2, u3, then the constant vector. They span RM(1,3).}
+\cue{6.5--7 min / 5}{The cube code $\llbracket 8,3,2\rrbracket$}{K has rows u1, u2, u3, which is why qubits are points.}
+\cue{7--8 min / 6}{Distances of the cube code}{Z000 Z100 commutes with the check and flips x1: d\_Z = 2. The smallest interesting colour code.}
+\cue{8--9 min / 7}{Codeword weight, physical phase, and logical phase}{T sites minus T-dagger sites. The gate condition mod 8.}
+\cue{9--10.5 min / 8}{Choosing the signs on the cube}{Affine functions have 4 ones. p is the codeword of label 111. Define d\_H.}
+\cue{10.5--12.5 min / 9}{Reading the cube phase from overlaps}{Per-position parity identity. Face, edge, vertex: W = 0, 0, -1, so the phase is CCZ.}
+\cue{12.5--13 min / 10}{The gate condition becomes conditions on generator rows}{Mod 8, mod 4, mod 2. Define the bracket.}
 \columnbreak
-\turn{b. History and the CH conditions (4 min)}
-\cue{13.5--14.5 min / 12}{Historical context}{Cite the CSS-T work of Camps-Moreno, L\'opez, Matthews et al.}
-\cue{14.5--16 min / 13}{Triorthogonal matrix and triorthogonal space}{Nezami-Haah puncture parent spaces. We fix S first and find K.}
-\cue{16--17.5 min / 14}{Conditions for quasi-transversal CCZ}{Mod 2 reduction gives the nine parities. A physical layer needs the signed congruences.}
+\turn{b. History and the CH conditions (4.5 min)}
+\cue{13--14.5 min / 11}{Historical context}{Cite the CSS-T work of Camps-Moreno, L\'opez, Matthews et al.}
+\cue{14.5--16 min / 12}{Triorthogonal matrix and triorthogonal space}{Nezami-Haah puncture parent spaces. We fix S first and find K.}
+\cue{16--17.5 min / 13}{Conditions for quasi-transversal CCZ}{Mod 2 reduction gives the nine parities. A physical layer needs the signed congruences.}
 \turn{c. Results and finite geometry (7.5 min)}
-\cue{17.5--19 min / 15}{Result: a 48-qubit code with a transversal T/T$^\dagger$ CCZ}{39 to 46 excluded by Wills, Jain and Singh.}
-\cue{19--20 min / 16}{Fix S using finite/projective geometry code}{Four steps. Only the logical rows are searched.}
-\cue{20--21 min / 17}{Projectivity rules out weight-one and weight-two Z logicals}{Independent of the choice of logical rows.}
-\cue{21--22 min / 18}{Complement of a projective subspace}{63 points, remove the 15 with w = 00, three blocks of 16.}
-\cue{22--23.5 min / 19}{Hyperplane sections and codeword weights}{u1 gives 24, w1 gives 32. Both divisible by 8.}
-\cue{23.5--25 min / 20}{More geometric constructions}{The table of codes found. Counts are lower bounds except 48.}
+\cue{17.5--19 min / 14}{Result: a 48-qubit code with a transversal T/T$^\dagger$ CCZ}{39 to 46 excluded by Wills, Jain and Singh.}
+\cue{19--20 min / 15}{Fix S using finite/projective geometry code}{Four steps. Only the logical rows are searched.}
+\cue{20--21 min / 16}{Projectivity rules out weight-one and weight-two Z logicals}{Independent of the choice of logical rows.}
+\cue{21--22 min / 17}{Complement of a projective subspace}{63 points, remove the 15 with w = 00, three blocks of 16.}
+\cue{22--23.5 min / 18}{Hyperplane sections and codeword weights}{u1 gives 24, w1 gives 32. Both divisible by 8.}
+\cue{23.5--25 min / 19}{More geometric constructions}{The table of codes found. Counts are lower bounds except 48.}
 \columnbreak
 \turn{d. Column picture and search (8 min)}
-\cue{25--26.5 min / 21}{Column indicators from the generator matrix}{Show G for the cube. chi\_G = y because every x occurs with y = 1.}
-\cue{26.5--28 min / 22}{The CH conditions are inner products with monomials}{Overlap parity is an inner product. Coset of RM(r-4, r).}
-\cue{28--29.5 min / 23}{Logical rows in the column picture}{Logical label, T\_K, T\_S, the bracket. Step 2 shows K1.}
-\cue{29.5--31.5 min / 24}{Finding the logical rows}{Algorithm 1: V\_P, pairs, then Gaussian elimination for kappa 3. Witness gives d\_Z = 3.}
-\cue{31.5--33 min / 25}{Solving for the T/T$^\dagger$ pattern}{Binary unknowns, linear over Z4. 26 T plus 22 T-dagger.}
+\cue{25--26.5 min / 20}{Column indicators from the generator matrix}{Show G for the cube. chi\_G = y because every x occurs with y = 1.}
+\cue{26.5--28 min / 21}{The CH conditions are inner products with monomials}{Overlap parity is an inner product. Coset of RM(r-4, r).}
+\cue{28--29.5 min / 22}{Logical rows in the column picture}{Logical label, T\_K, T\_S, the bracket. Step 2 shows K1.}
+\cue{29.5--31.5 min / 23}{Finding the logical rows}{Algorithm 1: V\_P, pairs, then Gaussian elimination for kappa 3. Witness gives d\_Z = 3.}
+\cue{31.5--33 min / 24}{Solving for the T/T$^\dagger$ pattern}{Binary unknowns, linear over Z4. 26 T plus 22 T-dagger.}
 \turn{e. Bounds and implications (7 min)}
-\cue{33--35 min / 26}{Stabilizer supports are Reed--Muller codewords}{Monomials of positive degree vanish at the origin.}
-\cue{35--36.5 min / 27}{Our exclusion argument covers every length through 38}{Analytic reductions plus a complete finite enumeration.}
-\cue{36.5--38.5 min / 28}{Existence of a valid code at different block lengths}{Jacinto support is the affine version, not Q48 punctured.}
-\cue{38.5--40 min / 29}{Takeaways and open questions}{Leave the QR codes up during questions.}
+\cue{33--35 min / 25}{Stabilizer supports are Reed--Muller codewords}{Monomials of positive degree vanish at the origin.}
+\cue{35--36.5 min / 26}{Our exclusion argument covers every length through 38}{Analytic reductions plus a complete finite enumeration.}
+\cue{36.5--38.5 min / 27}{Existence of a valid code at different block lengths}{Jacinto support is the affine version, not Q48 punctured.}
+\cue{38.5--40 min / 28}{Takeaways and open questions}{Leave the QR codes up during questions.}
 \turn{40 minutes: finish and invite questions.}\end{multicols*}\end{document}
