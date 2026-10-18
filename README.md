@@ -2,7 +2,7 @@
 
 October 22, 2026. Target: 40 minutes with time for questions within the one-hour seminar. The latest Virginia Tech version is on `main`. The previous broad seminar is preserved on `seminar-broad-2026-09`; the earlier QEC audience deck remains on `qec-audience-talk`, and the prepared Virginia Tech snapshot remains on `vt-applied-algebra-2026-10-22`.
 
-Build with `make`. `main.tex` is the Overleaf entry point. `slides.pdf` is the verified slide build; `speaking_card.pdf` is the one-page cue card. `outline.md`, `speaking_notes.md`, `abstract.md`, and `questions.md` belong to this version. There are 24 numbered main slides, one unnumbered title page, and six linked backups (31 PDF pages).
+Build with `make`. `main.tex` is the Overleaf entry point. `slides.pdf` is the verified slide build; `speaking_card.pdf` is the one-page cue card. `outline.md`, `speaking_notes.md`, `abstract.md`, and `questions.md` belong to this version. There are 29 numbered main slides and one unnumbered title page. There are no backup slides.
 
 The signed-weight criterion, geometric support, and 48-qubit code follow Lu and Brown, https://arxiv.org/abs/2610.09341. Literature context includes https://arxiv.org/abs/2609.30860 and https://arxiv.org/abs/2608.23460. The length-47 comparison is https://arxiv.org/abs/2606.07734. Generalized-triorthogonal output equivalence, code length, circuit footprint, and physical sign feasibility are kept distinct.
 
