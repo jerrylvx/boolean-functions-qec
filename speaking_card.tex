@@ -1,6 +1,6 @@
 % One-page landscape cue sheet. Build: make speaking-card
 \documentclass[10pt]{article}
-\usepackage[paperwidth=297mm,paperheight=210mm,margin=0pt,noheadfoot]{geometry}
+\usepackage[paperwidth=297mm,paperheight=210mm,margin=7mm,noheadfoot]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern,multicol,amsmath,amssymb,stmaryrd,xcolor,ragged2e}
 \definecolor{Navy}{HTML}{15324F}
@@ -16,41 +16,48 @@
 \newcommand{\cue}[3]{\par\textbf{\color{Navy}#1\quad #2}\enspace #3}
 \newcommand{\turn}[1]{\par\textbf{\color{Teal}#1}}
 \begin{document}\fontsize{10}{12}\selectfont\begin{multicols*}{3}\RaggedRight
-\turn{0. Brief introduction to quantum error correction (5.5 min)}
-\cue{0--1 min / 1}{Quantum error correction: qubits and checks}{Basis states, X and Z, commutation. Checks, syndrome, $\llbracket n,k,d\rrbracket$.}
-\cue{1--2.5 min / 2}{CSS codes}{Logical basis from S and K first. Z errors: syndrome S e, decode the dual of C2. X errors: decode C1.}
-\cue{2.5--4 min / 3}{Transversal gates and their limits}{Clifford plus T or CCZ is universal. Eastin--Knill: no code has a universal transversal set. Distillation supplies the missing gate.}
-\cue{4--5.5 min / 4}{Codes with different transversal gates}{Steane: Clifford. 15 qubits: T. 8 qubits: CCZ. State the question.}
-\turn{a. The cube code (8 min)}
-\cue{5.5--7 min / 5}{Qubits indexed by the points of $\mathbb F_2^3$}{Binary vectors are functions on the points. Steps: u1, u2, u3, then the constant vector. They span RM(1,3).}
-\cue{7--7.5 min / 6}{The cube code $\llbracket 8,3,2\rrbracket$}{K has rows u1, u2, u3, which is why qubits are points.}
-\cue{7.5--8.5 min / 7}{Distances of the cube code}{Z000 Z100 commutes with the check and flips x1: d\_Z = 2. The smallest interesting colour code.}
-\cue{8.5--9.5 min / 8}{Codeword weight, physical phase, and logical phase}{T sites minus T-dagger sites. The gate condition mod 8.}
-\cue{9.5--11 min / 9}{Choosing the signs on the cube}{Affine functions have 4 ones. p is the codeword of label 111. Define d\_H.}
-\cue{11--13 min / 10}{Reading the cube phase from overlaps}{Per-position parity identity. Face, edge, vertex: W = 0, 0, -1, so the phase is CCZ.}
-\cue{13--13.5 min / 11}{The gate condition becomes conditions on generator rows}{Mod 8, mod 4, mod 2. Define the bracket.}
+\turn{Title 0:00--0:15. Joint work with Ken Brown.}
+\turn{Introduction}
+\cue{0:15--1:00 / 1}{Outline}{Preview the cube, conditions, geometry, completion, and bounds.}
+\cue{1:00--2:00 / 2}{Quantum error correction}{X flips, Z signs. Checks give syndrome. Distance concerns nontrivial logical errors.}
+\cue{2:00--3:30 / 3}{CSS codes}{S gives X checks, K labels cosets. Z syndrome $Se^{\mathsf T}$. Distance d is $\min(d_X,d_Z)$.}
+\cue{3:30--4:45 / 4}{Transversal gates}{One gate fault stays on one site. Define CCZ. Eastin--Knill and distillation.}
+\cue{4:45--6:00 / 5}{Different codes, different gates}{Steane: Clifford. 15 qubits: T. Cube: CCZ. State the sign-layer question.}
+\turn{Cube example}
+\textit{6:00--6:10: outline, current theme highlighted.}
+\cue{6:10--7:15 / 6}{Points of $\mathbb F_2^3$}{Reveal three coordinate faces, then the constant. Their span is $\mathrm{RM}(1,3)$.}
+\cue{7:15--8:00 / 7}{Cube encoding}{S is all ones. K is the coordinates. Each logical state is a complement pair.}
+\cue{8:00--9:00 / 8}{Cube distances}{An edge is a Z logical: $d_Z$=2. Nonconstant affine codewords give $d_X$=4.}
+\cue{9:00--10:00 / 9}{Signed weights}{Integer signed weight, mod 8. Every codeword in a logical coset needs the same phase.}
+\cue{10:00--11:30 / 10}{Cube signs}{Put inverse gates on parity p. Distance to p is 4 except for the label 111 pair.}
+\cue{11:30--13:15 / 11}{Face, edge, vertex}{Signed weights: face 0, edge 0, vertex -1. Only the cubic term survives.}
+\cue{13:15--14:00 / 12}{Row congruences}{Coefficients 1, -2, 4 give mod 8, 4, 2. Only the logical triple is odd.}
 \columnbreak
-\turn{b. History and the CH conditions (4 min)}
-\cue{13.5--14.5 min / 12}{Historical context}{Cite the CSS-T work of Camps-Moreno, L\'opez, Matthews et al.}
-\cue{14.5--16 min / 13}{Triorthogonal matrix and triorthogonal space}{Nezami-Haah puncture parent spaces. We fix S first and find K.}
-\cue{16--17.5 min / 14}{Conditions for quasi-transversal CCZ}{Mod 2 reduction gives the nine parities. A physical layer needs the signed congruences.}
-\turn{c. Results and finite geometry (7.5 min)}
-\cue{17.5--19 min / 15}{Result: a 48-qubit code with a transversal T/T$^\dagger$ CCZ}{39 to 46 excluded by Wills, Jain and Singh.}
-\cue{19--20 min / 16}{Fix S using finite/projective geometry code}{Four steps. Only the logical rows are searched.}
-\cue{20--21 min / 17}{Projectivity rules out weight-one and weight-two Z logicals}{Independent of the choice of logical rows.}
-\cue{21--22 min / 18}{Complement of a projective subspace}{63 points, remove the 15 with w = 00, three blocks of 16.}
-\cue{22--23.5 min / 19}{Hyperplane sections and codeword weights}{u1 gives 24, w1 gives 32. Both divisible by 8.}
-\cue{23.5--25 min / 20}{More geometric constructions}{The table of codes found. Counts are lower bounds except 48.}
+\turn{Gate conditions}
+\textit{14:00--14:10: outline, current theme highlighted.}
+\cue{14:10--14:45 / 13}{Historical context}{Distillation, row constraints, parent spaces, CSS diagonal gates. Keep brief.}
+\cue{14:45--16:00 / 14}{Matrix versus space}{Matrix: distinct rows. Space: all triples, including repeats, so all vectors even.}
+\cue{16:00--17:30 / 15}{Nine CH conditions}{Logical, mixed, stabilizer families. K3 odd. Parities allow a Clifford correction.}
+\turn{Geometric construction}
+\textit{17:30--17:40: outline, current theme highlighted.}
+\cue{17:40--19:00 / 16}{Q48 result}{48 physical, 3 logical. $d_X$=16, $d_Z$=3. 26 T and 22 inverse, no correction.}
+\cue{19:00--20:00 / 17}{Fix the stabilizers}{Projective columns. 8-divisible span. Find K. Solve signs. Divisibility is a choice.}
+\cue{20:00--21:00 / 18}{Projective syndromes}{Nonzero columns detect one Z. Distinct columns detect two. This proves only $d_Z$.}
+\cue{21:00--22:00 / 19}{48-point support}{63 minus 15 gives 48. Remove $w=00$. Three blocks of 16. Six coordinate rows.}
+\cue{22:00--23:30 / 20}{Weights 24 and 32}{Nonzero u coefficient: 3 times 8. Pure w coefficient: 2 times 16. Rank six.}
+\cue{23:30--25:00 / 21}{Geometric family}{Recover 48 at $p=4,q=2$. Other counts are lower bounds. Star is a fixed-support census.}
+\turn{Column picture and completion}
+\textit{25:00--25:10: outline, current theme highlighted.}
+\cue{25:10--26:30 / 22}{Column indicators}{Occupied columns as a Boolean function. Cube: y. Q48: $w_1+w_2+w_1w_2$.}
 \columnbreak
-\turn{d. Column picture and search (8 min)}
-\cue{25--26.5 min / 21}{Column indicators from the generator matrix}{Show G for the cube. chi\_G = y because every x occurs with y = 1.}
-\cue{26.5--28 min / 22}{The CH conditions are inner products with monomials}{Overlap parity is an inner product. Coset of RM(r-4, r).}
-\cue{28--29.5 min / 23}{Logical rows in the column picture}{Logical label, T\_K, T\_S, the bracket. Step 2 shows K1.}
-\cue{29.5--31.5 min / 24}{Finding the logical rows}{Algorithm 1: V\_P, pairs, then Gaussian elimination for kappa 3. Witness gives d\_Z = 3.}
-\cue{31.5--33 min / 25}{Solving for the T/T$^\dagger$ pattern}{Binary unknowns, linear over Z4. 26 T plus 22 T-dagger.}
-\turn{e. Bounds and implications (7 min)}
-\cue{33--35 min / 26}{Stabilizer supports are Reed--Muller codewords}{Monomials of positive degree vanish at the origin.}
-\cue{35--36.5 min / 27}{Our exclusion argument covers every length through 38}{Analytic reductions plus a complete finite enumeration.}
-\cue{36.5--38.5 min / 28}{Existence of a valid code at different block lengths}{Jacinto support is the affine version, not Q48 punctured.}
-\cue{38.5--40 min / 29}{Takeaways and open questions}{Leave the QR codes up during questions.}
-\turn{40 minutes: finish and invite questions.}\end{multicols*}\end{document}
+\cue{26:30--28:00 / 23}{Moments and monomials}{Overlap parity is a monomial moment. One exceptional cubic. State the coset briefly.}
+\cue{28:00--29:30 / 24}{Logical labels}{Three label bits per point. Product forces $x=\kappa$. S-only constraints already hold.}
+\cue{29:30--31:30 / 25}{Logical completion}{One-row space, compatible pairs, linear third row. Three-site witness makes $d_Z$=3.}
+\cue{31:30--33:00 / 26}{$T/T^\dagger$ signs}{Binary gamma in mod-4 equations. Show the polynomial, count $6+6+10$ inverse gates.}
+\turn{Bounds and questions}
+\textit{33:00--33:10: outline, current theme highlighted.}
+\cue{33:10--35:00 / 27}{Reed--Muller supports}{Positive-degree tests vanish at 0. Correct weight parity, then use RM duality.}
+\cue{35:00--36:30 / 28}{Exclusion through 38}{Rank at most 8, support reductions, complete enumeration, no logical completion.}
+\cue{36:30--38:30 / 29}{Length comparison}{Our 38 floor. WJS 39--46. 47 quasi-transversal. Sign failure is code-specific.}
+\cue{38:30--40:00 / 30}{Takeaways and questions}{Geometry, labels, signs. Ask about higher distance and sign feasibility. Leave QR up.}
+\turn{40:00: finish and invite questions.}\end{multicols*}\end{document}

@@ -1,100 +1,498 @@
-# Speaker notes — 40-minute version
+# Speaker's notes: 40-minute talk
 
-24 main slides, one title page, and six linked backups. Timing is a narration budget, not a measured rehearsal. Prior work is introduced in the main narrative before the construction.
+Virginia Tech Applied Algebra Seminar, October 22, 2026. Joint work with Ken Brown.
 
-## 1. A code can protect information and implement a gate
-Time: 0–1.5 minutes.
-Lead with the result. Logical means encoded, physical means the individual systems carrying the block. Single-qubit gates cannot spread a single gate fault across the block. No hardware performance improvement is claimed. CCZ will be defined on slide 5.
+The clock starts with the title and ends at 40:00, leaving the rest of the hour for discussion. Slide numbers are the displayed numbers, not PDF page numbers. The 30 numbered frames include the opening outline. Five unnumbered outline frames mark the later theme transitions, with the current theme bright and the other themes shaded. There are no backup slides. Each time window includes its overlay changes and pauses to point at equations or figures. The narration below is a speaking draft, not a requirement to read every word. Timing has not been tested in a live rehearsal.
 
-## 2. Binary codes describe a quantum encoding
-Time: 1.5–3 minutes.
-Assume binary linear codes, introduce only the required quantum notation. Ket c is the computational basis vector labelled by the binary word c. The normalization follows from orthogonality of distinct words. Two nested codes specify this CSS code. Do not recite the stabilizer formalism beyond X flips and Z signs.
+## Pacing checkpoints and recovery
 
-## 3. The eight-qubit cube starts with affine functions
-Time: 3–5 minutes.
-The picture labels vertices by u and shows the parity truth table, not a noisy readout. The code is all affine truth tables. The constant row is the one stabilizer generator. The three coordinate rows will label three logical qubits. Keep the same example until slide 6.
+| Reach this point | Clock | If about one minute behind |
+|---|---|---|
+| Cube outline, then slide 6 | 6:00 | Use the coordinate-face reveals quickly. Explain one coordinate, then identify the other two. |
+| Cube conditions complete, slide 12 | 14:00 | Give one sentence on history. Retain the matrix/space distinction and the parity/sign distinction. |
+| Column-picture outline, then slide 22 | 25:00 | Recover time on the family table: formula, Q48 entry, census qualification, transition. |
+| Signs complete, slide 26 | 33:00 | Give the RM moment argument verbally. Summarize the four lower-bound stages without enumerating cases. |
+| Takeaways begin, slide 30 | 38:30 | Finish the gate result and two open questions. Stop at 40:00. |
 
-## 4. Complementary words encode three logical qubits
-Time: 5–7 minutes.
-Explain relative phase on the pair: changing the sign of only one word leaves the encoding subspace. The logical gate is defined by the phase common to each pair. The all-X check is exactly the complement swap.
+Avoid recovering time by dropping the sign-feasibility qualification or the hypotheses of the lower bound. If a long question interrupts a derivation, give the immediate answer and offer to return to the detail during discussion.
 
-## 5. Single-qubit phases can produce a three-qubit CCZ
-Time: 7–8.5 minutes.
-T is a phase rotation on physical basis bit 1. Define CCZ before using its resource implications. W is an ordinary integer sum, unlike Boolean XOR. There are four gates of each sign in the cube. Every physical site contributes independently.
+## Title, 0:00–0:15
 
-## 6. The toy gate works, but its distance is two
-Time: 8.5–10 minutes.
-For an affine function other than p and p+1, the Hamming distance to p is four. The two exceptional functions have distances zero and eight. Plus and minus four both produce phase minus one. The cube has dX four and dZ two. A single Z has odd parity syndrome, but two Zs can cancel; this explains why the toy is inadequate for the target.
+“This is joint work with Ken Brown. We build a code whose individual physical phase gates implement a three-qubit logical CCZ.” Move to the outline while stating the construction question.
 
-## 7. Overlap counts control weights of sums
-Time: 10–11.5 minutes.
-Use the face/edge intuition from the cube, but avoid a second running example. Verify the identity at one physical position where all three bits are one: three minus six plus four equals one. Signed weights obey the same pointwise identity.
+## 1. Outline
 
-## 8. The general gate condition is a signed-weight congruence
-Time: 11.5–13.5 minutes.
-This is the quantum-to-classical bridge. Each summand in a logical coset must have the same phase, so y must disappear. Physical signs are unknowns, not the signs of stabilizer eigenvalues. A global phase is fixed by the zero word.
+**Clock:** 0:15–1:00. **Budget:** 45 seconds.
 
-## 9. Only single, pair, and triple overlaps are needed
-Time: 13.5–15.5 minutes.
-Derive the coefficients from the previous slide rather than reading a condition list. Minus two forces pair divisibility by four. Four times an odd logical triple supplies the CCZ sign. Gamma is odd, so signed and unsigned triple weights agree modulo two. Parity conditions are necessary for signed implementation but are not sufficient. Explain the term quasi-transversal on this slide only.
+**Point to land:** Cube example, gate conditions, geometry, completion, bounds.
 
-## 10. From magic-state distillation to triorthogonal codes
-Time: 15.5–17 minutes.
-Prior work is part of the mechanism, not only a reference list. Bravyi-Kitaev motivates distilling a non-Clifford resource using trusted Clifford operations. Bravyi-Haah turns gate action into constraints on binary rows. Campbell-Howard develops multiqubit synthesis and distillation, supplying the parity constraints used here. Nezami-Haah supplies the unital-space and indicator route to finite classification. Their n+k bound is not our n<=38 result. The 2026 generalized classification will appear in the length comparison.
+**Reveal and pacing:** The introduction is bright teal and bold. The remaining themes are shaded. Preview the route without defining the later notation.
 
-## 11. A triorthogonal matrix and a triorthogonal space differ
-Time: 17–18.5 minutes.
-Do not identify the row span of an ordinary triorthogonal matrix with a triorthogonal space: odd rows violate the space definition when repeated three times. A space quantifies over every triple of vectors, not only distinct generator rows. Setting u=v=w proves even weight. Unital means the all-ones vector is present, so the ambient length is even. Puncturing a parent space produces odd logical rows in descendant T codes. The distinction explains why classifying spaces can organize many codes and why our CCZ odd logical triple needs generalized conditions.
+The question is how to build a quantum code that both protects information and implements a useful logical gate with a layer of individual physical gates. I will introduce the quantum notation, then work through the eight-qubit cube. That example will explain how overlaps of binary rows determine the logical phase. We will use those conditions to build a larger code: geometry fixes its stabilizers, and a search supplies its logical rows. Finally, I will explain the lower bound and what remains open.
 
-## 12. Geometry fixes the stabilizers before the search
-Time: 18.5–19.5 minutes.
-Separate design assumptions from necessary conditions. Eight-divisibility is our stabilizer construction choice, not the definition of generalized triorthogonality. The target is dZ at least three and the completed code has dX at least three too. Transition from abstract criteria to explicit geometry.
+## 2. Quantum error correction: qubits and checks
 
-## 13. Projectivity rules out weight-one and weight-two Z logicals
-Time: 19.5–21 minutes.
-Give the short proof. Classical coding theorists recognize the parity-check columns of a distance-three code. In CSS language S is the X check matrix, hence a Z syndrome. This is Z-distance, not a proof of gate-gadget performance or dX.
+**Clock:** 1:00–2:00. **Budget:** 60 seconds.
 
-## 14. The support is projective space minus a subspace
-Time: 21–22.5 minutes.
-Recall a point in binary projective space is simply a nonzero vector. The removed subspace is a four-dimensional vector subspace, projective dimension three. The three remaining values of w give three cosets of F2 to the fourth. Dot positions are a coordinate display, not a physical layout.
+**Point to land:** Binary basis labels. X flips, Z signs. Checks and distance.
 
-## 15. Hyperplane sections give the two nonzero weights
-Time: 22.5–24 minutes.
-Show the two cases, which prove both rank six and eight-divisibility. All nonzero coordinate combinations have positive weight, so rows are independent. This is the classical coding-theory engine. The classification uniqueness of this support is useful but not needed for construction; reserve it for a question.
+**Reveal and pacing:** Four states: basis and operators, errors, checks, code parameters. Point to the anticommutation sign once.
 
-## 16. SAT assigns three logical bits to each geometric point
-Time: 24–25.5 minutes.
-The count is parity constraints, not the number of ordinary CNF clauses; solver auxiliary variables depend on encoding. SAT finds a candidate, which is then independently checked. Not every compatible labeling has signs. Q48 came from enumeration retaining a labeling with a feasible sign pattern, rather than assuming the first SAT model works.
+A computational basis state of n qubits is labelled by an n-bit string. X flips a bit, while Z changes the sign when that bit is one. Products of these operators give a basis for errors. Their commutation relation is controlled by a binary inner product.
 
-## 17. The published pattern is a layer of 48 phase gates
-Time: 25.5–27 minutes.
-Show the actual paper figure, not an independently invented pattern. Counts of inverse gates are six, six, ten. These are coordinate arrangements, not nearest-neighbor hardware requirements. The polynomial form and all-codeword check certify the gate action algebraically.
+We encode into the common plus-one eigenspace of commuting checks. An error that anticommutes with a check flips its measurement outcome. These outcomes form a syndrome. The notation [[n,k,d]] means n physical qubits encode k logical qubits, and d is the smallest weight of an undetected nontrivial logical operator. This is the quantum notation we need. The next slide expresses the encoding with binary linear codes.
 
-## 18. A three-point witness makes the Z-distance exact
-Time: 27–28.5 minutes.
-No X check sees the three sites because the columns sum to zero. The label sum is nonzero, so it is not a stabilizer. The dX value is separately verified for the supplied code; the simple witness only proves dZ. Do not confuse the asymmetry with a completed biased-noise hardware analysis.
+## 3. CSS codes
 
-## 19. The lower bound turns supports into Reed--Muller words
-Time: 28.5–30.5 minutes.
-Attribute the indicator representation explicitly to Nezami-Haah. Their Lemma 5 identifies a rank-r unital-space indicator with an element of RM(r-5,r-1), when generator columns are distinct and the first row is all one. Our stabilizer-only version has c in RM(s-4,s) and n=weight(c)-c(0). The same polynomial language applies, but the classified T-code objects and our CCZ class differ. A polynomial indicator records which columns occur. Orthogonality against degree-at-most-three tests comes from the stabilizer overlap parities. The origin does not affect those positive-degree tests, hence n is weight minus c zero. The rank reduction is part of the proof, not an arbitrary rank cutoff.
+**Clock:** 2:00–3:30. **Budget:** 90 seconds.
 
-## 20. Our exclusion argument covers every length through 38
-Time: 30.5–33 minutes.
-Describe analytic reductions plus finite enumeration honestly. The rank-eight orbit coverage and logical-row exclusions must be complete for the theorem, unlike a sampled SAT search. Cite the existing classifications rather than attributing every normal form to this work. The theorem is scoped to nine CH conditions and does not rule out all imaginable CCZ architectures.
+**Point to land:** S gives X checks. K labels cosets. Distance d is min(dX,dZ).
 
-## 21. Concurrent classification closes the 39--46 gap
-Time: 33–35 minutes.
-The original preprint left 39 through 46 open; the seminar reflects the concurrent classification. The output equivalence is CNOT and S, not arbitrary Clifford operations. Forty-seven is minimal in the quasi-transversal CH class. Do not conclude the forty-seven code is unique or forty-eight minimal for T/T-dagger only. Our infeasibility test refers to the Jacinto comparison code.
+**Reveal and pacing:** Three states. Explain the coset sum before revealing the two error types and distances.
 
-## 22. The geometric construction produces a family
-Time: 35–37 minutes.
-This is a family of finite constructions, not an asymptotic threshold claim. Only the marked fixed-support census is complete; other counts are lower bounds on inequivalent codes found. Use the formula to recover forty-eight at p four q two. Higher dX and dZ construction questions remain meaningful after the short-length gap closes.
+Take two nested binary codes. The smaller code is generated by S, and adding the rows of K gives the larger code. The rows of K are independent modulo the span of S, so a logical label x chooses one coset. Its encoded state is the uniform superposition over all binary vectors in that coset.
 
-## 23. Gate-aware search complements general SAT code design
-Time: 37–38.5 minutes.
-Keep the comparison factual, not a novelty competition. SAT as a tool is shared; prescribed logical gate constraints are our focus. Their paper explicitly identifies logical-operation fault tolerance as not guaranteed by its current error-detection formulation. Our transversal gate result also does not by itself cost the entire architecture.
+Adding a row of S permutes the terms in the sum, which explains the X checks. A vector orthogonal to the larger code gives a Z check. The nesting makes those two types of checks commute.
 
-## 24. Open questions connect algebra to implementation
-Time: 38.5–40 minutes.
-Return to the promised bridge between classical codes and logical quantum gates. Forty-seven quasi-transversal minimality is settled, while sign feasibility is a distinct question. Invite classical ideas about divisible codes and completions. Reserve twenty minutes for questions and discussion; do not start a backup without a question.
+For a Z error e, the syndrome is S times e. An undetected Z error is nontrivial precisely when it acts with a nonconstant sign on the logical labels. The X side has the analogous quotient by the smaller code. We therefore have two distances, dX and dZ, and their minimum is the quantum distance. Keep S and K in mind: we will choose them explicitly on the cube.
 
+## 4. Transversal gates and their limits
+
+**Clock:** 3:30–4:45. **Budget:** 75 seconds.
+
+**Point to land:** Independent physical gates contain a gate fault. Universality needs more.
+
+**Reveal and pacing:** Four states. Define CCZ from its action on 111, then state the limit and distillation motivation.
+
+A transversal layer applies a separate gate at each physical qubit. Within this layer, one faulty gate affects only its own site. The logical operation we want is CCZ: it changes the sign of the logical basis state 111 and leaves the other seven basis states unchanged.
+
+Clifford gates together with T, or with CCZ, give a universal gate set. Eastin and Knill show that a code detecting every single-qubit error cannot implement a universal set entirely transversally. So different codes offer different useful gates, and a computation needs a way to supply the rest.
+
+Magic-state distillation is one motivation: a code helps convert noisy non-Clifford resources into more accurate ones. Here we focus on the algebraic code and gate conditions. The cost and noise of a complete protocol are separate questions.
+
+## 5. Codes with different transversal gates
+
+**Clock:** 4:45–6:00. **Budget:** 75 seconds.
+
+**Point to land:** Steane: Clifford. 15 qubits: T. Cube: CCZ. State the target.
+
+**Reveal and pacing:** Three states. Compare the rows of the table, then reveal the common CSS CNOT and construction question.
+
+These familiar examples show the tradeoff. The Steane code supports transversal Clifford gates. The fifteen-qubit Reed-Muller code supports a physical T layer, which acts as logical T-dagger in the convention here. The eight-qubit cube code supports a layer of T and T-dagger giving logical CCZ on three encoded qubits.
+
+CNOT between matching sites of two blocks is transversal for every CSS code. The remaining available gates depend on the code. The missing gates in the first two examples are consistent with the Eastin-Knill restriction.
+
+Our question is concrete: which CSS codes encoding three qubits admit a choice of T or T-dagger at every site whose combined action is exactly logical CCZ? We will first see the whole mechanism on eight qubits, including why that example has insufficient distance for correcting one arbitrary error.
+
+## Transition: The cube code: a worked example of logical CCZ
+
+**Clock:** 6:00–6:10. **Budget:** 10 seconds. Unnumbered outline before slide 6.
+
+Keep the full outline in place. The current theme is bright teal and bold, with every other theme shaded.
+
+We now work through the cube: its encoding, its logical phase, and the overlap conditions that produce CCZ.
+
+## 6. Qubits indexed by the points of F₂³
+
+**Clock:** 6:10–7:15. **Budget:** 65 seconds.
+
+**Point to land:** Rows are truth tables. Coordinate faces and the constant span RM(1,3).
+
+**Reveal and pacing:** Five states: unfilled cube, u1, u2, u3, constant. Say what the colour represents at each click.
+
+Index the eight physical qubits by the points of binary three-space. A binary vector now becomes a Boolean function: its value at a point is the bit stored at that position. Its Hamming weight is the number of points where it is one.
+
+The first coordinate function is one on this face and zero on the opposite face. The next two coordinates give the other two directions. The constant function is one at all eight vertices. Their span consists of the affine functions, which form RM(1,3).
+
+This also makes overlaps visual. The coordinatewise product of two binary vectors is one on the intersection of their supports. Two faces meet in an edge, and three suitable faces meet in a vertex. We will use exactly these pictures to calculate the logical gate, so the geometry is doing algebraic work throughout the example.
+
+## 7. The cube code [[8,3,2]]
+
+**Clock:** 7:15–8:00. **Budget:** 45 seconds.
+
+**Point to land:** S is all ones. K is the three coordinates. Logical states are complement pairs.
+
+**Reveal and pacing:** Two states. Read one complement pair, then reveal the parity codeword for x=111.
+
+Choose the constant vector as the single row of S, and the three coordinate functions as the rows of K. There are three independent logical labels, so the code encodes three qubits.
+
+For each label x, the encoded state is a pair: the truth table of x dot u and its bitwise complement. The all-X check swaps the pair and leaves their sum unchanged. For x equal to 111, the first codeword is the parity of the three coordinates. This particular logical label will receive the minus sign of CCZ.
+
+## 8. Distances of the cube code
+
+**Clock:** 8:00–9:00. **Budget:** 60 seconds.
+
+**Point to land:** An edge gives a weight-two Z logical. Affine codewords give dX=4.
+
+**Reveal and pacing:** Five states. Follow the highlighted edge through commutation, logical phase, and the two distances.
+
+Before applying a gate, let us check what the code protects. Put Z errors at 000 and 100. Their combined overlap with the all-ones row is even, so the X check does not detect them.
+
+But these two sites differ in the first coordinate. On a logical basis state, their product contributes the sign minus one exactly when x1 is one. That is a nontrivial logical Z operator of weight two. A single Z is detected, so dZ is exactly two.
+
+For X errors, every nonconstant affine codeword has weight four. The constant vector is a stabilizer, so dX is four. The overall distance is therefore two. This code exhibits the gate mechanism, but we will need a larger construction to reach distance three.
+
+## 9. Codeword weight, physical phase, and logical phase
+
+**Clock:** 9:00–10:00. **Budget:** 60 seconds.
+
+**Point to land:** A coset needs one common phase. Signed weight determines it modulo eight.
+
+**Reveal and pacing:** Two states. Define the ordinary integer signed weight, then reveal the all-coset congruence.
+
+A T gate contributes an eighth-root phase when the physical bit is one. T-dagger contributes its inverse. Write the choice at site j as a sign Gamma-j. Multiplying the physical phases gives a single exponent, the signed weight of the binary vector.
+
+This is an integer sum: count ones on T sites positively and ones on T-dagger sites negatively. It is different from a binary inner product.
+
+For the layer to act on an encoded state, every term in its coset superposition must acquire the same phase. For CCZ, that phase is minus one only for logical label 111. Consequently the signed weight must equal four times x1 x2 x3 modulo eight, independently of the stabilizer label y. That one equation is the gate condition we will keep translating.
+
+## 10. Choosing the signs on the cube
+
+**Clock:** 10:00–11:30. **Budget:** 90 seconds.
+
+**Point to land:** Put T-dagger on the parity codeword. Only its logical coset gets phase -1.
+
+**Reveal and pacing:** Three states. Identify p, reveal the alternating gate signs, then compare distances to p.
+
+Let p be the parity function, the codeword corresponding to logical label 111. Put T-dagger where p is one and T where it is zero. There are four sites of each sign.
+
+The signed weight of a codeword c is its ordinary weight minus twice the overlap with p. Since p has weight four, this is also the Hamming distance from c to p, minus four.
+
+Now compare affine functions. If the logical label is different from 111, the difference from p is a nonconstant affine function. It has weight four, so the signed weight is zero and the physical phase is one.
+
+For label 111, the two codewords are p and its complement. Their distances from p are zero and eight. The signed weights are minus four and plus four, and both give phase minus one. The two terms stay together, and the logical operation is exactly CCZ.
+
+## 11. Reading the cube phase from overlaps
+
+**Clock:** 11:30–13:15. **Budget:** 105 seconds.
+
+**Point to land:** Face, edge, vertex signed weights are 0, 0, -1.
+
+**Reveal and pacing:** Four states. Explain the parity expansion, then point to a face, an edge, and the vertex 111.
+
+The same calculation can be expressed using overlaps of generator rows. For two binary bits, XOR is their sum minus twice their product. For three, add the triple product with coefficient four. Summing this identity over positions, with the physical signs as weights, gives the displayed expansion.
+
+Only overlaps of up to three rows matter modulo eight. An overlap of four rows already has a coefficient divisible by eight.
+
+On the cube, each coordinate face contains two T sites and two T-dagger sites. Its signed weight is zero. The intersection of two coordinate faces is an edge with one of each gate, so that signed weight is also zero. The triple intersection is the vertex 111, carrying T-dagger, so its signed weight is minus one.
+
+Thus the single and pair terms disappear, and the triple term supplies minus four times x1 x2 x3. Modulo eight, minus four is four, giving CCZ. Terms involving the constant stabilizer row vanish as well. This explains how the example becomes a condition on arbitrary generator rows.
+
+## 12. The gate condition becomes conditions on generator rows
+
+**Clock:** 13:15–14:00. **Budget:** 45 seconds.
+
+**Point to land:** Singles mod 8, pairs mod 4, triples mod 2. Only the logical triple is odd.
+
+**Reveal and pacing:** Two states. Link each modulus to the coefficient 1, -2, or 4, then recall the cube.
+
+Expand the gate condition in the binary coefficients selecting the rows of K and S. A single row needs signed weight zero modulo eight. A pair overlap carries a factor minus two, so its signed weight must vanish modulo four. A triple carries a factor four, so only its parity matters.
+
+Every triple must be even except the three logical rows together, which must be odd. The bracket on the right is just one when that exceptional triple occurs. These are the exact signed conditions for the physical layer. We can now connect them to triorthogonality and separate the parity problem from choosing the physical signs.
+
+## Transition: Triorthogonality and the CCZ conditions
+
+**Clock:** 14:00–14:10. **Budget:** 10 seconds. Unnumbered outline before slide 13.
+
+Keep the full outline in place. The current theme is bright teal and bold, with every other theme shaded.
+
+The cube gives the exact signed conditions. We now connect them to triorthogonality and separate parity constraints from physical signs.
+
+## 13. Historical context
+
+**Clock:** 14:10–14:45. **Budget:** 35 seconds.
+
+**Point to land:** Distillation, row constraints, parent spaces, and CSS diagonal gates.
+
+**Reveal and pacing:** One static slide. Give the progression without reading every title or reference.
+
+Bravyi and Kitaev established magic-state distillation. Bravyi and Haah organized T-gate constructions with triorthogonal matrices, and Campbell and Howard supplied the CCZ framework used here. Nezami and Haah introduced the parent-space and Reed–Muller indicator route. The CSS-T work gives another algebraic view of diagonal gates. First, distinguish a triorthogonal matrix from a triorthogonal space.
+
+## 14. Triorthogonal matrix and triorthogonal space
+
+**Clock:** 14:45–16:00. **Budget:** 75 seconds.
+
+**Point to land:** Distinct matrix rows versus all triples in a space, including repeats.
+
+**Reveal and pacing:** One static slide. Compare the two quantifiers, then set u=v=w on the right.
+
+On the left, a triorthogonal matrix satisfies even pair and triple overlaps for distinct generator rows. Odd-weight rows can label logical T outputs, while even rows supply the X checks.
+
+On the right, a triorthogonal space has the condition for every triple of vectors in the space, including repeated vectors. Set all three vectors equal. The condition says every vector has even weight. So a matrix with an odd row cannot simply have its full row span identified with this space.
+
+A unital space also contains the all-ones vector. Nezami and Haah classify these parent spaces, then puncture coordinates to obtain descendant codes. Our construction instead starts by fixing S from geometry and asks for compatible logical rows. For CCZ, the logical triple must be odd, so we need the generalized overlap conditions on the next slide.
+
+## 15. Conditions for quasi-transversal CCZ
+
+**Clock:** 16:00–17:30. **Budget:** 90 seconds.
+
+**Point to land:** Nine parity families give quasi-transversal CCZ. Signs need stronger congruences.
+
+**Reveal and pacing:** Two states. Group K, mixed, and S conditions. Point to K3, then reveal sign feasibility.
+
+Reduce the signed conditions modulo two. Every physical sign is odd, so signs disappear and signed weight becomes ordinary overlap parity.
+
+The table organizes the resulting nine families. K1 through K3 involve only logical rows, KS conditions mix logical and stabilizer rows, and S1 through S3 involve only stabilizers. All listed indices are distinct. The single odd entry is K3, the overlap of the three logical rows.
+
+These Campbell-Howard conditions give quasi-transversal CCZ: a physical layer followed by a diagonal Clifford correction. To obtain CCZ from T and T-dagger alone, we still need the stronger signed congruences modulo eight and four. A compatible parity matrix can fail this sign test.
+
+That distinction guides the construction. We first solve the parity problem for the rows, then separately check that physical signs exist. The result I will now show passes both stages.
+
+## Transition: Projective geometry and the 48-qubit code
+
+**Clock:** 17:30–17:40. **Budget:** 10 seconds. Unnumbered outline before slide 16.
+
+Keep the full outline in place. The current theme is bright teal and bold, with every other theme shaded.
+
+With the gate conditions in place, we turn to the forty-eight-qubit construction and the geometry that fixes its stabilizers.
+
+## 16. Result: a 48-qubit code with a transversal T/T† CCZ
+
+**Clock:** 17:40–19:00. **Budget:** 80 seconds.
+
+**Point to land:** Q48: dX=16, dZ=3. 26 T and 22 T-dagger, without correction.
+
+**Reveal and pacing:** One static slide. State the code and gate first, then preview geometry, search, and bounds.
+
+The construction is a [[48,3,3]] code. Its two distances are sixteen and three, so it corrects one arbitrary physical error. A layer of twenty-six T gates and twenty-two T-dagger gates implements logical CCZ without a Clifford correction.
+
+There are three ingredients. Projective geometry fixes the X-stabilizer rows. A search supplies three logical rows with the required overlap parities. A separate calculation supplies the physical gate signs. We will examine those stages in that order.
+
+Our paper also proves that no code with three logical qubits, Z-distance at least three, and the nine Campbell-Howard conditions has length at most thirty-eight. The exclusion of thirty-nine through forty-six comes from Wills, Jain and Singh. The distinction between quasi-transversal and an uncorrected physical layer remains relevant at forty-seven.
+
+The same geometry gives further finite constructions. First, why does it help us choose S?
+
+## 17. Fix S using finite/projective geometry code
+
+**Clock:** 19:00–20:00. **Budget:** 60 seconds.
+
+**Point to land:** Projective columns and 8-divisible codewords fix S. Complete K, then signs.
+
+**Reveal and pacing:** Four states, one construction step per click. Keep the two checks on S separate.
+
+We ask S to have distinct, nonzero columns. This will detect all Z errors of weight one or two, regardless of the logical rows we later choose.
+
+We also ask every codeword generated by S to have weight divisible by eight. The overlap identity then makes all pair overlaps divisible by four and all triple overlaps even. In particular, the three stabilizer-only parity families hold automatically.
+
+Eight-divisibility is a design choice stronger than the parity conditions alone. With S fixed, we search for K satisfying the logical and mixed conditions. We then solve the separate sign problem. The geometry therefore handles distance and the stabilizer constraints before the completion search begins.
+
+## 18. Projectivity rules out weight-one and weight-two Z logicals
+
+**Clock:** 20:00–21:00. **Budget:** 60 seconds.
+
+**Point to land:** A Z syndrome is a column or a sum of columns. Projectivity detects weights 1 and 2.
+
+**Reveal and pacing:** One static slide. Point to each implication and give the parity-check proof.
+
+Here is the distance argument, familiar from classical parity-check matrices. A Z error at site j has syndrome equal to column j of S. If the column is nonzero, the error is detected.
+
+Two Z errors at different sites have syndrome equal to the sum of their columns. Over the binary field, two distinct columns have nonzero sum. Thus distinct, nonzero columns detect every Z error of weight at most two.
+
+These columns are points of binary projective space. This gives dZ at least three independently of K. It does not establish dX. That distance must be checked for the completed code, and for Q48 it is sixteen. The next picture gives a support with the desired column property and divisibility.
+
+## 19. Complement of a projective subspace
+
+**Clock:** 21:00–22:00. **Budget:** 60 seconds.
+
+**Point to land:** 63 projective points minus 15 leaves three blocks of 16.
+
+**Reveal and pacing:** Two states: all 63 nonzero vectors, then removal of the w=00 block.
+
+Start with the sixty-three nonzero vectors of binary six-space. Split the coordinates into four u coordinates and two w coordinates. Remove the fifteen nonzero vectors for which w is zero.
+
+The remaining support has forty-eight points: three blocks, corresponding to w equal to 10, 01, and 11. Within each block, u ranges over all sixteen vectors of binary four-space. The six coordinate functions are the six rows of S.
+
+We will keep this same picture for the stabilizer weights, the logical labels, and the T signs. These positions display coordinates. They do not prescribe a physical hardware layout. Distinct nonzero columns are immediate. We now count the weights of their linear combinations.
+
+## 20. Hyperplane sections and codeword weights
+
+**Clock:** 22:00–23:30. **Budget:** 90 seconds.
+
+**Point to land:** A nonzero u coefficient gives weight 24. A pure w coefficient gives 32.
+
+**Reveal and pacing:** Two states. Gold first marks u1, then w1. Explain all linear forms using those two cases.
+
+A codeword generated by S is a linear form evaluated on the forty-eight points. Its weight is the number of points outside the corresponding hyperplane.
+
+There are two cases. If a u coefficient is nonzero, then inside each sixteen-point block the form takes the value one exactly eight times. Across three blocks, that gives weight twenty-four. The highlighted coordinate u1 is one example.
+
+If all u coefficients vanish and the w coefficient is nonzero, the form selects two of the three blocks. That gives weight thirty-two. The second picture shows w1.
+
+Every nonzero linear combination therefore has weight twenty-four or thirty-two. Both are divisible by eight, as required. They are also positive, so no nonzero combination of the six rows vanishes: S has rank six. The same point count proves both the dimension and divisibility. This is the classical finite-geometry ingredient that makes the later search manageable.
+
+## 21. More geometric constructions
+
+**Clock:** 23:30–25:00. **Budget:** 90 seconds.
+
+**Point to land:** Subspace complements give 13 lengths. Only the starred fixed-support census is complete.
+
+**Reveal and pacing:** One static slide. Recover 48 from p=4,q=2, then discuss the scope of the counts.
+
+The construction generalizes by removing a smaller projective subspace from a larger one. The length is two to the p, multiplied by the quantity two to the q minus one. Putting p equal to four and q equal to two recovers forty-eight.
+
+The table records codes found on these supports at thirteen block lengths, from forty-eight to four hundred and ninety-six. Some entries have Z-distance four. The others shown have Z-distance three. The displayed overall distance is the Z-distance because the X-distance is larger.
+
+The counts need a qualification. The starred forty-eight-point entry is a complete census for that fixed support. The other counts are lower bounds on the number of inequivalent codes found. They are not exhaustive classifications. This is a family of finite constructions. We are not making an asymptotic performance claim.
+
+So far geometry has fixed S. How do we express and solve the remaining conditions on K?
+
+## Transition: Column indicators, logical rows, and phase signs
+
+**Clock:** 25:00–25:10. **Budget:** 10 seconds. Unnumbered outline before slide 22.
+
+Keep the full outline in place. The current theme is bright teal and bold, with every other theme shaded.
+
+Geometry has fixed the stabilizers. We now use column indicators to find logical rows and then solve for gate signs.
+
+## 22. Column indicators from the generator matrix
+
+**Clock:** 25:10–26:30. **Budget:** 80 seconds.
+
+**Point to land:** An indicator records occupied columns. Cube gives y, Q48 support gives w1+w2+w1w2.
+
+**Reveal and pacing:** Three states: definition, cube matrix, Q48 stabilizer indicator. Distinguish physical u from column coordinates x.
+
+Turn a matrix with distinct columns into a Boolean function on its column space. Its indicator is one at the columns that occur and zero elsewhere. The weight of the indicator is the number of columns.
+
+Return to the cube. Its generator matrix has columns consisting of a three-bit vector followed by one. Every three-bit vector occurs, and the last coordinate is always one. Hence the column indicator is simply y. Here x denotes the first three coordinates of a possible column. It is a variable in the indicator domain.
+
+For the forty-eight-point stabilizer support, a column occurs exactly when w is nonzero. Over the binary field, that condition is the polynomial w1 plus w2 plus w1 w2. It has degree two and does not depend on u.
+
+This indicator viewpoint follows Nezami and Haah. It lets us translate row-overlap conditions into inner products with low-degree monomials.
+
+## 23. The CH conditions are inner products with monomials
+
+**Clock:** 26:30–28:00. **Budget:** 90 seconds.
+
+**Point to land:** Overlap parity equals an indicator-monomial inner product. One cubic moment is odd.
+
+**Reveal and pacing:** Three states. Derive the equality by summing over occupied columns before showing the coset formula.
+
+Select some rows of G and multiply their entries at a column. This is the product of the corresponding coordinate variables, a monomial. Summing over the occupied columns counts their overlap modulo two.
+
+Equivalently, sum over the whole column space after multiplying by the indicator. That gives the inner product on the slide. The nine families now have a compact description: all monomials of degrees one through three have zero inner product, except the product of the three logical coordinates, which has inner product one.
+
+Reed-Muller duality describes the homogeneous solutions. Once we choose one function with the required exceptional cubic moment, the remaining freedom is a Reed-Muller codeword. A possible correction at the origin accounts for the total weight parity. The final coset formula records that structure.
+
+The important point for the construction is the first equality: row-overlap constraints become Boolean moment constraints on a set of columns.
+
+## 24. Logical rows in the column picture
+
+**Clock:** 28:00–29:30. **Budget:** 90 seconds.
+
+**Point to land:** Each geometric point receives three logical bits. Geometry already handles S1-S3.
+
+**Reveal and pacing:** Two states. Explain the product enforcing x=kappa, then reveal the first logical row on the support.
+
+Each point beta in our fixed support already gives a column of S. To complete G, assign three logical bits to that point. Collect these into a label kappa of beta, the column of K above S.
+
+For a fixed beta, the product in the first formula is one exactly when x equals its assigned label. Multiplying by the stabilizer indicator therefore describes precisely the columns of the completed generator matrix.
+
+Split a selected row set into logical and stabilizer rows. The second formula counts the required overlap by multiplying the appropriate label bits and geometric coordinates, then summing over the support. The bracket singles out the triple of logical rows.
+
+The stabilizer-only equations already hold by geometry. What remains is a system of degree at most three in the unknown logical label bits. The teal points show the first logical row of Q48 on the same three blocks.
+
+## 25. Finding the logical rows
+
+**Clock:** 29:30–31:30. **Budget:** 120 seconds.
+
+**Point to land:** Linear row space, compatible pairs, linear third row. Then a weight-three Z witness.
+
+**Reveal and pacing:** Four states. Spend about 25 seconds on each of the first three steps and the remaining time on the witness.
+
+There is more linear structure than the cubic appearance suggests. A single logical row must be orthogonal to all degree-at-most-two tests on the support. So all possible rows lie in one explicitly computable binary linear space, V-P.
+
+Next choose two rows in that space satisfying the pair and mixed pair constraints. Once this pair is fixed, every remaining equation for the third row is linear. Products of the first two rows are now known functions. In particular, the odd triple equation is one linear equation on the third row. Gaussian elimination either finds a completion or proves that this pair has none. A SAT solver can also handle the full system directly.
+
+For Q48, we can now certify that dZ is exactly three. Take the point with u zero in each of the three blocks. Their stabilizer columns sum to zero, so the three Z errors are undetected. But their logical labels sum to 101, so their action is nontrivial. This gives a weight-three logical operator. Projectivity excluded weights one and two, completing the dZ argument.
+
+## 26. Solving for the T/T† pattern
+
+**Clock:** 31:30–33:00. **Budget:** 90 seconds.
+
+**Point to land:** Binary sign variables satisfy mod-4 equations. Q48 has 26 T and 22 T-dagger.
+
+**Reveal and pacing:** Two states. Derive the sign equation, then reveal the explicit pattern. Do not read the polynomial term by term.
+
+The parity completion does not yet choose the physical gates. Let gamma-j be zero for T and one for T-dagger. The signed weight is then the ordinary weight minus twice gamma dot c.
+
+Every codeword of the completed code has even weight. Dividing the signed gate condition by two gives the congruence modulo four shown here. It is linear in the sign variables, with the requirement that each variable is binary. This is the separate feasibility problem. The parity equations alone do not settle it.
+
+For Q48, the displayed polynomial specifies a solution. The picture evaluates that polynomial on the same support. Teal sites carry T-dagger: six, six, and ten in the three blocks, twenty-two in total. The remaining twenty-six sites carry T. The result is the promised physical CCZ layer with no Clifford correction. The polynomial is an explicit reproducible specification, rather than something to read aloud term by term.
+
+## Transition: Lower bounds and open questions
+
+**Clock:** 33:00–33:10. **Budget:** 10 seconds. Unnumbered outline before slide 27.
+
+Keep the full outline in place. The current theme is bright teal and bold, with every other theme shaded.
+
+The construction is complete. Finally, we use the same Boolean viewpoint to understand the lower bound and remaining questions.
+
+## 27. Stabilizer supports are Reed--Muller codewords
+
+**Clock:** 33:10–35:00. **Budget:** 110 seconds.
+
+**Point to land:** S1-S3 give zero moments through degree 3. Adding the origin fixes weight parity.
+
+**Reveal and pacing:** One static slide. Explain the origin correction before invoking Reed-Muller duality.
+
+The indicator language also helps rule out shorter codes. This time use only the stabilizer support, not the full labelled generator matrix. The stabilizer conditions say that the support has zero inner product with every monomial of degrees one, two, and three.
+
+There is one missing condition if we want orthogonality to all of RM(3,s): the constant monomial tests the parity of the support size. We can fix that by adding the indicator of the origin when necessary. All positive-degree monomials vanish at the origin, so this changes only the constant test.
+
+The corrected indicator c is therefore orthogonal to RM(3,s). Reed-Muller duality puts it in RM(s-4,s). The physical length is the weight of c minus its value at the origin, because the origin was only a bookkeeping point.
+
+For Q48, the degree-two polynomial we already saw is an example. For the lower bound, the value is that classifications of low-weight Reed-Muller codewords restrict the possible supports. Together with a rank reduction, this turns the short-length problem into finitely many support and logical-completion cases.
+
+## 28. Our exclusion argument covers every length through 38
+
+**Clock:** 35:00–36:30. **Budget:** 90 seconds.
+
+**Point to land:** Rank reduction, classified supports, complete remaining enumeration: n<=38 excluded.
+
+**Reveal and pacing:** One static slide. Give the four proof stages, then state the theorem with all its hypotheses.
+
+The exclusion proof has four stages. First, when the length is at most thirty-eight, we reduce the stabilizer rank to at most eight. Low ranks are excluded, and ranks six and seven are handled using weight spectra and support geometry. At rank eight, finitely many normal forms remain. The final step shows that none admits the required logical triple.
+
+The proof combines analytic reductions with complete finite enumeration in the remaining cases. Failure of a sampled SAT search would not establish this conclusion. The support coverage and logical exclusions have to be complete, and existing Reed-Muller classifications are inputs to that proof.
+
+The theorem is exactly the statement in the box: three logical qubits, Z-distance at least three, and the nine Campbell-Howard conditions imply length greater than thirty-eight. It is not a bound on arbitrary ways of implementing CCZ. The next slide separates this result from the concurrent classification and the physical sign question.
+
+## 29. Existence of a valid code at different block lengths
+
+**Clock:** 36:30–38:30. **Budget:** 120 seconds.
+
+**Point to land:** Our floor 38. WJS excludes 39-46. Specified 47 code needs correction. Q48 has signs.
+
+**Reveal and pacing:** One static slide. Read the four length ranges, then distinguish the 47 and 48 supports.
+
+Here is the short-length picture. Our independent argument excludes lengths through thirty-eight. Wills, Jain and Singh exclude thirty-nine through forty-six in their generalized triorthogonal classification. A forty-seven-qubit quasi-transversal code exists. At forty-eight, our explicit code has a physical T and T-dagger layer without correction.
+
+So minimum length forty-seven is settled in the quasi-transversal class. The sign question is finer. The particular forty-seven-qubit code of Jacinto and collaborators has no such uncorrected physical T and T-dagger layer, according to the comparison in our paper. This statement concerns that code. It does not prove that every length-forty-seven code fails the sign test or that forty-eight is minimal for the uncorrected layer.
+
+The geometric distinction is also concrete. Their support removes an affine four-flat and then punctures at the origin. Q48 removes a linear four-dimensional subspace. One should not identify the forty-seven-qubit comparison code with Q48 punctured.
+
+Jacinto and collaborators also report a circuit footprint of nine for their distillation protocol. That is a circuit resource measure, distinct from the block length of the code. Comparing complete protocols requires keeping those quantities separate.
+
+## 30. Takeaways and open questions
+
+**Clock:** 38:30–40:00. **Budget:** 90 seconds.
+
+**Point to land:** Geometry fixes S, Boolean constraints complete K, signs certify the physical layer.
+
+**Reveal and pacing:** One static slide. Summarize in 45 seconds, select two open questions, then leave the QR codes visible.
+
+The construction separates the problem into stages that classical coding theory and Boolean algebra can each help solve. Projective geometry gives distinct nonzero stabilizer columns and eight-divisible codewords. Column indicators turn the remaining overlap conditions into equations on logical labels. The physical sign equations then decide whether a T and T-dagger layer implements the desired phase without correction.
+
+For Q48, all stages succeed: three encoded qubits, distance three, and the explicit layer of twenty-six T and twenty-two T-dagger gates. Our lower bound and the concurrent classification locate this construction in the short-length landscape.
+
+The questions I would especially welcome ideas on are which geometric supports admit compatible labels and signs, and how to extend the method to higher distances or other logical gates. Minimum length for the uncorrected physical layer remains a separate question. Full circuits and noise models are another next step. Thank you. The paper and code are linked here, and I am happy to take questions.
+
+## Discussion reminders
+
+- Projectivity controls Z-distance. The three-site witness makes dZ exactly three. It does not establish dX=16.
+- Quasi-transversal CCZ permits a diagonal Clifford correction. The physical T/T† layer is a separate feasibility requirement.
+- The n≤38 exclusion is independent of the concurrent classification. The Nezami–Haah n+k≤38 scope refers to a different classified object.
+- The failed sign test concerns the specified 47-qubit comparison code. It does not prove that every 47-qubit code fails or that Q48 is minimal for an uncorrected layer.
+- Block length, circuit footprint, and complete protocol cost are different quantities. The geometric display does not specify hardware connectivity.
+- Only the marked census for the fixed 48-point support is complete. Counts at other supports are counts found.
