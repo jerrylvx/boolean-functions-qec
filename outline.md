@@ -67,4 +67,4 @@ If behind, shorten the historical recap, family table, and final indicator-coset
 
 Keep these qualifications explicit: projectivity proves dZ≥3, while dX is checked for the completed code. Eight-divisibility is a construction choice. Only the starred fixed-support census is complete. The n≤38 theorem assumes the nine CH conditions. The sign infeasibility of the specified 47-qubit comparison code does not prove 48 minimal for an uncorrected T/T† layer.
 
-Sources and their updated slide locations are in references.md. The detailed narration is in speaking_notes.md, with a matching one-page speaking card.
+Sources and their updated slide locations are in references.md. The full transcript is in speaking_notes.md, built with the slide images into transcript.pdf, with a matching one-page speaking card.
