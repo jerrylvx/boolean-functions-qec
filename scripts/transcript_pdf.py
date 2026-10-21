@@ -15,13 +15,19 @@ CLICK = '**[click]**'
 
 PREAMBLE = r"""\documentclass[11pt]{article}
 \usepackage[a4paper,margin=20mm]{geometry}
-\usepackage{fontspec,graphicx,xcolor,needspace,booktabs,enumitem}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{fontspec,unicode-math,graphicx,xcolor,needspace,booktabs,enumitem}
 \usepackage[most]{tcolorbox}
-\directlua{luaotfload.add_fallback("mathfb",{"STIXTwoMath-Regular.otf:mode=node;"})}
 \setmainfont{STIXTwoText}[Extension=.otf,UprightFont=*-Regular,BoldFont=*-Bold,
-  ItalicFont=*-Italic,BoldItalicFont=*-BoldItalic,RawFeature={fallback=mathfb}]
+  ItalicFont=*-Italic,BoldItalicFont=*-BoldItalic]
+\setmathfont{STIXTwoMath-Regular.otf}
 \definecolor{Navy}{HTML}{15324F}
 \definecolor{Teal}{HTML}{007F82}
+\newcommand{\F}{\mathbb F}
+\newcommand{\llbracket}{\mathopen{\lBrack}}
+\newcommand{\rrbracket}{\mathclose{\rBrack}}
+\DeclareMathOperator{\wt}{wt}
+\newcommand{\ket}[1]{\lvert #1\rangle}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{5pt}
 \pagestyle{plain}
@@ -48,24 +54,26 @@ def escape(s):
     return ''.join(out)
 
 
-SCRIPT = re.compile(r'([\^_])(?:\{([^{}]*)\}|([A-Za-z0-9⊗†⊥]))')
+MATH = re.compile(r'\$((?:[^$\\]|\\.)+)\$')
 
 
 def inline(s):
+    """Convert inline Markdown to LaTeX. Text between dollar signs is passed to math mode unchanged."""
     s = s.replace(CLICK, '\x00')
-    # Mark ^x, ^{...}, _x and _{...} before escaping, then typeset them as super- and subscripts.
-    s = SCRIPT.sub(lambda m: ('\x01' if m.group(1) == '^' else '\x03')
-                   + (m.group(2) if m.group(2) is not None else m.group(3))
-                   + ('\x02' if m.group(1) == '^' else '\x04'), s)
+    maths = []
+
+    def keep(m):
+        maths.append(m.group(1))
+        return '\ue000%d\ue001' % (len(maths) - 1)
+
+    s = MATH.sub(keep, s)
     s = escape(s)
     s = s.replace('\x00', r'\click{}')
-    s = (s.replace('\x01', r'\textsuperscript{').replace('\x02', '}')
-         .replace('\x03', r'\textsubscript{').replace('\x04', '}'))
     s = re.sub(r'\*\*(.+?)\*\*', r'\\textbf{\1}', s)
     s = re.sub(r'\*\((.+?)\)\*', r'{\\color{black!55}\\itshape (\1)}', s)
     s = re.sub(r'\*(.+?)\*', r'\\emph{\1}', s)
-    s = re.sub(r'"(.+?)"', r'“\1”', s)
-    return s
+    s = re.sub(r'"(.+?)"', lambda m: '\u201c' + m.group(1) + '\u201d', s)
+    return re.sub('\ue000(\\d+)\ue001', lambda m: '$' + maths[int(m.group(1))] + '$', s)
 
 
 def blocks(lines):
