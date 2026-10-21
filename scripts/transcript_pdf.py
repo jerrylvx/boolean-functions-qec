@@ -2,7 +2,7 @@
 
 Usage: python3 -I scripts/transcript_pdf.py speaking_notes.md build/main.nav build/transcript.tex
 
-Each frame section of the notes (title slide, numbered slides, outline frames) is matched,
+Each frame section of the notes (title slide, numbered slides, outline frames, backup slides) is matched,
 in order, to a frame of the built deck. The section shows the final overlay page of its frame,
 taken from build/main.pdf, above its script. The number of [click] cues in a section must equal
 the number of overlay steps of its frame.
@@ -10,7 +10,7 @@ the number of overlay steps of its frame.
 import re
 import sys
 
-FRAME_HEADING = re.compile(r'^## (Title slide|Slide \d+\.|Outline before slide)')
+FRAME_HEADING = re.compile(r'^## (Title slide|Slide \d+\.|Outline before slide|Backup B\d+\.)')
 CLICK = '**[click]**'
 
 PREAMBLE = r"""\documentclass[11pt]{article}
