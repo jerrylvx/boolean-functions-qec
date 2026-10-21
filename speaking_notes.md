@@ -89,9 +89,9 @@ First, the quantum notation we need. The basis states of $n$ qubits are labelled
 
 **On screen:** $\mathcal C_2\subseteq\mathcal C_1$, the stabilizers $X(a)$ and $Z(b)$, the matrices $S$ and $K$, and the logical basis $\ket x_L$.
 
-Our codes are CSS codes, built from two nested binary codes, $\mathcal C_2\subseteq\mathcal C_1$. The stabilizers are $X(a)$ for $a\in\mathcal C_2$, and $Z(b)$ for $b\in\mathcal C_1^\perp$. They commute because $a\cdot b=0$. We write $\mathcal C_2$ as the row space of the stabilizer rows $S$, and $\mathcal C_1$ as the row space of $G$, the logical rows $K$ stacked on $S$. The logical basis state with label $x$ is the uniform superposition of $K^{\top}x\oplus S^{\top}y$ over all $y$. That is a sum over the coset $K^{\top}x\oplus\mathcal C_2$.
+Our codes are CSS codes, built from two nested binary codes, $\mathcal C_2\subseteq\mathcal C_1$. The $X$-type stabilizers are $X(a)$ for $a\in\mathcal C_2$, and the $Z$-type stabilizers are $Z(b)$ for $b\in\mathcal C_1^\perp$. They commute because $a\cdot b=0$. We write $\mathcal C_2$ as the row space of the stabilizer rows $S_l$ of a matrix $S$, so the $X(S_l)$ generate the $X$-type stabilizers, and $\mathcal C_1$ as the row space of $G$, the logical rows $K_i$ of a matrix $K$ stacked on $S$. The logical basis state with label $x$ is the uniform superposition of $K^{\top}x\oplus S^{\top}y$ over all $y$. That is a sum over the coset $K^{\top}x\oplus\mathcal C_2$.
 
-**[click]** A $Z$ error $Z(e)$ has syndrome $Se^{\mathsf T}$, and it is undetected exactly when $e\in\mathcal C_2^\perp$. An $X$ error $X(e)$ is undetected exactly when $e\in\mathcal C_1$. So $Z$ errors are corrected by decoding $\mathcal C_2^\perp$, and $X$ errors by decoding $\mathcal C_1$.
+**[click]** A $Z$ error $Z(e)$ has syndrome $Se$, and it is undetected exactly when $e\in\mathcal C_2^\perp$. An $X$ error $X(e)$ is undetected exactly when $e\in\mathcal C_1$. So $Z$ errors are corrected by decoding $\mathcal C_2^\perp$, and $X$ errors by decoding $\mathcal C_1$.
 
 **[click]** The logical operators are $X(a)$ with $a\in\mathcal C_1\setminus\mathcal C_2$, and $Z(b)$ with $b\in\mathcal C_2^\perp\setminus\mathcal C_1^\perp$. Their minimum weights are $d_X$ and $d_Z$, and $d=\min(d_X,d_Z)$.
 
@@ -116,7 +116,7 @@ Now gates. I write every gate by what it does to a basis state $\ket x$, with $x
 
 **[click]** The Clifford group is the group of unitaries that map Pauli strings to Pauli strings under conjugation, up to phase. $H$, $S$ and CNOT generate it. That is the first row. $T$ and CCZ, in the second row, are not Clifford.
 
-**[click]** Clifford gates alone are not universal. A Clifford circuit that starts from a basis state can be simulated efficiently on a classical computer. Adding $T$, or adding CCZ, gives a universal gate set. *(pause)* So an error-corrected quantum computer needs logical Clifford gates and at least one logical non-Clifford gate.
+**[click]** A gate set is universal if it approximates every unitary. Clifford gates alone are not universal. A Clifford circuit that starts from a basis state can be simulated efficiently on a classical computer. Adding $T$, or adding CCZ, gives a universal gate set. *(pause)* So an error-corrected quantum computer must apply Clifford gates and at least one non-Clifford gate to the encoded qubits.
 
 > **Background (not spoken)**
 >
@@ -133,7 +133,7 @@ Now gates. I write every gate by what it does to a basis state $\ket x$, with $x
 
 **On screen:** the definition of a single-qubit transversal gate.
 
-How do we apply a logical gate to encoded qubits? The simplest way is a single-qubit transversal gate: a tensor product $U_1\otimes\cdots\otimes U_n$, one gate on each physical qubit. If one of these gates fails, the fault stays on one qubit, so it is a single-qubit error.
+How do we apply a gate to encoded qubits? A logical $U$ is a unitary that acts on the logical basis state $\ket x_L$ as $U$ acts on $\ket x$. The simplest way to get one is a single-qubit transversal gate: a tensor product $U_1\otimes\cdots\otimes U_n$, one gate on each physical qubit. If one of these gates fails, the error stays on that qubit.
 
 **[click]** Eastin and Knill proved that no code that detects every single-qubit error has a universal set of transversal logical gates. So at least one logical gate has to be implemented another way.
 
@@ -154,7 +154,7 @@ How do we apply a logical gate to encoded qubits? The simplest way is a single-q
 
 **On screen:** a table of three codes with their $\mathcal C_1\supset\mathcal C_2$ and transversal logical gates, and a note on $\mathrm{RM}(r,m)$ and $\mathbf 1$.
 
-Three codes show the tradeoff. Two notations first: $\mathrm{RM}(r,m)$ is the Reed–Muller code of polynomials of degree at most $r$ in $m$ variables, and $\mathbf 1$ is the all-ones vector. The Steane code takes $\mathcal C_1$ to be the Hamming code and $\mathcal C_2$ its dual. It has transversal $H$ and $S$, but not $T$. The fifteen-qubit code takes $\mathcal C_1$ to be punctured $\mathrm{RM}(1,4)$ and $\mathcal C_2$ its even-weight subcode. $T$ on every qubit acts as logical $T^\dagger$, but $H$ is not transversal. The cube code, $\llbracket 8,3,2\rrbracket$, uses $\mathrm{RM}(1,3)$ over the all-ones vector. There a layer of $T$ and $T^\dagger$ gates acts as logical CCZ on the three encoded qubits.
+Three codes show the tradeoff. Two notations first: $\mathrm{RM}(r,m)$ is the Reed–Muller code of polynomials of degree at most $r$ in $m$ variables, and $\mathbf 1$ is the all-ones vector. The Steane code takes $\mathcal C_1$ to be the Hamming code and $\mathcal C_2$ its dual. It has transversal $H$ and $S$, but not $T$. The fifteen-qubit code takes $\mathcal C_1$ to be punctured $\mathrm{RM}(1,4)$, that is, with one coordinate deleted, and $\mathcal C_2$ its even-weight subcode. $T$ on every qubit acts as logical $T^\dagger$, but $H$ is not transversal. The cube code, $\llbracket 8,3,2\rrbracket$, uses $\mathrm{RM}(1,3)$ over the all-ones vector. There $T$ or $T^\dagger$ on each qubit acts as logical CCZ on the three encoded qubits.
 
 **[click]** CNOT between two code blocks is transversal for every CSS code. So the Steane code has the whole Clifford group transversally. Since Clifford $+\,T$ is universal, Eastin–Knill rules out transversal $T$ on the Steane code and transversal $H$ on the fifteen-qubit code.
 
@@ -215,7 +215,7 @@ Before adding gates, let us see what this code protects. *(ask, then wait 7 seco
 
 **[click]** Every codeword of $\mathcal C_1$ is $c=x\cdot u\oplus y\mathbf 1$, with $y$ a bit. Its values at $000$ and $100$ are $y$ and $x_1\oplus y$. So $Z(e)\ket x_L=(-1)^{x_1}\ket x_L$. That is a logical operator of weight two, so $d_Z=2$.
 
-**[click]** On the $X$ side, $\mathrm{RM}(1,3)$ has minimum weight four, so $d_X=4$. *(pause)* So the cube code has distance two. We now show that a layer of $T$ and $T^\dagger$ on it acts as logical CCZ.
+**[click]** On the $X$ side, $\mathrm{RM}(1,3)$ has minimum weight four, so $d_X=4$. *(pause)* So the cube code has distance two. We now show that $T$ or $T^\dagger$ on each qubit acts as logical CCZ.
 
 ## Slide 10. Codeword weight, physical phase, and logical phase
 
@@ -223,7 +223,7 @@ Before adding gates, let us see what this code protects. *(ask, then wait 7 seco
 
 **On screen:** the phase of a layer of $T$ and $T^\dagger$ on a basis state, and the signed weight $\mathrm{sw}_\Gamma$.
 
-Why does a layer of $T$ gates act by a phase? Write the gate on qubit $j$ as $T^{\Gamma_j}$, with $\Gamma_j=\pm1$, so $T^{-1}$ is $T^\dagger$. Each $T^{\Gamma_j}$ multiplies $\ket{c_j}$ by $e^{i\pi\Gamma_jc_j/4}$. Then the layer multiplies the basis state $\ket c$ by $e^{i\pi \mathrm{sw}_\Gamma(c)/4}$. Here $\mathrm{sw}_\Gamma(c)=\sum_j\Gamma_jc_j$ is the signed weight: the number of ones of $c$ on $T$ qubits minus the number on $T^\dagger$ qubits. It is an integer, not a parity.
+Why does a layer of $T$ gates act by a phase? Write the gate on qubit $j$ as $T^{\Gamma_j}$, with $\Gamma_j=\pm1$, so $T^{-1}$ is $T^\dagger$. Each $T^{\Gamma_j}$ multiplies $\ket{c_j}$ by $e^{i\pi\Gamma_jc_j/4}$. We call the product a $T/T^\dagger$ layer. It multiplies the basis state $\ket c$ by $e^{i\pi \mathrm{sw}_\Gamma(c)/4}$. Here $\mathrm{sw}_\Gamma(c)=\sum_j\Gamma_jc_j$ is the signed weight: the number of ones of $c$ on $T$ qubits minus the number on $T^\dagger$ qubits. It is an integer, not a parity.
 
 **[click]** The layer is diagonal, so it multiplies each term of a logical state by that term's own phase. It acts as a logical gate only if all terms of a logical state receive the same phase. For CCZ that phase is $(-1)^{x_1x_2x_3}$. In terms of signed weights, $\mathrm{sw}_\Gamma(K^{\top}x\oplus S^{\top}y)\equiv4x_1x_2x_3\pmod 8$ for all $x$ and $y$. This congruence is the gate condition, and the rest of the talk rewrites it.
 
@@ -287,7 +287,7 @@ Briefly, the history. Bravyi and Kitaev introduced magic-state distillation. Bra
 
 **On screen:** the Bravyi–Haah matrix conditions beside the Nezami–Haah space condition.
 
-There are two related definitions, and they are easy to confuse. On the left is the triorthogonal matrix of Bravyi and Haah. Pair overlaps and triple overlaps of distinct rows are even. Odd-weight rows give the logical $X$ operators, and even-weight rows give the $X$-type stabilizers. On the right is the triorthogonal space $\mathcal H$ of Nezami and Haah. The triple sum $\sum_jh_jh'_jh''_j$ vanishes mod 2 for all $h,h',h''\in\mathcal H$, including repeated vectors. Taking $h=h'=h''$ shows every vector has even weight. Unital means the all-ones vector is in the space. So the row span of a triorthogonal matrix with odd rows is not a triorthogonal space. *(pause)* Nezami and Haah classify the parent spaces and obtain codes by deleting, or puncturing, coordinates. We go the other way. We fix $S$ from geometry first, then search for a compatible $K$. And CCZ needs one odd triple, $K_1,K_2,K_3$, which neither definition allows. That is why we need the generalized conditions on the next slide.
+There are two related definitions, and they are easy to confuse. On the left is the triorthogonal matrix of Bravyi and Haah. Pair overlaps and triple overlaps of distinct rows are even. Odd-weight rows give the logical $X$ operators, and even-weight rows give the $X$-type stabilizers. On the right is the triorthogonal space $\mathcal H$ of Nezami and Haah. The triple sum $\sum_jh_jh'_jh''_j$ vanishes mod 2 for all $h,h',h''\in\mathcal H$, including repeated vectors. Taking $h=h'=h''$ shows every vector has even weight. Unital means the all-ones vector is in the space. So the row span of a triorthogonal matrix with odd rows is not a triorthogonal space. *(pause)* Nezami and Haah classify the spaces and obtain codes by deleting, or puncturing, coordinates. We go the other way. We fix $S$ from geometry first, then search for a compatible $K$. And CCZ needs one odd triple, $K_1,K_2,K_3$, which neither definition allows. That is why we need the generalized conditions on the next slide.
 
 ## Slide 16. Conditions for quasi-transversal CCZ
 
@@ -295,7 +295,7 @@ There are two related definitions, and they are easy to confuse. On the left is 
 
 **On screen:** the nine parity conditions K1–K3, KS1–KS3 and S1–S3.
 
-Reduce the three signed conditions mod 2. Each $\Gamma_j$ is odd, so a signed weight has the same parity as the ordinary weight. What remains are these nine parity conditions of Campbell and Howard, the CH conditions. K1 to K3 involve only logical rows, KS1 to KS3 mix logical and stabilizer rows, and S1 to S3 involve only stabilizer rows. K3 is the only odd condition, and it selects CCZ. These nine conditions give CCZ up to a diagonal Clifford correction. This is called quasi-transversal CCZ.
+Reduce the three signed conditions mod 2. Each $\Gamma_j$ is odd, so a signed weight has the same parity as the ordinary weight. What remains are these nine parity conditions of Campbell and Howard, the CH conditions. K1 to K3 involve only logical rows, KS1 to KS3 mix logical and stabilizer rows, and S1 to S3 involve only stabilizer rows. K3 is the only odd condition, and it selects CCZ. These nine conditions make $T$ on every qubit, followed by some diagonal Clifford gate $C$, act as logical CCZ. $C$ is called the correction, and this is quasi-transversal CCZ.
 
 **[click]** Here is a distinction I want to keep clear. *(pause)* A physical layer of $T$ and $T^\dagger$ with no correction needs more, namely the signed congruences mod 8 and mod 4. Those are conditions on the signs $\Gamma$ as well as on the matrix. A code can satisfy all nine parities and still have no valid choice of signs. We will see an example at length 47.
 
@@ -383,7 +383,7 @@ Part five. Geometry has fixed the stabilizers. Now we find the logical rows usin
 
 To find the logical rows we switch from rows to columns. Let $M$ have distinct columns in $\F_2^r$. Its column indicator, as in Nezami and Haah, is the Boolean function $\chi_M$ on $\F_2^r$ with $\chi_M(v)=1$ exactly when $v$ is a column of $M$. We write it as a multilinear polynomial over $\F_2$. Its weight is the number of columns of $M$.
 
-**[click]** For the cube, $G=[K;S]$ has the columns $(u,1)$ for every $u\in\F_2^3$. In coordinates $(x,y)$, every $x$ occurs with $y=1$, and no column has $y=0$. So $\chi_G(x,y)=y$.
+**[click]** For the cube, $G=[K;S]$ has the columns $(u,1)$ for every $u\in\F_2^3$. In coordinates $(x,y)$, with $x$ for the rows of $K$ and $y$ for the row of $S$, every $x$ occurs with $y=1$, and no column has $y=0$. So $\chi_G(x,y)=y$.
 
 **[click]** For $\mathcal Q_{48}$, the columns of $S$ are the points with $w\ne00$. So $\chi_S(u,w)=1+(1+w_1)(1+w_2)=w_1+w_2+w_1w_2$. It has degree two and does not depend on $u$.
 
@@ -455,7 +455,7 @@ Why can no short code work? Take a projective $S$. In the column picture, S1 to 
 
 **On screen:** four proof stages, and the theorem: no CSS code with $k=3$, $d_Z\ge3$ and the nine CH conditions has $n\le38$.
 
-The proof that nothing works through length 38 has four stages. First, reduce to stabilizer rank $s\le8$ when $n\le38$. Second, exclude $s\le5$, then settle ranks 6 and 7 using the weight distribution and the geometry of the support. Third, at rank 8, reduce to finitely many normal forms and enumerate what remains. Fourth, show that no remaining support admits logical rows satisfying K1 to K3 and KS1 to KS3. *(pause)* The result is our theorem. No CSS code with $k=3$, $d_Z\ge3$ and the nine CH conditions has $n\le38$. Two remarks. The rank-8 coverage and the logical-row exclusions are complete, not sampled. And because the theorem assumes only the nine parity conditions, it rules out quasi-transversal codes as well as physical layers.
+The proof that nothing works through length 38 has four stages. First, reduce the stabilizer rank $s$, the number of rows of $S$, to $s\le8$ when $n\le38$. Second, exclude $s\le5$, then settle ranks 6 and 7 using the weight distribution and the geometry of the support. Third, at rank 8, use the classification of low-weight Reed–Muller codewords to reduce to finitely many supports, and enumerate them. Fourth, show that no remaining support admits logical rows satisfying K1 to K3 and KS1 to KS3. *(pause)* The result is our theorem. No CSS code with $k=3$, $d_Z\ge3$ and the nine CH conditions has $n\le38$. Two remarks. The rank-8 coverage and the logical-row exclusions are complete, not sampled. And because the theorem assumes only the nine parity conditions, it rules out quasi-transversal codes as well as physical layers.
 
 ## Slide 30. Existence of a valid code at different block lengths
 
@@ -463,7 +463,7 @@ The proof that nothing works through length 38 has four stages. First, reduce to
 
 **On screen:** a table of lengths, status and evidence, and three sentences on the $\llbracket 47,3,3\rrbracket$ code.
 
-Here is the situation by length. Up to 38 is excluded by our bound. 39 to 46 is excluded by Wills, Jain and Singh, who classify generalized triorthogonal codes up to length 54 with $d_Z\ge3$. At 47 there is a quasi-transversal CCZ code, the $\llbracket 47,3,3\rrbracket$ code of Jacinto and coauthors. At 48 we have $\mathcal Q_{48}$, with a physical layer and no correction. *(pause)* Now the distinction between 47 and 48. The 47-qubit code satisfies the nine parities, but it has no physical layer of $T$ and $T^\dagger$. We show this in our paper. So at 47 a Clifford correction is needed. That statement is about this specific code. It does not show that 48 is the minimum length for a physical layer, and it does not show that the 47-qubit code is unique. It is also not $\mathcal Q_{48}$ with one point removed. Its stabilizer support is $\F_2^6$ minus an affine 4-flat, a translate of a 4-dimensional subspace, with the origin deleted. $\mathcal Q_{48}$ removes a linear 4-dimensional subspace. The stabilizer weights differ as well: $16$, $24$ and $32$ for the 47-qubit code, and $23$, $24$, $31$ and $32$ for any puncture of $\mathcal Q_{48}$. Finally, Jacinto and coauthors report a 47-to-1 CCZ distillation protocol from their code with circuit footprint 9. That number is theirs, and it is about the circuit, not the code length.
+Here is the situation by length. Up to 38 is excluded by our bound. 39 to 46 is excluded by Wills, Jain and Singh, who classify generalized triorthogonal codes up to length 54 with $d_Z\ge3$. That classification covers quasi-transversal CCZ with three logical qubits. At 47 there is a quasi-transversal CCZ code, the $\llbracket 47,3,3\rrbracket$ code of Jacinto and coauthors. At 48 we have $\mathcal Q_{48}$, with a physical layer and no correction. *(pause)* Now the distinction between 47 and 48. The 47-qubit code satisfies the nine parities, but it has no physical layer of $T$ and $T^\dagger$. We show this in our paper. So at 47 a Clifford correction is needed. That statement is about this specific code. It does not show that 48 is the minimum length for a physical layer, and it does not show that the 47-qubit code is unique. It is also not $\mathcal Q_{48}$ with one point removed. Its stabilizer support is $\F_2^6$ minus an affine 4-flat, a translate of a 4-dimensional subspace, with the origin deleted. $\mathcal Q_{48}$ removes a linear 4-dimensional subspace. The stabilizer weights differ as well: $16$, $24$ and $32$ for the 47-qubit code, and $23$, $24$, $31$ and $32$ for any puncture of $\mathcal Q_{48}$. Finally, Jacinto and coauthors report a 47-to-1 CCZ distillation protocol from their code with circuit footprint of 9 qubits. That number is theirs, and it is about the circuit, not the code length.
 
 ## Slide 31. Takeaways and open questions
 
