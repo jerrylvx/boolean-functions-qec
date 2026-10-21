@@ -42,7 +42,7 @@ Slide numbers below are the displayed frame numbers, not PDF page numbers. The t
 | 15 | 16:00–17:30 | Conditions for quasi-transversal CCZ | Nine parity families give quasi-transversal CCZ. Signs need stronger congruences. |
 | – | 17:30–17:40 | Outline: Projective geometry and the 48-qubit code | Current theme bright and bold. All others shaded. |
 | 16 | 17:40–19:00 | Result: a 48-qubit code with a transversal T/T† CCZ | Q48: dX=16, dZ=3. 26 T and 22 T-dagger, without correction. |
-| 17 | 19:00–20:00 | Fix S using finite/projective geometry code | Projective columns and 8-divisible codewords fix S. Complete K, then signs. |
+| 17 | 19:00–20:00 | Fix S from finite projective geometry | Projective columns and 8-divisible codewords fix S. Complete K, then signs. |
 | 18 | 20:00–21:00 | Projectivity rules out weight-one and weight-two Z logicals | A Z syndrome is a column or a sum of columns. Projectivity detects weights 1 and 2. |
 | 19 | 21:00–22:00 | Complement of a projective subspace | 63 projective points minus 15 leaves three blocks of 16. |
 | 20 | 22:00–23:30 | Hyperplane sections and codeword weights | A nonzero u coefficient gives weight 24. A pure w coefficient gives 32. |
