@@ -58,7 +58,7 @@ Slide numbers below are the displayed frame numbers, not PDF page numbers. The t
 | 28 | 34:10–36:00 | Stabilizer supports are Reed--Muller codewords | S1-S3 give zero moments through degree 3. Adding the origin fixes weight parity. |
 | 29 | 36:00–37:30 | Our exclusion argument covers every length through 38 | Rank reduction, classified supports, complete remaining enumeration: n<=38 excluded. |
 | 30 | 37:30–39:30 | Existence of a valid code at different block lengths | Our floor 38. WJS excludes 39-46. Specified 47 code needs correction. Q48 has signs. |
-| 31 | 39:30–41:00 | Takeaways and open questions | Geometry fixes S, Boolean constraints complete K, signs certify the physical layer. |
+| 31 | 39:30–41:00 | Takeaways and open questions | Geometry fixes S, Boolean constraints complete K, signs certify the T/T† pattern. |
 
 ## Delivery choices
 
@@ -66,6 +66,6 @@ Explain the cube phase once through distance to the parity codeword, then use th
 
 If behind, shorten the historical recap, family table, and final indicator-coset formula. Preserve the distinction between parity conditions and physical signs, the projective distance proof, the Q48 gate pattern, and the scope of the lower bound. The detailed notes give specific cuts at the checkpoints.
 
-Keep these qualifications explicit: projectivity proves dZ≥3, while dX is checked for the completed code. Eight-divisibility is a construction choice. Only the starred fixed-support census is complete. The n≤38 theorem assumes the nine CH conditions. The sign infeasibility of the specified 47-qubit comparison code does not prove 48 minimal for an uncorrected T/T† layer.
+Keep these qualifications explicit: projectivity proves dZ≥3, while dX is checked for the completed code. Eight-divisibility is a construction choice. Only the starred fixed-support census is complete. The n≤38 theorem assumes the nine CH conditions. The sign infeasibility of the specified 47-qubit comparison code does not prove 48 minimal for an uncorrected T/T† pattern.
 
 Sources and their updated slide locations are in references.md. The full transcript is in speaking_notes.md, built with the slide images into transcript.pdf, with a matching one-page speaking card.
