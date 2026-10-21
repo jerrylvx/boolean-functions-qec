@@ -13,14 +13,14 @@ Each section is one frame of the deck, in order. The heading gives the displayed
 - Spoken text is written at about 135 words per minute. Read it aloud at a steady pace with the clock running, and mark where you run over.
 - **Background (not spoken)** boxes on slides 2 to 5 collect the facts behind each sentence, with short answers to likely questions. Read them before rehearsing, not during.
 
-Terms follow the standard literature: stabilizer generators (also called checks), X-type and Z-type stabilizers, logical operators, CSS(C₁, C₂) with C₂ ⊂ C₁, quasi-transversal, triorthogonal, column indicator. Two terms come from our paper and are defined on the slides: the signed weight and the logical label.
+Terms and notation follow the standard literature and our paper: Pauli strings X(a) and Z(b), stabilizers and stabilizer generators, X-type and Z-type stabilizers, logical operators, CSS(C₁, C₂) with C₂ ⊂ C₁, quasi-transversal, triorthogonal, column indicator. Two terms come from our paper and are defined on the slides: the signed weight and the logical label.
 
 ## Winston's "How to Speak" applied to this talk
 
 These heuristics are from Patrick Winston's MIT lecture "How to Speak" (MIT OpenCourseWare RES.TLL-005, IAP 2018). Each one is built into the script.
 
-- **Empowerment promise, not a joke.** Slide 1 tells the audience what they will be able to do at the end, and states the result, all before 1:00. Winston says a speaker should show both a vision and that something has been done within five minutes.
-- **Cycling.** The three steps of the construction are said three times, at slides 1, 16 and 30: "Geometry fixes the stabilizers S, a search finds the logical rows K, and linear algebra over Z₄ finds the signs."
+- **Empowerment promise, not a joke.** Slide 1 tells the audience what they will be able to do at the end, before 1:00. The result itself waits for slide 16, after the background that lets the audience follow it. Winston says a speaker should show both a vision and that something has been done within five minutes. The promise is the vision, and the eight-qubit cube on slides 6 to 11 shows that something has been done.
+- **Cycling.** The three steps of the construction are said at slides 16, 17 and 30: "Geometry fixes the stabilizers S, a search finds the logical rows K, and linear algebra over Z₄ finds the signs."
 - **Fences.** Each of these is said once, at the slide where it applies:
   - quasi-transversal CCZ versus a physical layer with no correction (slides 15 and 29)
   - the Nezami–Haah classification range n + k ≤ 38 versus our bound n ≤ 38 (slide 13)
@@ -57,52 +57,52 @@ Thank you for the invitation. This is joint work with Ken Brown at Duke, and I a
 
 **On screen:** the six parts of the talk, with part 1 highlighted.
 
-By the end of this talk you will be able to take a binary generator matrix and a choice of T or T-dagger on each qubit, and read off the logical gate from overlaps of the rows. You will also see the code this leads to. It is a [[48,3,3]] code in which 26 T gates and 22 T-dagger gates act as a logical CCZ. We build it in three steps. Geometry fixes the stabilizers S, a search finds the logical rows K, and linear algebra over Z4 finds the signs. *(pause)* First some quantum background, then a worked eight-qubit example, then the construction, and finally the lower bounds.
+By the end of this talk you will be able to take a binary generator matrix and a choice of T or T-dagger on each qubit, and read off the logical gate from overlaps of the rows. *(pause)* We start with the quantum background we need, then work through an eight-qubit example in full. After that comes the construction of a larger code, and finally the lower bounds.
 
-## Slide 2. Quantum error correction: qubits and checks
+## Slide 2. Pauli strings and stabilizer codes
 
 **Clock** 1:00–2:00 · **Budget** 60 s · **Clicks** 3
 
-**On screen:** the basis states, X_u and Z_u, the products X^v and Z^z, and their commutation rule.
+**On screen:** the basis states |c⟩, and the Pauli strings X(a) and Z(b) with their action on |c⟩.
 
-First, the quantum notation we need. The basis states of n qubits are labelled by binary vectors c of length n. X_u flips bit u, and Z_u multiplies by minus one when bit u is one. X^v and Z^z are the products over the supports of v and z. They commute or anticommute according to the parity of v dot z.
+First, the quantum notation we need. The basis states of n qubits are labelled by binary vectors c of length n. For binary vectors a and b, the Pauli strings X(a) and Z(b) put an X or a Z on each qubit where a or b is one. X(a) adds a to the label, and Z(b) multiplies by minus one to the b dot c.
 
-**[click]** Any error is a linear combination of products X^v Z^z, so it is enough to handle these. The weight of such a product is the number of qubits it acts on.
+**[click]** Pauli strings commute or anticommute. X(a) and Z(b) commute when a dot b is even, and anticommute when it is odd.
 
-**[click]** A check, or stabilizer generator, is such a product whose eigenvalue, plus or minus one, we measure. An error that anticommutes with a check flips its outcome. The outcomes form the syndrome.
+**[click]** A stabilizer code is the joint plus-one eigenspace of an abelian group of Pauli strings, the stabilizers, not containing minus the identity. An error that anticommutes with a stabilizer flips its measured eigenvalue, and these eigenvalues form the syndrome.
 
-**[click]** The code space is the joint plus-one eigenspace of the checks. An [[n,k,d]] code has dimension 2 to the k, and every error of weight below d is detected or acts as a scalar on it.
+**[click]** An [[n,k,d]] code has dimension 2 to the k, and every Pauli string on fewer than d qubits is detected or acts as a scalar on the code.
 
 > **Background (not spoken)**
 >
-> - **Why products of X and Z suffice.** I, X, Z and XZ span the 2 × 2 complex matrices, and Y = iXZ. The Knill–Laflamme conditions are linear in the error, so a code that corrects a set of Pauli errors also corrects every linear combination of them.
-> - **Why an anticommuting error flips the outcome.** If P|ψ⟩ = |ψ⟩ and PE = −EP, then P(E|ψ⟩) = −E|ψ⟩. So the corrupted state is in the −1 eigenspace of P.
-> - **Why eigenvalues are ±1.** Each check is a Hermitian Pauli product with P² = I.
-> - **Code dimension.** The stabilizer group must be abelian and must not contain −I. With r independent generators the code space has dimension 2^{n−r}, so k = n − r.
-> - **Distance.** d is the smallest weight of a Pauli product that commutes with every check but is not in the stabilizer group (up to a phase). These are the nontrivial logical operators.
-> - **If asked "what about Y errors?"** Y is a product X^v Z^z times a phase, with v and z both 1 at that qubit. The weight counts the qubits where v or z is 1.
+> - **Notation.** X(a) and Z(b) with a, b ∈ F₂ⁿ is the notation of Camps-Moreno et al. and of Rengaswamy, Calderbank and coauthors. The Pauli group is generated by ±X(a)Z(b), with Y = iXZ on a single qubit. For general strings, X(a)Z(b) and X(a′)Z(b′) commute up to the sign (−1)^{a·b′+b·a′}, the symplectic inner product. The talk only needs the case X(a) against Z(b).
+> - **Why Pauli strings suffice.** I, X, Z and XZ span the 2 × 2 complex matrices. The Knill–Laflamme conditions are linear in the error, so a code that corrects a set of Pauli errors also corrects every linear combination of them.
+> - **Why an anticommuting error flips the eigenvalue.** If P|ψ⟩ = |ψ⟩ and PE = −EP, then P(E|ψ⟩) = −E|ψ⟩. So the corrupted state is in the −1 eigenspace of P.
+> - **Why eigenvalues are ±1.** Each stabilizer is a Hermitian Pauli string with P² = I.
+> - **Code dimension.** With r independent stabilizer generators the code space has dimension 2^{n−r}, so k = n − r.
+> - **Distance.** d is the smallest weight of a Pauli string that commutes with every stabilizer but is not a stabilizer up to phase. These are the nontrivial logical operators. The weight of X(a)Z(b) is the number of qubits where a or b is 1.
 
 ## Slide 3. CSS codes
 
 **Clock** 2:00–3:30 · **Budget** 90 s · **Clicks** 2
 
-**On screen:** stabilizer rows S and logical rows K, the codes C₂ ⊂ C₁, and the logical basis state |x⟩_L.
+**On screen:** C₂ ⊆ C₁, the stabilizers X(a) and Z(b), the generator matrices S and K, and the logical basis |x⟩_L.
 
-Our codes are CSS codes, built from two nested binary codes. Take stabilizer rows S and logical rows K, all linearly independent. C2 is the row space of S, and C1 is the row space of K and S together. The logical basis state with label x is the uniform superposition over the coset xK plus C2. *(pause)* This is the formula we use for gates. A diagonal gate acts on each term of the sum separately, so every term of a coset must receive the same phase.
+Our codes are CSS codes, built from two nested binary codes, C2 inside C1. The stabilizers are X(a) for a in C2, and Z(b) for b in the dual of C1. They commute because a dot b is zero. We write C2 as the row space of the stabilizer rows S, and C1 as the row space of the logical rows K together with S. The logical basis state with label x is the uniform superposition of xK plus yS over all y. *(pause)* This is the formula we use for gates. A diagonal gate acts on each term of the sum separately, so every term must receive the same phase.
 
-**[click]** The X-type stabilizers are X^v for v in C2, and the Z-type stabilizers are Z^z for z in the dual of C1. They commute because C2 is orthogonal to the dual of C1. A Z error Z^e has syndrome S e-transpose, and it is undetected exactly when e is in the dual of C2. An X error is undetected exactly when e is in C1. So correcting errors splits into two classical decoding problems, one for C1 and one for the dual of C2.
+**[click]** A Z error Z(e) has syndrome S e-transpose, and it is undetected exactly when e is in the dual of C2. An X error X(e) is undetected exactly when e is in C1. So decoding splits into two classical problems, one for C1 and one for the dual of C2.
 
-**[click]** The logical operators are X^v with v in C1 but not in C2, and Z^z with z in the dual of C2 but not in the dual of C1. Their minimum weights are d_X and d_Z, and d is the smaller one.
+**[click]** The logical operators are X(a) with a in C1 but not in C2, and Z(b) with b in the dual of C2 but not in the dual of C1. Their minimum weights are d_X and d_Z, and d is the smaller one.
 
 > **Background (not spoken)**
 >
-> - **Why X^v with v ∈ C₂ fixes |x⟩_L.** X^v sends |xK ⊕ w⟩ to |xK ⊕ w ⊕ v⟩, which only permutes the terms of the coset sum.
-> - **Why Z^z with z ∈ C₁^⊥ fixes |x⟩_L.** Z^z|c⟩ = (−1)^{z·c}|c⟩, and z·c = 0 for every c in C₁.
-> - **Why they commute.** X^v Z^z = (−1)^{v·z} Z^z X^v, and v·z = 0 because v ∈ C₂ ⊂ C₁ and z ∈ C₁^⊥.
-> - **Logical Z.** For z ∈ C₂^⊥ \ C₁^⊥, Z^z acts on |x⟩_L as the sign (−1)^{z·(xK)}, which depends on x. That is why it is a nontrivial logical operator.
+> - **Why X(a) with a ∈ C₂ fixes |x⟩_L.** X(a) sends |xK ⊕ yS⟩ to another term of the same sum, so it only permutes the terms.
+> - **Why Z(b) with b ∈ C₁^⊥ fixes |x⟩_L.** Z(b)|c⟩ = (−1)^{b·c}|c⟩, and b·c = 0 for every c in C₁.
+> - **Why they commute.** X(a)Z(b) = (−1)^{a·b} Z(b)X(a), and a·b = 0 because a ∈ C₂ ⊆ C₁ and b ∈ C₁^⊥.
+> - **Logical Z.** For b ∈ C₂^⊥ ∖ C₁^⊥, Z(b) acts on |x⟩_L as the sign (−1)^{b·(xK)}, which depends on x. That is why it is a nontrivial logical operator.
 > - **Counting.** k = dim C₁ − dim C₂. There are s X-type generators and n − k − s Z-type generators, n − k in all.
-> - **Notation in the literature.** Nielsen and Chuang write CSS(C₁, C₂) with C₂ ⊂ C₁, as here. Some papers use the opposite labels, with the stabilizer code first.
-> - **If asked "is every stabilizer code CSS?"** No. In a CSS code every generator is all X or all Z. All codes in this talk are CSS.
+> - **Notation in the literature.** Nielsen and Chuang, Camps-Moreno et al. and our paper write the CSS code of C₂ ⊆ C₁ as here. Our paper writes the logical state with column vectors, K^⊤x + S^⊤y. The slide uses row vectors, xK ⊕ yS, which is the same vector.
+> - **If asked "is every stabilizer code CSS?"** No. In a CSS code every stabilizer generator is all X or all Z. All codes in this talk are CSS.
 > - **If asked about the Steane code.** It has C₂ = C₁^⊥ (C₁ is the Hamming code), so the X-type and Z-type generators have the same supports.
 
 ## Slide 4. Transversal gates and their limits
@@ -180,7 +180,7 @@ Index the eight qubits by the points of F2 cubed, the vertices of this cube. A b
 
 **On screen:** S = 𝟏, K = (u₁, u₂, u₃), and the logical basis state of the cube code.
 
-Now the code. Take S to be the all-ones vector, so the single stabilizer generator is X on all eight qubits. Take K to be the three coordinate functions. Then C1 is RM(1,3) and k is three. The label x gives xK equal to x dot u. So each logical basis state is the truth table of x dot u plus its complement, over root two.
+Now the code. Take S to be the all-ones vector, so the only stabilizer generator is X of the all-ones vector, X on all eight qubits. Take K to be the three coordinate functions. Then C1 is RM(1,3) and k is three. The label x gives xK equal to x dot u. So each logical basis state is the truth table of x dot u plus its complement, over root two.
 
 **[click]** For x equal to 111, the codeword x dot u is u1 plus u2 plus u3, shown on the cube. This is the label that CCZ will multiply by minus one.
 
@@ -190,11 +190,11 @@ Now the code. Take S to be the all-ones vector, so the single stabilizer generat
 
 **On screen:** the edge from 000 to 100 with Z on both ends.
 
-Before adding gates, let us see what this code protects. *(ask, then wait 7 seconds)* How many Z errors does it take to change a logical state of this code without being detected? *(Fallback: two, and here is an example.)* Put Z on the qubits 000 and 100.
+Before adding gates, let us see what this code protects. *(ask, then wait 7 seconds)* How many Z errors does it take to change a logical state of this code without being detected? *(Fallback: two, and here is an example.)* Put Z on the qubits 000 and 100. That is Z(e), where e has ones at those two points.
 
-**[click]** The vector z has even overlap with the all-ones vector, so Z^z commutes with the stabilizer. A single Z anticommutes with it, so d_Z is at least two.
+**[click]** The vector e has even overlap with the all-ones vector, so Z(e) commutes with the stabilizer. A single Z anticommutes with it, so d_Z is at least two.
 
-**[click]** Every codeword is b plus x dot u. Its values at 000 and 100 are b and b plus x1. So Z^z multiplies the logical state by minus one to the x1. That is a logical operator of weight two, so d_Z equals two.
+**[click]** Every codeword is b plus x dot u. Its values at 000 and 100 are b and b plus x1. So Z(e) multiplies the logical state by minus one to the x1. That is a logical operator of weight two, so d_Z equals two.
 
 **[click]** On the X side, RM(1,3) has minimum weight four, so d_X is four.
 
@@ -242,9 +242,9 @@ There is a second way to see this, and it is the one that generalizes. For three
 
 **Clock** 13:15–14:00 · **Budget** 45 s · **Clicks** 1
 
-**On screen:** the overlap identity, and the three congruences for single rows, pairs and triples.
+**On screen:** the Bravyi–Haah parity identity, and the three congruences for single rows, pairs and triples.
 
-The same expansion holds for any number of vectors. An overlap of t vectors has coefficient minus two to the power t minus one. Expand the gate condition this way and compare coefficients. Single rows need signed weight zero mod 8. Pair overlaps carry minus two, so they need zero mod 4. Triple overlaps carry four, so only their parity matters, and it must be odd exactly for the triple K1, K2, K3. Overlaps of four or more rows carry a multiple of eight and drop out.
+The same expansion holds for any number of vectors. This is the Bravyi–Haah parity identity: an overlap of t vectors has coefficient minus two to the power t minus one. Expand the gate condition this way and compare coefficients. Single rows need signed weight zero mod 8. Pair overlaps carry minus two, so they need zero mod 4. Triple overlaps carry four, so only their parity matters, and it must be odd exactly for the triple K1, K2, K3. Overlaps of four or more rows carry a multiple of eight and drop out.
 
 **[click]** The cube code satisfies all three. These are the conditions we impose on larger codes.
 
@@ -296,7 +296,7 @@ Part four, the construction. We now build the 48-qubit code, starting from the g
 
 **On screen:** Q48 = [[48,3,3]] with (d_X, d_Z) = (16, 3), and four bullets on the construction and the bounds.
 
-Here is the result. Q48 is a [[48,3,3]] code, with d_X equal to 16 and d_Z equal to 3. A layer of 26 T gates and 22 T-dagger gates implements logical CCZ, with no Clifford correction. It is built in the three steps I described at the start. Geometry fixes the stabilizers S: the stabilizer code comes from PG(5,2) minus PG(3,2). A SAT search finds the logical rows K. And linear algebra over Z4 finds the signs. *(pause)* For the lower bound, our theorem says that no code with three logical qubits, d_Z at least 3, and the nine CH conditions has n at most 38. Lengths 39 to 46 are excluded by the classification of Wills, Jain and Singh. And other subspace complements give codes at block lengths from 48 up to 496.
+Here is the result. Q48 is a [[48,3,3]] code, with d_X equal to 16 and d_Z equal to 3. A layer of 26 T gates and 22 T-dagger gates implements logical CCZ, with no Clifford correction. It is built in three steps. Geometry fixes the stabilizers S: the stabilizer code comes from PG(5,2) minus PG(3,2). A SAT search finds the logical rows K. And linear algebra over Z4 finds the signs. *(pause)* For the lower bound, our theorem says that no code with three logical qubits, d_Z at least 3, and the nine CH conditions has n at most 38. Lengths 39 to 46 are excluded by the classification of Wills, Jain and Singh. And other subspace complements give codes at block lengths from 48 up to 496.
 
 ## Slide 17. Fix S using finite/projective geometry code
 
@@ -306,7 +306,7 @@ Here is the result. Q48 is a [[48,3,3]] code, with d_X equal to 16 and d_Z equal
 
 The construction has four steps. First, choose S with distinct nonzero columns. That alone gives d_Z at least three, as the next slide shows.
 
-**[click]** Second, require every codeword of C2 to have weight divisible by 8. By the overlap identity, pair overlaps are then zero mod 4 and triple overlaps are even, so S1 to S3 hold. This divisibility is our design choice. The CH conditions do not require it.
+**[click]** Second, require every codeword of C2 to have weight divisible by 8. By the Bravyi–Haah parity identity, pair overlaps are then zero mod 4 and triple overlaps are even, so S1 to S3 hold. This divisibility is our design choice. The CH conditions do not require it.
 
 **[click]** Third, search for logical rows K that satisfy K1 to K3 and KS1 to KS3. This is the only search.
 

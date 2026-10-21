@@ -24,8 +24,8 @@ Slide numbers below are the displayed frame numbers, not PDF page numbers. The t
 | Slide | Clock | Topic | Essential point |
 |---|---|---|---|
 | 1 | 0:15–1:00 | Outline | Cube example, gate conditions, geometry, completion, bounds. |
-| 2 | 1:00–2:00 | Quantum error correction: qubits and checks | Binary basis labels. X flips, Z signs. Checks and distance. |
-| 3 | 2:00–3:30 | CSS codes | S gives X checks. K labels cosets. Distance d is min(dX,dZ). |
+| 2 | 1:00–2:00 | Pauli strings and stabilizer codes | Pauli strings X(a), Z(b) commute or anticommute. Stabilizers, syndrome, [[n,k,d]]. |
+| 3 | 2:00–3:30 | CSS codes | X(a) for a in C2, Z(b) for b in the dual of C1. Logical basis from S and K. d is min(dX,dZ). |
 | 4 | 3:30–4:45 | Transversal gates and their limits | Independent physical gates contain a gate fault. Universality needs more. |
 | 5 | 4:45–6:00 | Codes with different transversal gates | Steane: Clifford. 15 qubits: T. Cube: CCZ. State the target. |
 | – | 6:00–6:10 | Outline: The cube code: a worked example of logical CCZ | Current theme bright and bold. All others shaded. |

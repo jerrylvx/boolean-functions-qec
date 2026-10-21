@@ -160,34 +160,33 @@ arXiv:2610.09341
 
 \section{Quantum error correction and transversal gates}
 
-\begin{frame}[label=qec]{Quantum error correction: qubits and checks}
+\begin{frame}[label=qec]{Pauli strings and stabilizer codes}
 \talktext
-The state of $n$ qubits lies in $(\mathbb C^2)^{\otimes n}$, with basis $\ket c$ for $c\in\F_2^n$.
+The state of $n$ qubits lies in $(\mathbb C^2)^{\otimes n}$, with basis $\ket c$ for $c\in\F_2^n$. For $a,b\in\F_2^n$, the \emph{Pauli strings}
 \[
-X_u\ket c=\ket{c\oplus\mathbf 1_u},\qquad Z_u\ket c=(-1)^{c_u}\ket c,\qquad X^v=\prod_uX_u^{v_u},\quad Z^z=\prod_uZ_u^{z_u}.
+X(a)=X^{a_1}\otimes\cdots\otimes X^{a_n},\qquad Z(b)=Z^{b_1}\otimes\cdots\otimes Z^{b_n}
 \]
-Here $v,z\in\F_2^n$, $\mathbf 1_u$ is the vector with a single 1 at $u$, and $X^vZ^z=(-1)^{v\cdot z}Z^zX^v$.
+act by $X(a)\ket c=\ket{c\oplus a}$ and $Z(b)\ket c=(-1)^{b\cdot c}\ket c$.
 \begin{itemize}\setlength{\itemsep}{3pt}
-\item<2-> An error expands in products $X^vZ^z$. Its weight is the number of qubits $u$ with $v_u=1$ or $z_u=1$.
-\item<3-> A \emph{check} is a product $X^vZ^z$ whose outcome $\pm1$ is measured. An error that anticommutes with a check flips its outcome. The outcomes of all checks form the \emph{syndrome}.
-\item<4-> The code space is the $+1$ eigenspace of the checks. $\qcode nkd$ has dimension $2^k$, and every error of weight less than $d$ is detected or acts as a scalar on the code space.
+\item<2-> Pauli strings commute or anticommute: $X(a)Z(b)=(-1)^{a\cdot b}Z(b)X(a)$.
+\item<3-> A \emph{stabilizer code} is the joint $+1$ eigenspace of an abelian group of Pauli strings, the stabilizers, not containing $-I$. An error that anticommutes with a stabilizer flips its measured eigenvalue. These eigenvalues form the \emph{syndrome}.
+\item<4-> $\qcode nkd$: the code has dimension $2^k$, and every Pauli string acting on fewer than $d$ qubits is detected or acts as a scalar on the code.
 \end{itemize}
-\note{\textbf{1:00--2:00.} Only the notation used later is introduced. A basis state is labelled by a binary vector, X flips bits and Z gives signs. Errors are expanded in products of X and Z, so it suffices to detect and correct those. A check that anticommutes with an error flips its outcome, so a flipped check outcome detects that error. The distance is the smallest weight of an error that is not detected and not a scalar on the code space.}
+\note{\textbf{1:00--2:00.} Only the notation used later is introduced. A Pauli string is a tensor product of X and Z factors, labelled by two binary vectors, as in Camps-Moreno et al. Any error expands in Pauli strings, so it suffices to detect and correct those. X(a) and Z(b) commute when a dot b is even and anticommute when it is odd. An error that anticommutes with a stabilizer flips its measured eigenvalue, so the syndrome detects it. The distance is the smallest weight of a Pauli string that commutes with every stabilizer and is not a stabilizer up to phase.}
 \end{frame}
 
 \begin{frame}[label=css]{CSS codes}
 \talktext
-Let the stabilizer rows $S$ ($s\times n$) and the logical rows $K$ ($k\times n$) together be linearly independent, with $\C_2=\operatorname{rowspan}S\subset\C_1=\operatorname{rowspan}\left[\begin{smallmatrix}K\\S\end{smallmatrix}\right]$. The CSS code [CS96, Ste96] has the logical basis
+For binary linear codes $\C_2\subseteq\C_1\subseteq\F_2^n$, the CSS code [CS96, Ste96] is the stabilizer code with stabilizers $X(a)$, $a\in\C_2$, and $Z(b)$, $b\in\C_1^\perp$. They commute because $a\cdot b=0$. Write $\C_2=\operatorname{rowspan}S$ and $\C_1=\operatorname{rowspan}\left[\begin{smallmatrix}K\\S\end{smallmatrix}\right]$, with stabilizer rows $S$ ($s\times n$) and logical rows $K$ ($k\times n$). The logical basis is
 \[
-\ket{x}_L=|\C_2|^{-1/2}\sum_{v\in\C_2}\ket{xK\oplus v},\qquad x\in\F_2^k.
+\ket{x}_L=2^{-s/2}\textstyle\sum_{y\in\F_2^s}\ket{xK\oplus yS},\qquad x\in\F_2^k.
 \]
-\begin{itemize}\setlength{\itemsep}{3pt}
-\item<2-> Checks: $X^v$ with $v\in\C_2$, and $Z^z$ with $z\in\C_1^\perp$. They commute because $\C_2\perp\C_1^\perp$.
-\item<2-> $Z^e$ has syndrome $Se^{\mathsf T}$ and is undetected if and only if $e\in\C_2^\perp$. $X^e$ is undetected if and only if $e\in\C_1$. So errors are decoded with the binary codes $\C_2^\perp$ and $\C_1$.
-\item<3-> Logical operators: $X^v$ with $v\in\C_1\setminus\C_2$, and $Z^z$ with $z\in\C_2^\perp\setminus\C_1^\perp$. With $d_X=\min\wt(\C_1\setminus\C_2)$ and $d_Z=\min\wt(\C_2^\perp\setminus\C_1^\perp)$, the code is $\qcode nkd$ with $d=\min(d_X,d_Z)$.
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item<2-> $Z(e)$ has syndrome $Se^{\mathsf T}$ and is undetected if and only if $e\in\C_2^\perp$. $X(e)$ is undetected if and only if $e\in\C_1$. So decoding uses the binary codes $\C_2^\perp$ and $\C_1$.
+\item<3-> Logical operators: $X(a)$, $a\in\C_1\setminus\C_2$, and $Z(b)$, $b\in\C_2^\perp\setminus\C_1^\perp$. With $d_X=\min\wt(\C_1\setminus\C_2)$ and $d_Z=\min\wt(\C_2^\perp\setminus\C_1^\perp)$, the code is $\qcode nkd$ with $k=\dim\C_1-\dim\C_2$ and $d=\min(d_X,d_Z)$.
 \end{itemize}
 \source{\refCS\par\refSt}
-\note{\textbf{2:00--3:30.} Each logical basis state is a uniform superposition over a coset of the stabilizer code C2. The quantum problem splits into two problems over F2: Z errors are detected by the X checks, whose syndrome is S times e, and X errors by the Z checks, which are the parity checks of C1. Errors in C2 or in the dual of C1 act trivially. The distance is the smaller of the two minimum weights of nontrivial logical operators.}
+\note{\textbf{2:00--3:30.} Each logical basis state is a uniform superposition over a coset of C2 in C1, as in our paper and in Campbell and Howard. Z errors are detected by the X-type stabilizers, with syndrome S times e, and X errors by the Z-type stabilizers, which are the parity checks of C1. Errors in C2 or in the dual of C1 act trivially. The distance is the smaller of the two minimum weights of nontrivial logical operators.}
 \end{frame}
 
 \begin{frame}[label=transversal]{Transversal gates and their limits}
@@ -222,7 +221,7 @@ $\qcode832$ [CH17] & $\RM(1,3)\supset\langle\mathbf 1\rangle$ & A layer of $T$ a
 \par
 \onslide<3->{Question: which CSS codes with $k=3$ have a choice $U_j\in\{T,T^\dagger\}$ with $U_1\otimes\cdots\otimes U_n$ acting as logical CCZ?}
 \source{\refCH}
-\note{\textbf{4:45--6:00.} For Steane, the even coset has weights 0 and 4 and the odd coset has weights 3 and 7, so S on every qubit acts as logical S-dagger, and S-dagger on every qubit acts as logical S. H on every qubit swaps the two checks, which is allowed because C2 is the dual of C1. For the fifteen-qubit code, the even coset has weights 0 and 8 and the odd coset has weights 7 and 15, so T on every qubit gives the phase e to the 7 i pi over 4, which is logical T-dagger. The eight-qubit code is the running example of the next slides.}
+\note{\textbf{4:45--6:00.} For Steane, the even coset has weights 0 and 4 and the odd coset has weights 3 and 7, so S on every qubit acts as logical S-dagger, and S-dagger on every qubit acts as logical S. H on every qubit swaps the X-type and Z-type stabilizers, which is allowed because C2 is the dual of C1. For the fifteen-qubit code, the even coset has weights 0 and 8 and the odd coset has weights 7 and 15, so T on every qubit gives the phase e to the 7 i pi over 4, which is logical T-dagger. The eight-qubit code is the running example of the next slides.}
 \end{frame}
 
 \section{The cube code: a worked example of logical CCZ}
@@ -254,7 +253,7 @@ The overlap $c\wedge c'$ is 1 where both vectors are 1, so it is the vector of t
 \resizebox{.95\linewidth}{!}{\cubeobject{\only<2>{\cubevalues{mod(\i+\j+\k,2)}}}}
 \par\scriptsize\rule{0pt}{3ex}\only<2>{The codeword $x\cdot u$ for $x=111$.}
 \column{.61\textwidth}
-Take $S=\mathbf 1$, the single check $X^{\otimes8}$, and let $K$ have the rows $u_1,u_2,u_3$. Then $\C_1=\RM(1,3)$ and $k=3$.
+Take $S=\mathbf 1$, so the only stabilizer generator is $X(\mathbf 1)=X^{\otimes8}$, and let $K$ have the rows $u_1,u_2,u_3$. Then $\C_1=\RM(1,3)$ and $k=3$.
 \par\smallskip
 $xK=x\cdot u=x_1u_1\oplus x_2u_2\oplus x_3u_3$, so
 \[
@@ -270,17 +269,17 @@ $xK=x\cdot u=x_1u_1\oplus x_2u_2\oplus x_3u_3$, so
 \begin{columns}[c,onlytextwidth]
 \column{.36\textwidth}\centering
 \resizebox{.95\linewidth}{!}{\cubeobject{\cubeedge{000}{100}\cubeZ{000}\cubeZ{100}}}
-\par\scriptsize\rule{0pt}{3ex}The operator $Z_{000}Z_{100}$.
+\par\scriptsize\rule{0pt}{3ex}$Z$ on the qubits $000$ and $100$.
 \column{.61\textwidth}
-The operator $Z_{000}Z_{100}$ is $Z^z$ with $z=\mathbf 1_{000}\oplus\mathbf 1_{100}$.
+Let $\mathbf 1_u$ be the vector with a single 1 at $u$. $Z$ on the qubits $000$ and $100$ is $Z(e)$ with $e=\mathbf 1_{000}\oplus\mathbf 1_{100}$.
 \begin{itemize}\setlength{\itemsep}{2pt}
-\item<2-> $z$ has even overlap with $\mathbf 1$, so $Z^z$ commutes with the check $X^{\otimes8}$. A single $Z_u$ anticommutes with it, so $d_Z\ge2$.
-\item<3-> Every codeword is $c=b\oplus x\cdot u$, with $c(000)=b$ and $c(100)=b\oplus x_1$. So $Z^z\ket{x}_L=(-1)^{x_1}\ket{x}_L$, a logical operator of weight 2, and $d_Z=2$.
+\item<2-> $e\cdot\mathbf 1=0$, so $Z(e)$ commutes with the stabilizer $X(\mathbf 1)$. Each $Z(\mathbf 1_u)$ anticommutes with it, so $d_Z\ge2$.
+\item<3-> Every codeword is $c=b\oplus x\cdot u$, with $c(000)=b$ and $c(100)=b\oplus x_1$. So $Z(e)\ket{x}_L=(-1)^{x_1}\ket{x}_L$, a logical operator of weight 2, and $d_Z=2$.
 \item<4-> $\RM(1,3)$ has minimum weight 4, so $d_X=4$.
 \end{itemize}
 \onslide<5->{This is the smallest interesting colour code: a transversal $T/T^\dagger$ layer gives logical CCZ [CH17].}
 \end{columns}
-\note{\textbf{8:00--9:00.} Two Z errors on an edge in the u1 direction are invisible to the all-X check and flip the sign of logical states with x1 equal to one. The X distance is the minimum weight of RM(1,3) outside the stabilizer code.}
+\note{\textbf{8:00--9:00.} Two Z errors on an edge in the u1 direction are not detected by the all-X stabilizer and flip the sign of logical states with x1 equal to one. The X distance is the minimum weight of RM(1,3) outside the stabilizer code.}
 \end{frame}
 
 \begin{frame}[label=cube-signed]{Codeword weight, physical phase, and logical phase}
@@ -349,7 +348,7 @@ W_\Gamma(c)={}&\textstyle\sum_ix_iW_\Gamma(K_i)-2\sum_{i<j}x_ix_jW_\Gamma(K_i\we
 
 \begin{frame}[label=cube-condition]{The gate condition becomes conditions on generator rows}
 \talktext
-The same expansion for any number of binary vectors is the \emph{overlap identity}
+The same expansion for any number of binary vectors is the \emph{Bravyi--Haah parity identity} [BH12]
 \[
 W_\Gamma(a_1\oplus\cdots\oplus a_m)=\textstyle\sum_{J\ne\emptyset}(-2)^{|J|-1}\,W_\Gamma\bigl(\bigwedge_{j\in J}a_j\bigr).
 \]
@@ -365,6 +364,7 @@ W_\Gamma(g_a\wedge g_b\wedge g_c)&\equiv[\{g_a,g_b,g_c\}=\{K_1,K_2,K_3\}]\pmod2.
 Here $[P]$ is 1 if the statement $P$ holds and 0 otherwise.
 \par\medskip
 \onslide<2->{The $\qcode{8}{3}{2}$ code satisfies all three: rows have $W_\Gamma=0$, pairs of rows overlap in faces or edges with $W_\Gamma=0$, and triples overlap in an edge ($W_\Gamma=0$) or in the vertex $111$ ($W_\Gamma=-1$).}
+\source{\refBH}
 \note{\textbf{13:15--14:00.} Minus two times a pair overlap must vanish mod eight, which gives mod four. Four times a triple overlap must equal four times the CCZ indicator, which gives a parity. Terms of order four and higher carry a factor eight.}
 \end{frame}
 
@@ -379,7 +379,7 @@ Here $[P]$ is 1 if the statement $P$ holds and 0 otherwise.
 \item[2022] Nezami--Haah [NH22]: classify triorthogonal codes with $n+k\le38$ via $\RM$ indicators.
 \item[2024] Camps-Moreno, L\'opez, Matthews et al.\ [CLM+24]: CSS-T codes from cyclic and extended cyclic codes. In 2026 [CLM+26]: all diagonal transversal gates of a CSS code.
 \end{description}
-\source{\refBH\par\refNH\par\refCLMa\par\refCLMb}
+\source{\refNH\par\refCLMa\par\refCLMb}
 \note{\textbf{14:10--14:45.} Bravyi-Kitaev motivates distilling a non-Clifford resource with trusted Clifford operations. Bravyi-Haah turn the gate action into parity conditions on binary rows. Campbell-Howard give the CCZ version, which is used here. Nezami-Haah classify through unital spaces and Reed-Muller indicators, and their n plus k bound is not our n at most 38 result. The CSS-T line from Camps-Moreno, Lopez, Matthews and coauthors studies pairs of binary codes on which transversal T acts as a logical gate, with constructions from Reed-Muller, cyclic and extended cyclic codes. Their 2026 paper computes the diagonal transversal gates of a CSS code and recovers CSS-T, triorthogonal and divisible cases.}
 \end{frame}
 
@@ -394,7 +394,7 @@ Here $[P]$ is 1 if the statement $P$ holds and 0 otherwise.
 \wt(g_a\wedge g_b\wedge g_c)&\equiv0\pmod2.
 \end{aligned}
 \]
-Indices are distinct. Odd-weight rows label logical $T$ outputs. Even-weight rows give $X$ checks.
+Indices are distinct. Odd-weight rows label logical $T$ outputs. Even-weight rows give $X$-type stabilizers.
 \column{.48\textwidth}
 \textbf{Space $\mathcal H$ [NH22]}
 \[
@@ -449,7 +449,7 @@ $Q_{48}=\qcode{48}{3}{3}$, with $(d_X,d_Z)=(16,3)$. A layer of $26\,T+22\,T^\dag
 \talktext
 \begin{enumerate}\setlength{\itemsep}{6pt}
 \item<1-> Columns of $S$ distinct and nonzero: $d_Z\ge3$.
-\item<2-> Every codeword of $\C_2$ has weight $\equiv0\pmod8$. By the overlap identity, pair overlaps are $\equiv0\pmod4$ and triple overlaps are even, so S1--S3 hold.
+\item<2-> Every codeword of $\C_2$ has weight $\equiv0\pmod8$. By the Bravyi--Haah parity identity, pair overlaps are $\equiv0\pmod4$ and triple overlaps are even, so S1--S3 hold.
 \item<3-> Search for logical rows $K$ satisfying K1--K3 and KS1--KS3.
 \item<4-> Solve for the signs $\Gamma$ over $\mathbb Z_4$.
 \end{enumerate}
@@ -465,7 +465,7 @@ Let $\beta_j$ be column $j$ of $S$. A $Z$ error at site $j$ has syndrome $\beta_
 \]
 Distinct nonzero columns are points of $\PG(s-1,2)$, the $2^s-1$ nonzero vectors of $\F_2^s$.
 \takeaway{$d_Z\ge3$ follows from the stabilizer columns, independent of the choice of logical rows.}
-\note{\textbf{20:00--21:00.} This is the parity-check argument for a distance-three classical code. S is the X check matrix, so it detects Z errors. The statement covers d_Z only. d_X is computed for the final code.}
+\note{\textbf{20:00--21:00.} This is the parity-check argument for a distance-three classical code. S generates the X-type stabilizers, so it detects Z errors. The statement covers d_Z only. d_X is computed for the final code.}
 \end{frame}
 
 \begin{frame}[label=support]{Complement of a projective subspace}
