@@ -181,11 +181,11 @@ arXiv:2610.09341
 \column{.36\textwidth}\centering
 \resizebox{.95\linewidth}{!}{\cubeobject{%
 \only<2>{\cubevalues{\i}}\only<3>{\cubevalues{\j}}\only<4>{\cubevalues{\i*\j}}\only<5>{\cubevalues{mod(\i+\j,2)}}}}
-\par\scriptsize\rule{0pt}{3ex}\only<1>{One qubit at each point $u\in\F_2^3$.}\only<2>{The vector $u_1$.}\only<3>{The vector $u_2$.}\only<4>{The overlap $u_1\wedge u_2$: an edge.}\only<5>{The XOR $u_1\oplus u_2$.}
+\par\scriptsize\rule{0pt}{3ex}\only<1>{One qubit at each point $u\in\F_2^3$.}\only<2>{The vector $u_1$.}\only<3>{The vector $u_2$.}\only<4>{The overlap $u_1\wedge u_2=u_1u_2$: an edge.}\only<5>{The XOR $u_1\oplus u_2$.}
 \column{.61\textwidth}
-Index $n=8$ qubits by the points $u\in\F_2^3$. A binary vector is a Boolean function, and its weight counts its ones:
+Index $n=8$ qubits by the points $u\in\F_2^3$. A binary vector is a Boolean function, with support and weight:
 \[
-c\colon\F_2^3\to\F_2,\qquad |c|=\#\{u:c(u)=1\}.
+c\colon\F_2^3\to\F_2,\quad \operatorname{supp}c=\{u:c(u)=1\},\quad |c|=\#\operatorname{supp}c.
 \]
 \onslide<2->{The coordinate functions are faces, in the order $000,001,\ldots,111$:
 \[
@@ -195,12 +195,12 @@ u_1=00001111,\qquad u_2=00110011.
 \[
 |u_1\wedge u_2|=2,\qquad u_1\cdot u_2=|u_1\wedge u_2|\bmod2=0.
 \]}
-\onslide<5->{XOR $c\oplus c'$ (entrywise sum mod 2, not a direct sum):
+\onslide<5->{XOR $c\oplus c'$ (entrywise sum mod 2):
 \[
 u_1\oplus u_2=00111100.
 \]}
 \end{columns}
-\note{\textbf{1:00--1:55.} The cube is only a drawing device: qubits sit at its vertices, and a binary vector of length eight is a Boolean function on them. Faces have four ones, two faces meet in an edge, and the dot product is the parity of the overlap. Every definition holds for any length n.}
+\note{\textbf{1:00--1:55.} The cube is only a drawing device: qubits sit at its vertices, and a binary vector of length eight is a Boolean function on them. Faces have four ones, two faces meet in an edge, the degree-two function u1 u2, and the dot product is the parity of the overlap.}
 \end{frame}
 
 \begin{frame}[label=pauli]{Pauli strings}
@@ -220,7 +220,7 @@ X(a)\ket c=\ket{c\oplus a},\qquad Z(b)\ket c=(-1)^{b\cdot c}\ket c.
 \[
 X(a)Z(b)=(-1)^{a\cdot b}Z(b)X(a).
 \]}
-\onslide<3->{With $a=u_1$ and $\delta_u$ the indicator of the point $u$:
+\onslide<3->{With $a=u_1$ and $\delta_u\in\F_2^8$ the weight-one vector at $u$:
 \[
 \begin{array}{@{}l@{}}
 b=\delta_{100}\oplus\delta_{110}\colon\quad a\cdot b=0,\ \text{commute},\\
@@ -233,7 +233,7 @@ b=\delta_{100}\oplus\delta_{110}\colon\quad a\cdot b=0,\ \text{commute},\\
 
 \begin{frame}[label=css]{Stabilizer and CSS codes}
 \talktext
-\emph{Stabilizer code}: the joint $+1$ eigenspace of an abelian group of Pauli strings, the \emph{stabilizers}. Flipped eigenvalues form the \emph{syndrome}.
+\emph{Stabilizer code}: the joint $+1$ eigenspace of commuting Pauli strings, the \emph{stabilizer generators}. They generate an abelian group, the \emph{stabilizers}. Flipped eigenvalues form the \emph{syndrome}.
 \par\smallskip
 $\qcode nkd$: $n$ qubits, dimension $2^k$, and $d$ the least weight (number of qubits acted on) of a nontrivial \emph{logical operator}.
 \par\medskip
@@ -307,7 +307,7 @@ $S$, $T$ and CCZ are \emph{diagonal}, and $\ket+=H\ket0=(\ket0+\ket1)/\sqrt2$.
 \par\medskip
 \onslide<2->{The \emph{Clifford group} maps Pauli strings to Pauli strings under conjugation, and $H$, $S$, CNOT generate it.}
 \takeawayat{3-}{Clifford gates are not universal. Clifford $+\,T$ and Clifford $+$ CCZ are. A quantum computer needs both kinds as logical gates.}
-\note{\textbf{5:40--6:40.} Every gate is written by its action on basis states. Here S is the phase gate, not the stabilizer matrix. Clifford circuits from basis states are classically simulable, which is why a non-Clifford gate is needed.}
+\note{\textbf{5:40--6:40.} Every gate is written by its action on basis states. Clifford circuits from basis states are classically simulable, which is why a non-Clifford gate is needed.}
 \end{frame}
 
 \begin{frame}[label=transversal]{Transversal gates and distillation}
@@ -315,20 +315,20 @@ $S$, $T$ and CCZ are \emph{diagonal}, and $\ket+=H\ket0=(\ket0+\ket1)/\sqrt2$.
 \begin{columns}[c,onlytextwidth]
 \column{.36\textwidth}\centering
 \resizebox{.85\linewidth}{!}{\cubezerofalse\cubeobject{%
-\only<1>{\cubemark{\i}{fill=Teal,text=white}{$X$}}%
-\only<2->{\cubemark{\i}{fill=Gold,text=white}{$Z$}}}}
-\par\scriptsize\rule{0pt}{3ex}\only<1>{$X(u_1)$.}\only<2->{After $H^{\otimes7}$: $Z(u_1)$.}
+\only<1>{\cubemark{\i}{fill=Teal,text=white}{1}}%
+\only<2->{\cubemark{(1-\i)*min(1,\j+\k)}{fill=Gold,text=white}{1}}}}
+\par\scriptsize\rule{0pt}{3ex}\only<1>{$u_1$: weight 4, phase 1.}\only<2->{$\mathbf 1\oplus u_1$: weight 3, phase $-i$.}
 \column{.61\textwidth}
 A logical gate $\bar U$ acts on $\ket x_L$ as $U$ acts on $\ket x$. It is \emph{transversal} if $\bar U=U_1\otimes\cdots\otimes U_n$ on the code space.
 \par\smallskip
-\onslide<2->{Steane: $H^{\otimes7}$ maps $X(a)$ to $Z(a)$, and $\C_1^\perp=\C_2$, so it is logical $H$.}
+\onslide<2->{Steane: $S^{\otimes7}\ket c=i^{|c|}\ket c$. Terms of $\ket0_L$ have weight 0 or 4, terms of $\ket1_L$ weight 3 or 7, so $S^{\otimes7}$ is logical $S^\dagger$.}
 \par\smallskip
 \onslide<3->{$H$, $S$, CNOT are transversal on Steane. [EK09]: no code that detects every single-qubit error has a universal transversal gate set, so Steane has no transversal $T$.}
 \end{columns}
 \onslide<4->{\emph{Magic-state distillation} [BK05]: Clifford operations turn many noisy $T\ket+$ or $\mathrm{CCZ}\ket{{+}{+}{+}}$ into fewer, less noisy copies, using a code with transversal $T$ or CCZ.}
 \takeawayat{5-}{Which CSS codes with $k=3$ have $U_j\in\{T,T^\dagger\}$ with $U_1\otimes\cdots\otimes U_n$ logical CCZ?}
 \source{\refEK\par\refBK}
-\note{\textbf{6:40--7:50.} A transversal gate keeps a single gate fault on a single qubit. H swaps X and Z on each qubit, so it swaps the X-type and Z-type stabilizers, which sit on the same faces. With H, S and CNOT transversal, Eastin-Knill forbids a transversal T. Each distilled copy is consumed to apply one non-Clifford gate.}
+\note{\textbf{6:40--7:50.} A transversal gate keeps a single gate fault on a single qubit. S on every qubit multiplies each term by i to its weight. The weights are 0 and 4 in the zero state and 3 and 7 in the one state, so the one state gets minus i. With H, S and CNOT transversal, Eastin-Knill forbids a transversal T. Each distilled copy is consumed to apply one non-Clifford gate.}
 \end{frame}
 
 \section{The \texorpdfstring{$\qcode832$}{[[8,3,2]]} code: a worked example of logical CCZ}
@@ -344,7 +344,7 @@ A logical gate $\bar U$ acts on $\ket x_L$ as $U$ acts on $\ket x$. It is \emph{
 \only<4>{\cubeedge{000}{100}\cubeZ{000}\cubeZ{100}}}}
 \par\scriptsize\rule{0pt}{3ex}\only<1>{$X(\mathbf 1)$, the $X$-type stabilizer generator.}\only<2>{$x=100$. Teal: $u_1$. Gold: $\mathbf 1\oplus u_1$.}\only<3>{$x=111$. Teal: $x\cdot u$. Gold: $\mathbf 1\oplus x\cdot u$.}\only<4>{$Z$ on the edge $000$--$100$.}
 \column{.61\textwidth}
-Add the origin back and swap the roles of $S$ and $K$:
+All eight points are qubits:
 \[
 S=\mathbf 1,\qquad K=\begin{bmatrix}u_1\\u_2\\u_3\end{bmatrix},\qquad \C_1=\RM(1,3).
 \]
@@ -446,7 +446,6 @@ Comparing coefficients in the gate condition gives, for distinct rows $g,g',g''$
 K1 & $|K_i|\equiv0$\\ K2 & $|K_i\wedge K_{i'}|\equiv0$\\K3 & $|K_1\wedge K_2\wedge K_3|\equiv1$\\\midrule
 KS1 & $|K_i\wedge S_l|\equiv0$\\KS2 & $|K_i\wedge K_{i'}\wedge S_l|\equiv0$\\KS3 & $|K_i\wedge S_l\wedge S_{l'}|\equiv0$\\\midrule
 S1 & $|S_l|\equiv0$\\S2 & $|S_l\wedge S_{l'}|\equiv0$\\S3 & $|S_l\wedge S_{l'}\wedge S_{l''}|\equiv0$\\\bottomrule\end{tabular}}
-\par\scriptsize Rows $K_i$ of $K$, $S_l$ of $S$. All mod 2, indices distinct.
 \column{.55\textwidth}
 The three row conditions reduce mod 2 to the nine Campbell--Howard (CH) conditions [CH17]:
 \[
@@ -580,7 +579,7 @@ Index the rows of $G$ by coordinates $z=(x,y)$. For a set $J$ of rows, $m_J=\pro
 \[
 \chi_G\in y_1\cdots y_s+\varepsilon\delta_0+\RM(r-4,r),\qquad r=3+s,\ \varepsilon=n\bmod2.
 \]}
-\note{\textbf{24:10--25:40.} An overlap of rows is a monomial in the row coordinates, evaluated on the columns. Summing over columns is summing chi_G times the monomial over all points. The function y1 to ys is one at the eight points x comma all-ones, so its inner product with a monomial in x of degree d is two to the three minus d mod two, which is one only for x1x2x3. delta zero is the indicator of the origin and fixes the parity of the weight. The coset statement is a lemma in our paper.}
+\note{\textbf{24:10--25:40.} An overlap of rows is a monomial in the row coordinates, evaluated on the columns. Summing over columns is summing chi_G times the monomial over all points. The function y1 to ys is one at the eight points x comma all-ones, so its inner product with a monomial in x of degree d is two to the three minus d mod two, which is one only for x1x2x3. delta zero, with a single one at the origin, fixes the parity of the weight. The coset statement is a lemma in our paper.}
 \end{frame}
 
 \begin{frame}[label=labels]{Logical rows in the column picture}

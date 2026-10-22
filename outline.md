@@ -30,7 +30,7 @@ Slide numbers below are the displayed frame numbers, not PDF page numbers. The t
 | 5 | 3:55–4:35 | The Steane code | Seven nonzero points. S is the three faces, K is all ones. Logical basis with one term of each state on the cube. |
 | 6 | 4:35–5:40 | Syndromes and distance | The syndrome of Z on u is u. Distinct nonzero columns detect pairs. A Fano line is a weight-3 logical. |
 | 7 | 5:40–6:40 | Clifford and non-Clifford gates | Every gate on basis states. Clifford gates alone are not universal. Add T or CCZ. |
-| 8 | 6:40–7:50 | Transversal gates and distillation | H on every Steane qubit turns X faces into Z faces: logical H. Eastin–Knill rules out T. Distillation needs transversal T or CCZ. State the target. |
+| 8 | 6:40–7:50 | Transversal gates and distillation | S on every Steane qubit gives phase i to the weight, so it is logical S†. Eastin–Knill rules out T. Distillation needs transversal T or CCZ. State the target. |
 | – | 7:50–8:00 | Outline: The [[8,3,2]] code: a worked example of logical CCZ | Current theme bright and bold. All others shaded. |
 | 9 | 8:00–9:15 | The [[8,3,2]] code | Origin back, roles of S and K swapped. Logical states are complement pairs. An edge gives dZ=2, and dX=4. |
 | 10 | 9:15–10:15 | Signed weight and the gate condition | A coset needs one common phase. Signed weight determines it modulo eight. |
