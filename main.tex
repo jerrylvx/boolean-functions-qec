@@ -12,7 +12,7 @@
 \usepackage{appendixnumberbeamer}
 \usetikzlibrary{arrows.meta,positioning}
 \definecolor{Navy}{HTML}{15324F}
-\definecolor{Teal}{HTML}{007F82}
+\definecolor{Teal}{HTML}{1F5FAD}
 \definecolor{Gold}{HTML}{D48B18}
 \definecolor{Pale}{HTML}{EAF4F4}
 \definecolor{Alert}{HTML}{D32F2F}
@@ -51,9 +51,6 @@
 \definecolor{PageBg}{HTML}{FAFAFA}
 \tikzset{cubev/.style={circle,draw=Navy,fill=white,text=Navy,minimum size=7.5mm,inner sep=0pt,font=\small},
   cubelab/.style={font=\scriptsize,text=Navy,fill=PageBg,inner sep=1pt}}
-% \cubezerofalse drops vertex 000, its label and its edges (the Steane code has no qubit there).
-\newif\ifcubezero\cubezerotrue
-\newcommand{\cubeunless}[2]{\ifcubezero#2\else\ifnum#1=0\relax\else#2\fi\fi}
 % Front-face labels sit below left of the vertex, back-face labels above right.
 \def\cubelabel#1#2#3{\ifnum#3=0\node[cubelab,anchor=north east] at ([xshift=-2.5mm,yshift=-2.5mm]v#1#2#3) {$\mathtt{#1#2#3}$};%
   \else\node[cubelab,anchor=south west] at ([xshift=2.5mm,yshift=2.5mm]v#1#2#3) {$\mathtt{#1#2#3}$};\fi}
@@ -62,11 +59,11 @@
 \foreach \i in {0,1}{\foreach \j in {0,1}{\foreach \k in {0,1}{
   \coordinate (v\i\j\k) at ({1.9*\i+.85*\k},{1.9*\j+.7*\k});
 }}}
-\foreach \j in {0,1}{\foreach \k in {0,1}{\cubeunless{\j\k}{\draw[black!40,thick] (v0\j\k)--(v1\j\k);}}}
-\foreach \i in {0,1}{\foreach \k in {0,1}{\cubeunless{\i\k}{\draw[black!40,thick] (v\i0\k)--(v\i1\k);}}}
-\foreach \i in {0,1}{\foreach \j in {0,1}{\cubeunless{\i\j}{\draw[black!40,thick] (v\i\j0)--(v\i\j1);}}}
+\foreach \j in {0,1}{\foreach \k in {0,1}{\draw[black!40,thick] (v0\j\k)--(v1\j\k);}}
+\foreach \i in {0,1}{\foreach \k in {0,1}{\draw[black!40,thick] (v\i0\k)--(v\i1\k);}}
+\foreach \i in {0,1}{\foreach \j in {0,1}{\draw[black!40,thick] (v\i\j0)--(v\i\j1);}}
 \foreach \i in {0,1}{\foreach \j in {0,1}{\foreach \k in {0,1}{
-  \cubeunless{\i\j\k}{\node[cubev] at (v\i\j\k) {};\cubelabel\i\j\k}
+  \node[cubev] at (v\i\j\k) {};\cubelabel\i\j\k
 }}}
 #1
 \end{tikzpicture}}
@@ -139,12 +136,12 @@
   \end{enumerate}}
 \newcommand{\themeoutlinenote}{%
   \ifcase\value{section}
-  \or \textbf{0:15--1:00.} The Steane code and then the $\qcode832$ code, drawn on the cube $\F_2^3$, introduce CSS codes, transversal gates, and the overlap conditions. We then fix the stabilizers of a larger code using geometry, complete its logical rows, and solve for the physical gate signs. The final part explains the short-length exclusions and remaining questions.
-  \or \textbf{7:50--8:00.} We now work through the $\qcode832$ code: its encoding, its logical phase, and the overlap conditions that produce CCZ.
-  \or \textbf{13:00--13:10.} The $\qcode832$ code gives the exact signed conditions. We now connect them to triorthogonality and separate parity constraints from physical signs.
-  \or \textbf{15:40--15:50.} With the gate conditions in place, we turn to the forty-eight-qubit construction and the geometry that fixes its stabilizers.
-  \or \textbf{22:40--22:50.} Geometry has fixed the stabilizers. We now use column indicators to find logical rows and then solve for gate signs.
-  \or \textbf{30:40--30:50.} The construction is complete. Finally, we use the same Boolean viewpoint to understand the lower bound and remaining questions.
+  \or \textbf{0:15--1:00.} The $\qcode832$ code, drawn on the cube $\F_2^3$, introduces CSS codes and transversal gates, and then the overlap conditions for CCZ. We then fix the stabilizers of a larger code using geometry, complete its logical rows, and solve for the physical gate signs. The final part explains the short-length exclusions and remaining questions.
+  \or \textbf{8:35--8:45.} Back to the $\qcode832$ code: its logical phase and the overlap conditions that produce CCZ.
+  \or \textbf{12:30--12:40.} The $\qcode832$ code gives the exact signed conditions. We now connect them to triorthogonality and separate parity constraints from physical signs.
+  \or \textbf{15:10--15:20.} With the gate conditions in place, we turn to the forty-eight-qubit construction and the geometry that fixes its stabilizers.
+  \or \textbf{22:10--22:20.} Geometry has fixed the stabilizers. We now use column indicators to find logical rows and then solve for gate signs.
+  \or \textbf{30:10--30:20.} The construction is complete. Finally, we use the same Boolean viewpoint to understand the lower bound and remaining questions.
   \fi}
 \AtBeginSection[]{%
   \ifnum\value{section}=1\relax
@@ -175,32 +172,29 @@ arXiv:2610.09341
 
 \section{CSS codes and transversal gates}
 
-\begin{frame}[label=vectors]{Binary vectors as Boolean functions}
+\begin{frame}[label=vectors]{Generator rows on the cube}
 \talktext
 \begin{columns}[c,onlytextwidth]
 \column{.36\textwidth}\centering
 \resizebox{.95\linewidth}{!}{\cubeobject{%
 \only<2>{\cubevalues{\i}}\only<3>{\cubevalues{\j}}\only<4>{\cubevalues{\i*\j}}\only<5>{\cubevalues{mod(\i+\j,2)}}}}
-\par\scriptsize\rule{0pt}{3ex}\only<1>{One qubit at each point $u\in\F_2^3$.}\only<2>{The vector $u_1$.}\only<3>{The vector $u_2$.}\only<4>{The overlap $u_1\wedge u_2=u_1u_2$: an edge.}\only<5>{The XOR $u_1\oplus u_2$.}
+\par\scriptsize\rule{0pt}{3ex}\only<1>{One qubit at each point $u\in\F_2^3$.}\only<2>{Row $u_1$: the face $u_1=1$.}\only<3>{Row $u_2$: the face $u_2=1$.}\only<4>{$u_1u_2$: an edge.}\only<5>{$u_1+u_2$.}
 \column{.61\textwidth}
-Index $n=8$ qubits by the points $u\in\F_2^3$. A binary vector is a Boolean function, with support and weight:
-\[
-c\colon\F_2^3\to\F_2,\quad \operatorname{supp}c=\{u:c(u)=1\},\quad |c|=\#\operatorname{supp}c.
-\]
-\onslide<2->{The coordinate functions are faces, in the order $000,001,\ldots,111$:
-\[
-u_1=00001111,\qquad u_2=00110011.
+Label the $n=8$ columns (qubits) by the points $u\in\F_2^3$. A Boolean function $f$ in ANF gives the row $f\in\F_2^8$ of its values, of weight $|f|$.
+{\footnotesize\setlength{\arraycolsep}{2.4pt}\[
+\begin{array}{@{}l|cccccccc@{}}
+ & \mathtt{000} & \mathtt{001} & \mathtt{010} & \mathtt{011} & \mathtt{100} & \mathtt{101} & \mathtt{110} & \mathtt{111}\\\hline
+\visible<2->{u_1} & \visible<2->{0} & \visible<2->{0} & \visible<2->{0} & \visible<2->{0} & \visible<2->{1} & \visible<2->{1} & \visible<2->{1} & \visible<2->{1}\\
+\visible<3->{u_2} & \visible<3->{0} & \visible<3->{0} & \visible<3->{1} & \visible<3->{1} & \visible<3->{0} & \visible<3->{0} & \visible<3->{1} & \visible<3->{1}\\
+\visible<4->{u_1u_2} & \visible<4->{0} & \visible<4->{0} & \visible<4->{0} & \visible<4->{0} & \visible<4->{0} & \visible<4->{0} & \visible<4->{1} & \visible<4->{1}\\
+\visible<5->{u_1+u_2} & \visible<5->{0} & \visible<5->{0} & \visible<5->{1} & \visible<5->{1} & \visible<5->{1} & \visible<5->{1} & \visible<5->{0} & \visible<5->{0}\\
+\end{array}
 \]}
-\onslide<4->{Overlap $c\wedge c'$ (entrywise product) and dot product $c\cdot c'$:
-\[
-|u_1\wedge u_2|=2,\qquad u_1\cdot u_2=|u_1\wedge u_2|\bmod2=0.
-\]}
-\onslide<5->{XOR $c\oplus c'$ (entrywise sum mod 2):
-\[
-u_1\oplus u_2=00111100.
-\]}
+\onslide<4->{Rows $c,c'$: overlap $c\wedge c'$ (entrywise product), dot product $c\cdot c'=|c\wedge c'|\bmod2$. The row $u_1u_2$ is the overlap of the rows $u_1$, $u_2$.}
+\par\smallskip
+\onslide<5->{XOR $c\oplus c'$ (entrywise sum): the row $u_1+u_2$.}
 \end{columns}
-\note{\textbf{1:00--1:55.} The cube is only a drawing device: qubits sit at its vertices, and a binary vector of length eight is a Boolean function on them. Faces have four ones, two faces meet in an edge, the degree-two function u1 u2, and the dot product is the parity of the overlap.}
+\note{\textbf{1:00--2:00.} Read every vector as a row first: u1 is 00001111. The cube only shows where a row has its ones. Functions use ANF, sums and products. Rows use overlap, XOR and dot product. The product u1 u2 evaluates to the overlap of the rows, an edge.}
 \end{frame}
 
 \begin{frame}[label=pauli]{Pauli strings}
@@ -228,70 +222,61 @@ b=\delta_{100}\oplus\delta_{110}\colon\quad a\cdot b=0,\ \text{commute},\\
 \end{array}
 \]}
 \end{columns}
-\note{\textbf{1:55--2:55.} Swapping X and Z on one qubit gives a minus sign, so the sign of the swap is the parity of the overlap. Z on an edge inside the face commutes with X on the face. Z on an edge that leaves the face anticommutes.}
+\note{\textbf{2:00--3:00.} Swapping X and Z on one qubit gives a minus sign, so the sign of the swap is the parity of the overlap. Z on an edge inside the face commutes with X on the face. Z on an edge that leaves the face anticommutes.}
 \end{frame}
 
 \begin{frame}[label=css]{Stabilizer and CSS codes}
 \talktext
-\emph{Stabilizer code}: the joint $+1$ eigenspace of commuting Pauli strings, the \emph{stabilizer generators}. They generate an abelian group, the \emph{stabilizers}. Flipped eigenvalues form the \emph{syndrome}.
-\par\smallskip
-$\qcode nkd$: $n$ qubits, dimension $2^k$, and $d$ the least weight (number of qubits acted on) of a nontrivial \emph{logical operator}.
-\par\medskip
-\onslide<2->{The \emph{CSS code} of $\C_2\subseteq\C_1\subseteq\F_2^n$ [CS96, Ste96], with $s$ stabilizer rows $S_l$ and $k$ logical rows $K_i$, has $X$-type and $Z$-type stabilizers
+\vspace*{-2pt}{\small\emph{Stabilizer group} $\mathcal S$: abelian, generated by Pauli strings (the \emph{stabilizer generators}), $-I\notin\mathcal S$. The code is the subspace fixed by $\mathcal S$. \emph{Syndrome}: the measured signs of the generators. An error flips the signs of those it anticommutes with.
+\par
+\emph{Logical operator}: a Pauli string commuting with $\mathcal S$, nontrivial if not in $\mathcal S$. $\qcode nkd$: $n$ qubits, $k$ logical qubits, $d$ the least weight of a nontrivial logical operator.}
+\par
+\onslide<2->{\emph{CSS code} of $\C_2\subseteq\C_1\subseteq\F_2^n$ [CS96, Ste96], with $s$ stabilizer rows $S_l$ and $k$ logical rows $K_i$, has $X$-type and $Z$-type stabilizers
 \[
 X(a),\ a\in\C_2=\operatorname{rowspan}S,\qquad Z(b),\ b\in\C_1^\perp,\qquad \C_1=\operatorname{rowspan}G,\ \ G=\left[\begin{smallmatrix}K\\S\end{smallmatrix}\right].
 \]}
-\onslide<3->{The logical basis is a uniform superposition over the coset $K^{\top}x\oplus\C_2$:
+\onslide<3->{Logical basis: uniform superposition over the coset $K^{\top}x\oplus\C_2$,
 \[
-\ket{x}_L=2^{-s/2}\textstyle\sum_{y\in\F_2^s}\ket{K^{\top}x\oplus S^{\top}y},\qquad x\in\F_2^k.
+\ket{x}_L=2^{-s/2}\textstyle\sum_{y\in\F_2^s}\ket{K^{\top}x\oplus S^{\top}y},\qquad K^{\top}x=\bigoplus_ix_iK_i.
 \]}
 \source{\refCS\par\refSt}
-\note{\textbf{2:55--3:55.} An error that anticommutes with a stabilizer flips its measured eigenvalue. X(a) and Z(b) commute because a dot b is zero for a in C2 and b in the dual of C1. The next slide fills in every symbol for the Steane code.}
+\note{\textbf{3:00--4:15.} An error that anticommutes with a generator flips its measured sign. X(a) and Z(b) commute because a dot b is zero for a in C2 and b in the dual of C1. The next slide fills in every symbol for the [[8,3,2]] code.}
 \end{frame}
 
-\begin{frame}[label=steane]{The Steane code}
+\begin{frame}[label=code832]{The $\qcode{8}{3}{2}$ code}
 \talktext
-\begin{columns}[c,onlytextwidth]
+\vspace*{-1ex}\begin{columns}[c,onlytextwidth]
 \column{.36\textwidth}\centering
-\resizebox{.95\linewidth}{!}{\cubezerofalse\cubeobject{%
-\only<1>{\cubemark{\i}{fill=Teal,text=white}{$X$}}%
-\only<2>{\cubemark{\i}{fill=Teal,text=white}{1}}%
-\only<3>{\cubemark{(1-\i)*min(1,\j+\k)}{fill=Gold,text=white}{1}}}}
-\par\scriptsize\rule{0pt}{3ex}\only<1>{$X(u_1)$, an $X$-type stabilizer.}\only<2>{$u_1$, a term of $\ket0_L$.}\only<3>{$\mathbf 1\oplus u_1$, a term of $\ket1_L$.}
+\resizebox{.95\linewidth}{!}{\cubeobject{%
+\only<1>{\cubemark{1}{fill=Teal,text=white}{$X$}}%
+\only<2>{\cubemark{\i}{fill=Teal,text=white}{1}\cubemark{1-\i}{fill=Gold,text=white}{1}}%
+\only<3>{\cubemark{mod(\i+\j+\k,2)}{fill=Teal,text=white}{1}\cubemark{1-mod(\i+\j+\k,2)}{fill=Gold,text=white}{1}}%
+\only<4>{\cubeZ{000}}%
+\only<5>{\cubeedge{000}{100}\cubeZ{000}\cubeZ{100}}}}
+\par\scriptsize\rule{0pt}{3ex}\only<1>{$X(\mathbf 1)$, the $X$-type stabilizer generator.}\only<2>{$x=100$. Blue: $K_1=00001111$. Gold: $11110000$.}\only<3>{$x=111$. Blue: $K_1\oplus K_2\oplus K_3=01101001$. Gold: its complement.}\only<4>{$Z$ on $000$: syndrome 1.}\only<5>{$Z$ on the edge $000$--$100$: syndrome 0.}
 \column{.61\textwidth}
-Seven qubits at the points $u\ne000$ [Ste96]. The stabilizer rows are the coordinate functions, and $\mathbf 1$ is the all-ones vector:
-\[
-S=\begin{bmatrix}u_1\\u_2\\u_3\end{bmatrix},\qquad K=\mathbf 1,\qquad \C_1^\perp=\C_2.
-\]
-\onslide<2->{With $K^{\top}x=x\mathbf 1$, the logical basis is
-\[
-\ket x_L=2^{-3/2}\textstyle\sum_{y\in\F_2^3}\ket{x\mathbf 1\oplus S^{\top}y},\qquad x\in\F_2.
+$G=[K;S]$:
+{\scriptsize\setlength{\arraycolsep}{2.4pt}\[
+\begin{array}{@{}l|cccccccc@{}}
+ & \mathtt{000} & \mathtt{001} & \mathtt{010} & \mathtt{011} & \mathtt{100} & \mathtt{101} & \mathtt{110} & \mathtt{111}\\\hline
+K_1=u_1 & 0&0&0&0&1&1&1&1\\
+K_2=u_2 & 0&0&1&1&0&0&1&1\\
+K_3=u_3 & 0&1&0&1&0&1&0&1\\\hline
+S=\mathbf 1 & 1&1&1&1&1&1&1&1
+\end{array}
 \]}
-\end{columns}
-\note{\textbf{3:55--4:35.} C2 is the simplex code spanned by the three faces, and C1 adds the all-ones vector, which gives the Hamming code. Because the dual of C1 is C2, the Z-type stabilizers sit on the same faces as the X-type ones.}
-\end{frame}
-
-\begin{frame}[label=syndromes]{Syndromes and distance}
-\talktext
-\begin{columns}[c,onlytextwidth]
-\column{.36\textwidth}\centering
-\resizebox{.95\linewidth}{!}{\cubezerofalse\cubeobject{%
-\only<1>{\cubeZ{101}}\only<2>{\cubeZ{101}\cubeZ{011}}\only<3->{\cubeZ{001}\cubeZ{010}\cubeZ{011}}}}
-\par\scriptsize\rule{0pt}{3ex}\only<1>{$Z(\delta_{101})$: syndrome $101$.}\only<2>{$Z$ on $101,011$: syndrome $110$.}\only<3->{$Z$ on $001,010,011$: syndrome $000$.}
-\column{.61\textwidth}
-$Z(e)$ anticommutes with $X(S_l)$ exactly when $S_l\cdot e=1$, so its syndrome is $Se$. In the Steane code, column $u$ of $S$ is the point $u$:
+\vspace{-1.5ex}{\scriptsize $\C_1=\RM(1,3)$, degree $\le1$, an $[8,4,4]$ Reed--Muller code.\par}
+\smallskip
+\onslide<2->{With $K^{\top}x=x_1K_1\oplus x_2K_2\oplus x_3K_3$:
 \[
-S\delta_u=u.
-\]
-\onslide<2->{The columns are distinct and nonzero, so $Se\ne0$ whenever $1\le|e|\le2$.}
-\par\smallskip
-\onslide<3->{Logical operators are $X(v)$, $v\in\C_1\setminus\C_2$, and $Z(v)$, $v\in\C_2^\perp\setminus\C_1^\perp$:
-\[
-d_X=\min_{v\in\C_1\setminus\C_2}|v|,\qquad d_Z=\min_{v\in\C_2^\perp\setminus\C_1^\perp}|v|.
+\ket{x}_L=\bigl(\ket{K^{\top}x}+\ket{\mathbf 1\oplus K^{\top}x}\bigr)/\sqrt2.
 \]}
-\takeawayat{3-}{The Steane code has $d_X=d_Z=3$, so $d=\min(d_X,d_Z)=3$: a $\qcode713$ code.}
+\onslide<4->{$Z(\delta_{000})$ anticommutes with $X(\mathbf 1)$: syndrome 1.}
+\par
+\onslide<5->{$Z(\delta_{000}\oplus\delta_{100})\ket x_L=(-1)^{x_1}\ket x_L$: a logical operator.}
 \end{columns}
-\note{\textbf{4:35--5:40.} The syndrome of a single Z error names the qubit. A pair of errors has syndrome u plus v, which is nonzero for distinct points. The three points 001, 010, 011 form a line u, v, u plus v, so the syndrome vanishes, and the error has odd weight, so it is not in C2. The same argument with distinct nonzero columns returns for the 48-qubit code.}
+\takeawayat{5-}{Least weights of nontrivial $X$-, $Z$-type logical operators: $d_X=4$, $d_Z=2$, $d=\min(d_X,d_Z)=2$.}
+\note{\textbf{4:15--5:45.} The faces are the logical rows and the all-ones vector is the only stabilizer row. Each logical state is a codeword and its complement, because S is the single all-ones row. One Z error flips the sign of X(1). Two Z errors on an edge do not, and they act as a logical operator, so d_Z is 2. RM(1,3) has minimum weight four, so d_X is 4.}
 \end{frame}
 
 \begin{frame}[label=gates]{Clifford and non-Clifford gates}
@@ -306,61 +291,49 @@ On basis states, with $x,x_i\in\F_2$:
 $S$, $T$ and CCZ are \emph{diagonal}, and $\ket+=H\ket0=(\ket0+\ket1)/\sqrt2$.
 \par\medskip
 \onslide<2->{The \emph{Clifford group} maps Pauli strings to Pauli strings under conjugation, and $H$, $S$, CNOT generate it.}
-\takeawayat{3-}{Clifford gates are not universal. Clifford $+\,T$ and Clifford $+$ CCZ are. A quantum computer needs both kinds as logical gates.}
-\note{\textbf{5:40--6:40.} Every gate is written by its action on basis states. Clifford circuits from basis states are classically simulable, which is why a non-Clifford gate is needed.}
+\takeawayat{3-}{Clifford gates alone are not universal. Adding $T$ or CCZ makes them universal.}
+\note{\textbf{5:45--6:45.} Every gate is written by its action on basis states. Clifford circuits from basis states are classically simulable, which is why a non-Clifford gate is needed.}
 \end{frame}
 
 \begin{frame}[label=transversal]{Transversal gates and distillation}
 \talktext
-\begin{columns}[c,onlytextwidth]
-\column{.36\textwidth}\centering
-\resizebox{.85\linewidth}{!}{\cubezerofalse\cubeobject{%
-\only<1>{\cubemark{\i}{fill=Teal,text=white}{1}}%
-\only<2->{\cubemark{(1-\i)*min(1,\j+\k)}{fill=Gold,text=white}{1}}}}
-\par\scriptsize\rule{0pt}{3ex}\only<1>{$u_1$: weight 4, phase 1.}\only<2->{$\mathbf 1\oplus u_1$: weight 3, phase $-i$.}
-\column{.61\textwidth}
-A logical gate $\bar U$ acts on $\ket x_L$ as $U$ acts on $\ket x$. It is \emph{transversal} if $\bar U=U_1\otimes\cdots\otimes U_n$ on the code space.
-\par\smallskip
-\onslide<2->{Steane: $S^{\otimes7}\ket c=i^{|c|}\ket c$. Terms of $\ket0_L$ have weight 0 or 4, terms of $\ket1_L$ weight 3 or 7, so $S^{\otimes7}$ is logical $S^\dagger$.}
-\par\smallskip
-\onslide<3->{$H$, $S$, CNOT are transversal on Steane. [EK09]: no code that detects every single-qubit error has a universal transversal gate set, so Steane has no transversal $T$.}
-\end{columns}
-\onslide<4->{\emph{Magic-state distillation} [BK05]: Clifford operations turn many noisy $T\ket+$ or $\mathrm{CCZ}\ket{{+}{+}{+}}$ into fewer, less noisy copies, using a code with transversal $T$ or CCZ.}
-\takeawayat{5-}{Which CSS codes with $k=3$ have $U_j\in\{T,T^\dagger\}$ with $U_1\otimes\cdots\otimes U_n$ logical CCZ?}
+A physical unitary $\bar U$ implements the logical gate $U$ if it maps every encoded state $\sum_x\alpha_x\ket x_L$ to the encoding of $U\sum_x\alpha_x\ket x$. It is \emph{transversal} if
+\[
+\bar U=U_1\otimes\cdots\otimes U_n,\qquad U_j\text{ acting on qubit }j.
+\]
+\onslide<2->{Eastin--Knill [EK09]: no code that detects every single-qubit error has a universal transversal gate set.}
+\par\medskip
+\onslide<3->{\emph{Magic-state distillation} [BK05] uses Clifford operations:
+\[
+\text{many noisy } T\ket{+}\text{ or }\mathrm{CCZ}\ket{{+}{+}{+}}\ \longrightarrow\ \text{fewer, less noisy copies}.
+\]}
+\takeawayat{3-}{Distillation needs a code with a transversal logical $T$ or CCZ.}
 \source{\refEK\par\refBK}
-\note{\textbf{6:40--7:50.} A transversal gate keeps a single gate fault on a single qubit. S on every qubit multiplies each term by i to its weight. The weights are 0 and 4 in the zero state and 3 and 7 in the one state, so the one state gets minus i. With H, S and CNOT transversal, Eastin-Knill forbids a transversal T. Each distilled copy is consumed to apply one non-Clifford gate.}
+\note{\textbf{6:45--7:30.} A transversal gate keeps a single gate fault on a single qubit. Eastin and Knill rule out a universal transversal gate set, so some logical gate needs another method. Each distilled copy is consumed to apply one non-Clifford gate.}
+\end{frame}
+
+\begin{frame}[label=examples]{Codes with different transversal gates}
+\talktext
+\renewcommand{\arraystretch}{1.0}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.21\textwidth}>{\raggedright\arraybackslash}p{.39\textwidth}>{\raggedright\arraybackslash}p{.32\textwidth}@{}}
+\toprule
+Code & $\C_1\supset\C_2$ & Transversal logical gates\\
+\midrule
+Steane $\qcode713$ [Ste96] & Hamming $[7,4,3]\supset$ its dual $[7,3,4]$ & $H$, $S$. Not $T$.\\
+$\qcode{15}13$ [BK05] & punctured $\RM(1,4)$, $[15,5,7]\supset$ its even-weight subcode & $T^{\otimes15}$ is logical $T^\dagger$. Not $H$.\\
+$\qcode832$ [CH17] & $\RM(1,3)\supset\langle\mathbf 1\rangle$ & $T$ or $T^\dagger$ on each qubit: logical CCZ.\\
+\bottomrule
+\end{tabular}
+\par
+{\scriptsize $\RM(r,m)$: Reed--Muller code, degree $\le r$ in $m$ variables. Punctured: one coordinate deleted.}
+\par\smallskip
+\onslide<2->{Every CSS code has transversal CNOT, so [EK09] rules out transversal $T$ for Steane and $H$ for $\qcode{15}13$.}
+\takeawayat{3-}{Which CSS codes with $k=3$ have $U_j\in\{T,T^\dagger\}$ with $U_1\otimes\cdots\otimes U_n$ logical CCZ?}
+\source{\refCH}
+\note{\textbf{7:30--8:35.} For Steane, the codewords of the zero state have weights 0 and 4 and those of the one state have weights 3 and 7, so S on every qubit acts as logical S-dagger. H on every qubit swaps the X-type and Z-type stabilizers, which is allowed because C2 is the dual of C1. For the fifteen-qubit code the weights are 0 and 8 against 7 and 15, so T on every qubit gives logical T-dagger. The eight-qubit code is the running example of the next part.}
 \end{frame}
 
 \section{The \texorpdfstring{$\qcode832$}{[[8,3,2]]} code: a worked example of logical CCZ}
-
-\begin{frame}[label=code832]{The $\qcode{8}{3}{2}$ code}
-\talktext
-\begin{columns}[c,onlytextwidth]
-\column{.36\textwidth}\centering
-\resizebox{.95\linewidth}{!}{\cubeobject{%
-\only<1>{\cubemark{1}{fill=Teal,text=white}{$X$}}%
-\only<2>{\cubemark{\i}{fill=Teal,text=white}{1}\cubemark{1-\i}{fill=Gold,text=white}{1}}%
-\only<3>{\cubemark{mod(\i+\j+\k,2)}{fill=Teal,text=white}{1}\cubemark{1-mod(\i+\j+\k,2)}{fill=Gold,text=white}{1}}%
-\only<4>{\cubeedge{000}{100}\cubeZ{000}\cubeZ{100}}}}
-\par\scriptsize\rule{0pt}{3ex}\only<1>{$X(\mathbf 1)$, the $X$-type stabilizer generator.}\only<2>{$x=100$. Teal: $u_1$. Gold: $\mathbf 1\oplus u_1$.}\only<3>{$x=111$. Teal: $x\cdot u$. Gold: $\mathbf 1\oplus x\cdot u$.}\only<4>{$Z$ on the edge $000$--$100$.}
-\column{.61\textwidth}
-All eight points are qubits:
-\[
-S=\mathbf 1,\qquad K=\begin{bmatrix}u_1\\u_2\\u_3\end{bmatrix},\qquad \C_1=\RM(1,3).
-\]
-{\scriptsize $\RM(r,m)$: Reed--Muller code, polynomials of degree $\le r$ in $m$ variables. $\RM(1,3)=\operatorname{span}\{\mathbf 1,u_1,u_2,u_3\}$ is an $[8,4,4]$ code.}
-\par\medskip
-\onslide<2->{With $K^{\top}x=x\cdot u=x_1u_1\oplus x_2u_2\oplus x_3u_3$:
-\[
-\ket{x}_L=\bigl(\ket{x\cdot u}+\ket{\mathbf 1\oplus x\cdot u}\bigr)/\sqrt2.
-\]}
-\onslide<4->{$Z$ on the edge commutes with $X(\mathbf 1)$:
-\[
-Z(\delta_{000}\oplus\delta_{100})\ket x_L=(-1)^{x_1}\ket x_L,\qquad d_Z=2,\quad d_X=4.
-\]}
-\end{columns}
-\note{\textbf{8:00--9:15.} The Steane code had the faces as stabilizers and the all-ones vector as logical row. Here the all-ones vector is the stabilizer and the faces are the logical rows. Each logical state is a pair of complementary codewords. The edge carries a weight-two Z logical, and RM(1,3) has minimum weight four.}
-\end{frame}
 
 \begin{frame}[label=cube-signed]{Signed weight and the gate condition}
 \talktext
@@ -368,12 +341,14 @@ A \emph{$T/T^\dagger$ pattern} puts $T^{\Gamma_j}$ on qubit $j$, with $\Gamma\in
 \[
 \bigotimes_jT^{\Gamma_j}\ket c=e^{i\pi \sw_\Gamma(c)/4}\ket c,\qquad \sw_\Gamma(c)=\sum_j\Gamma_jc_j.
 \]
-\onslide<2->{Logical CCZ: every codeword of the coset $K^{\top}x\oplus\C_2$ gets the phase $(-1)^{x_1x_2x_3}$:
+$\sw_\Gamma(c)$ = (number of ones of $c$ on $T$ qubits) $-$ (number of ones of $c$ on $T^\dagger$ qubits).
+\par\medskip
+\onslide<2->{The pattern is diagonal, so each codeword gets its own phase. Logical CCZ: every codeword of the coset $K^{\top}x\oplus\C_2$ gets the same phase $(-1)^{x_1x_2x_3}$:
 \[
 \sw_\Gamma(K^{\top}x\oplus S^{\top}y)\equiv4x_1x_2x_3\pmod8\qquad\text{for all }x\in\F_2^3,\ y\in\F_2^s.
 \]}
-\takeawayat{2-}{The gate condition is a congruence on integer signed weights.}
-\note{\textbf{9:15--10:15.} The phase on a basis state is a product of one factor per qubit. Every codeword in a coset must receive the same phase, otherwise the gate leaves the code space. The modulus is eight because the phase depends only on sw mod 8. The zero codeword receives phase one, so there is no freedom in a global phase.}
+\takeawayat{2-}{Finding a $T/T^\dagger$ pattern means choosing $\Gamma$ so that this congruence holds for every codeword.}
+\note{\textbf{8:45--9:45.} The phase on a basis state is a product of one factor per qubit. Every codeword in a coset must receive the same phase, otherwise the gate leaves the code space. The modulus is eight because the phase depends only on sw mod 8. The zero codeword receives phase one, so there is no freedom in a global phase.}
 \end{frame}
 
 \begin{frame}[label=cube-phase]{A $T/T^\dagger$ pattern for logical CCZ}
@@ -381,7 +356,7 @@ A \emph{$T/T^\dagger$ pattern} puts $T^{\Gamma_j}$ on qubit $j$, with $\Gamma\in
 \begin{columns}[T,onlytextwidth]
 \column{.32\textwidth}\centering
 \resizebox{.95\linewidth}{!}{\cubeobject{\only<2->{\cubegates}\only<3>{\cubering{100}\cubering{101}\cubering{110}\cubering{111}}\only<4>{\cubeedge{110}{111}\cubering{110}\cubering{111}}\only<5>{\cubering{111}}}}
-\par\scriptsize\rule{0pt}{3ex}\only<2->{$T^\dagger$ where $\gamma=u_1\oplus u_2\oplus u_3$ is 1 [CH17].}\par\only<3>{$K_1=u_1$: the face $u_1=1$.}\only<4>{$K_1\wedge K_2=u_1u_2$.}\only<5>{$K_1\wedge K_2\wedge K_3=u_1u_2u_3$.}
+\par\scriptsize\rule{0pt}{3ex}\only<2->{$T^\dagger$ where $\gamma=u_1+u_2+u_3$ is 1 [CH17].}\par\only<3>{Row $K_1=00001111$: the face $u_1=1$.}\only<4>{$K_1\wedge K_2=00000011$: an edge.}\only<5>{$K_1\wedge K_2\wedge K_3=00000001$: a vertex.}
 \column{.65\textwidth}
 XOR of bits as an integer:
 \[
@@ -399,7 +374,7 @@ Applied at each vertex to $c=K^{\top}x$, weighted by $\Gamma_u$:
 \]
 \takeawayat{5-}{$\sw_\Gamma(c)=-4x_1x_2x_3\equiv4x_1x_2x_3\pmod8$: logical CCZ.}
 \end{columns}
-\note{\textbf{10:15--12:15.} Ask where the inverse gates should go before revealing the pattern. The bit identity counts one exactly when an odd number of the bits are one. For any number of selected rows, an overlap of t rows has coefficient (-2) to the power t-1, so overlaps of four or more vanish mod eight. The stabilizer row 1 adds terms that vanish in the same way: K_i and 1 overlap in a face, K_i, K_j and 1 overlap in an edge.}
+\note{\textbf{9:45--11:45.} Ask where the inverse gates should go before revealing the pattern. The bit identity counts one exactly when an odd number of the bits are one. For any number of selected rows, an overlap of t rows has coefficient (-2) to the power t-1, so overlaps of four or more vanish mod eight. The stabilizer row 1 adds terms that vanish in the same way: K_i and 1 overlap in a face, K_i, K_j and 1 overlap in an edge.}
 \end{frame}
 
 \begin{frame}[label=cube-condition]{The gate condition becomes conditions on generator rows}
@@ -416,9 +391,9 @@ Comparing coefficients in the gate condition gives, for distinct rows $g,g',g''$
 \sw_\Gamma(g\wedge g'\wedge g'')&\equiv\begin{cases}1,&\{g,g',g''\}=\{K_1,K_2,K_3\},\\0,&\text{otherwise},\end{cases}\pmod2.
 \end{aligned}
 \]
-\takeawayat{2-}{The $\qcode832$ code satisfies all three: faces and edges give 0, and the vertex $111$ gives $-1$.}
+\takeawayat{2-}{The $\qcode832$ code satisfies all three (faces and edges give 0, the vertex $111$ gives $-1$). We impose them on the rows of $G$ to build larger codes.}
 \source{\refBH}
-\note{\textbf{12:15--13:00.} Minus two times a pair overlap must vanish mod eight, which gives mod four. Four times a triple overlap must equal four times the CCZ indicator, which gives a parity. Terms of order four and higher carry a factor eight.}
+\note{\textbf{11:45--12:30.} Minus two times a pair overlap must vanish mod eight, which gives mod four. Four times a triple overlap must equal four times the CCZ indicator, which gives a parity. Terms of order four and higher carry a factor eight.}
 \end{frame}
 
 \section{Triorthogonality and the CCZ conditions}
@@ -435,7 +410,7 @@ Comparing coefficients in the gate condition gives, for distinct rows $g,g',g''$
 \onslide<2->{A \emph{triorthogonal matrix} [BH12]: $|g\wedge g'|\equiv|g\wedge g'\wedge g''|\equiv0\pmod2$ for distinct rows $g,g',g''$.}
 \takeawayat{2-}{CCZ needs one odd triple, $K_1\wedge K_2\wedge K_3$, so we use the generalized conditions of [CH17] on the next slide.}
 \source{\refNH\par\refCLMa\par\refCLMb}
-\note{\textbf{13:10--14:10.} Bravyi-Haah turn the gate action into parity conditions on binary rows. Campbell-Howard give the CCZ version, which is used here. Nezami-Haah classify through unital spaces and Reed-Muller indicators, and their n plus k bound is not our n at most 38 result. The CSS-T line studies pairs of binary codes on which transversal T acts as a logical gate. Their 2026 paper computes the diagonal transversal gates of a CSS code.}
+\note{\textbf{12:40--13:40.} Bravyi-Haah turn the gate action into parity conditions on binary rows. Campbell-Howard give the CCZ version, which is used here. Nezami-Haah classify through unital spaces and Reed-Muller indicators, and their n plus k bound is not our n at most 38 result. The CSS-T line studies pairs of binary codes on which transversal T acts as a logical gate. Their 2026 paper computes the diagonal transversal gates of a CSS code.}
 \end{frame}
 
 \begin{frame}[label=ch]{Conditions for quasi-transversal CCZ}
@@ -457,7 +432,7 @@ C\,T^{\otimes n}=\overline{\mathrm{CCZ}}.
 \]}
 \takeawayat{3-}{A $T/T^\dagger$ pattern with no correction needs the mod 8 and mod 4 conditions on $\Gamma$.}
 \end{columns}
-\note{\textbf{14:10--15:40.} K1 to K3 involve logical rows only, KS1 to KS3 are mixed, S1 to S3 are stabilizer only. K3 is the single odd condition and selects CCZ. The 47-qubit code of Jacinto et al. satisfies all nine and has no sign vector.}
+\note{\textbf{13:40--15:10.} K1 to K3 involve logical rows only, KS1 to KS3 are mixed, S1 to S3 are stabilizer only. K3 is the single odd condition and selects CCZ. The 47-qubit code of Jacinto et al. satisfies all nine and has no sign vector.}
 \end{frame}
 
 \section{Projective geometry and the 48-qubit code}
@@ -474,7 +449,7 @@ $\mathcal Q_{48}=\qcode{48}{3}{3}$, with $(d_X,d_Z)=(16,3)$. A $T/T^\dagger$ pat
 \item Removing other subspaces gives codes at 13 block lengths from 48 to 496.
 \end{itemize}
 \source{\refLB\par\refWJS}
-\note{\textbf{15:50--17:10.} State the result now that every term has been defined on the cube. Distance three corrects one error. The transversal pattern keeps a single gate fault on a single qubit. The remainder of the talk explains the three steps and then the bounds. The 39 to 46 exclusion is from Wills, Jain and Singh, not from our paper.}
+\note{\textbf{15:20--16:40.} State the result now that every term has been defined on the cube. Distance three corrects one error. The transversal pattern keeps a single gate fault on a single qubit. The remainder of the talk explains the three steps and then the bounds. The 39 to 46 exclusion is from Wills, Jain and Singh, not from our paper.}
 \end{frame}
 
 \begin{frame}[label=fix-s]{Fix $S$ from finite projective geometry}
@@ -485,7 +460,7 @@ $\mathcal Q_{48}=\qcode{48}{3}{3}$, with $(d_X,d_Z)=(16,3)$. A $T/T^\dagger$ pat
 \item<3-> Search for logical rows $K$ satisfying K1--K3 and KS1--KS3.
 \item<4-> Solve for the signs $\Gamma$ over $\mathbb Z_4$.
 \end{enumerate}
-\note{\textbf{17:10--18:10.} Eight-divisibility is a design choice for the stabilizer code, not part of the definition of the CH conditions. Steps one and two are classical coding theory. Step three is the only search. Step four is a linear-algebra test.}
+\note{\textbf{16:40--17:40.} Eight-divisibility is a design choice for the stabilizer code, not part of the definition of the CH conditions. Steps one and two are classical coding theory. Step three is the only search. Step four is a linear-algebra test.}
 \end{frame}
 
 \begin{frame}[label=projective]{Projectivity rules out weight-one and weight-two $Z$ logicals}
@@ -495,9 +470,9 @@ Let $\beta_j$ be column $j$ of $S$. A $Z$ error on qubit $j$ has syndrome $\beta
 \item $\beta_j\ne0$ for all $j$: every single $Z$ error is detected.
 \item $\beta_i\ne\beta_j$ for all $i\ne j$: every pair of $Z$ errors is detected.
 \end{itemize}
-Such $S$ is called \emph{projective}: its columns are distinct points of $\PG(s-1,2)$, the $2^s-1$ nonzero vectors of $\F_2^s$. The Steane $S$ is projective: its columns are all 7 points of $\PG(2,2)$.
+Such $S$ is called \emph{projective}: its columns are distinct points of $\PG(s-1,2)$, the $2^s-1$ nonzero vectors of $\F_2^s$. In $\qcode832$, $S=\mathbf 1$ has all columns equal, so $Z$ on two qubits can have syndrome 0: that is why $d_Z=2$ there.
 \takeaway{$d_Z\ge3$ follows from the columns of $S$ alone, for every choice of logical rows $K$.}
-\note{\textbf{18:10--19:10.} This is the parity-check argument for a distance-three classical code. S generates the X-type stabilizers, so it detects Z errors. The statement covers d_Z only. d_X is computed for the final code.}
+\note{\textbf{17:40--18:40.} This is the parity-check argument for a distance-three classical code. S generates the X-type stabilizers, so it detects Z errors. The statement covers d_Z only. d_X is computed for the final code.}
 \end{frame}
 
 \begin{frame}[label=support]{Complement of a projective subspace}
@@ -505,16 +480,16 @@ Such $S$ is called \emph{projective}: its columns are distinct points of $\PG(s-
 \[
 \mathcal P=\PG(5,2)\setminus\PG(3,2),\qquad |\mathcal P|=63-15=48.
 \]
-The \emph{support} of $S$ is its set of columns. Write $\beta=(u,w)\in\F_2^4\times\F_2^2$. The removed $\PG(3,2)$ is the set of 15 nonzero points with $w=00$. The 48 remaining points form three blocks, one for each $w\ne00$, with rows $u_1u_2$ and columns $u_3u_4$ in Gray order.
+The \emph{support} of $S$ is its set of columns. Write $\beta=(u,w)\in\F_2^4\times\F_2^2$. The removed $\PG(3,2)$ is the set of 15 nonzero points with $w=00$. The 48 remaining points form three blocks, one for each $w\ne00$, with rows indexed by $(u_1,u_2)$ and columns by $(u_3,u_4)$, in Gray order.
 \begin{center}\resizebox{!}{20mm}{\supportobject{1}{\only<2->{\fill[white,opacity=.8] (-.45,.45) rectangle (3.45,-3.45);\node[text=Gold!80!black,font=\small\bfseries] at (1.5,-1.5) {removed};}}}\end{center}
-\onslide<2->{The 6 coordinate functions $u_1,\ldots,u_4,w_1,w_2$ are the rows of $S$.}
+\onslide<2->{The rows of $S$ are the 6 coordinate functions $u_1,\ldots,u_4,w_1,w_2$, evaluated on the 48 points.}
 \takeawayat{2-}{Three blocks of 16 points give a projective $[48,6]$ code $\C_2$.}
-\note{\textbf{19:10--20:10.} First step: all 63 points of PG(5,2), grouped by w. Second step: remove the 15 points with w equal to 00. Each remaining block is a coset of F2 to the fourth. Inside each block the rows are u1 u2 and the columns are u3 u4, both in Gray order. This picture is used for the rest of the construction.}
+\note{\textbf{18:40--19:40.} First step: all 63 points of PG(5,2), grouped by w. Second step: remove the 15 points with w equal to 00. Each remaining block is a coset of F2 to the fourth. Inside each block the rows are indexed by the pair u1, u2 and the columns by the pair u3, u4, both in Gray order. This picture is used for the rest of the construction.}
 \end{frame}
 
 \begin{frame}[label=weights]{Hyperplane sections and codeword weights}
 \talktext
-Each codeword $c$ of $\C_2$ is a linear function $c(u,w)=\lambda\cdot u\oplus\mu\cdot w$ on $\mathcal P$, and $|c|=48-|\mathcal P\cap\{c=0\}|$.
+Each codeword $c$ of $\C_2$ is a linear function $c=\sum_i\lambda_iu_i+\sum_j\mu_jw_j$ on $\mathcal P$, and $|c|=48-|\mathcal P\cap\{c=0\}|$.
 \begin{center}\resizebox{!}{20mm}{\supportobject{0}{\only<1>{\supportmark{\ua}{fill=Gold}}\only<2>{\supportmark{\wa}{fill=Gold}}}}\end{center}
 \only<1>{$\lambda\ne0$, for example $c=u_1$: eight points in each block, weight $3\cdot8=24$.}%
 \only<2->{$\lambda=0$, for example $c=w_1$: two full blocks, weight $2\cdot16=32$.}
@@ -522,7 +497,7 @@ Each codeword $c$ of $\C_2$ is a linear function $c(u,w)=\lambda\cdot u\oplus\mu
 Projective \emph{two-weight} codes (two nonzero weights) correspond to point sets that meet every hyperplane in one of two sizes [CK86].
 \takeawayat{2-}{Weights 24 and 32 are multiples of 8, so S1--S3 hold.}
 \source{\refCK}
-\note{\textbf{20:10--21:40.} Gold squares mark the support of the stabilizer codeword. A nonzero lambda cuts each block in half. Lambda zero and mu nonzero selects two of the three blocks. Every nonzero codeword has positive weight, so the six rows are independent. Uniqueness of this support is in the paper and is not needed here.}
+\note{\textbf{19:40--21:10.} Gold squares mark the support of the stabilizer codeword. A nonzero lambda cuts each block in half. Lambda zero and mu nonzero selects two of the three blocks. Every nonzero codeword has positive weight, so the six rows are independent. Uniqueness of this support is in the paper and is not needed here.}
 \end{frame}
 
 \begin{frame}[label=family]{More geometric constructions}
@@ -543,7 +518,7 @@ $p\backslash q$ & 1 & 2 & 3 & 4 & 5\\\midrule
 8 & $\qcode{256}{3}{4}$, 3 & & & & \\\bottomrule
 \end{tabular}\end{center}
 {\scriptsize Each cell: parameters with $d=d_Z<d_X$, and the number of inequivalent codes found. Counts are lower bounds except $\star$ (complete). ``None'': excluded by our lower bound. Supports with $p\le3$ admit no $T/T^\dagger$ implementation of CCZ.}
-\note{\textbf{21:40--22:40.} p equal to four and q equal to two gives 48. This is a family of finite constructions, not an asymptotic claim. Only the fixed-support census for 48 is complete. Other counts are lower bounds.}
+\note{\textbf{21:10--22:10.} p equal to four and q equal to two gives 48. This is a family of finite constructions, not an asymptotic claim. Only the fixed-support census for 48 is complete. Other counts are lower bounds.}
 \end{frame}
 
 \section{Column indicators, logical rows, and phase signs}
@@ -563,7 +538,7 @@ In coordinates $(x,y)\in\F_2^3\times\F_2$, with $x$ for the rows of $K$ and $y$ 
 \[
 \chi_S(u,w)=1+(1+w_1)(1+w_2)=w_1+w_2+w_1w_2.
 \]}%
-\note{\textbf{22:50--24:10.} The indicator representation follows Nezami and Haah. Coordinates of F2 to the r index the rows of M, so a column is a point. The [[8,3,2]] indicator has degree one. The 48-qubit stabilizer indicator has degree two and does not depend on u.}
+\note{\textbf{22:20--23:40.} The indicator representation follows Nezami and Haah. Coordinates of F2 to the r index the rows of M, so a column is a point. The [[8,3,2]] indicator has degree one. The 48-qubit stabilizer indicator has degree two and does not depend on u.}
 \end{frame}
 
 \begin{frame}[label=inner]{The CH conditions are inner products with monomials}
@@ -579,7 +554,7 @@ Index the rows of $G$ by coordinates $z=(x,y)$. For a set $J$ of rows, $m_J=\pro
 \[
 \chi_G\in y_1\cdots y_s+\varepsilon\delta_0+\RM(r-4,r),\qquad r=3+s,\ \varepsilon=n\bmod2.
 \]}
-\note{\textbf{24:10--25:40.} An overlap of rows is a monomial in the row coordinates, evaluated on the columns. Summing over columns is summing chi_G times the monomial over all points. The function y1 to ys is one at the eight points x comma all-ones, so its inner product with a monomial in x of degree d is two to the three minus d mod two, which is one only for x1x2x3. delta zero, with a single one at the origin, fixes the parity of the weight. The coset statement is a lemma in our paper.}
+\note{\textbf{23:40--25:10.} An overlap of rows is a monomial in the row coordinates, evaluated on the columns. Summing over columns is summing chi_G times the monomial over all points. The function y1 to ys is one at the eight points x comma all-ones, so its inner product with a monomial in x of degree d is two to the three minus d mod two, which is one only for x1x2x3. delta zero, with a single one at the origin, fixes the parity of the weight. The coset statement is a lemma in our paper.}
 \end{frame}
 
 \begin{frame}[label=labels]{Logical rows in the column picture}
@@ -597,9 +572,9 @@ Split a set $J$ of rows into its logical rows $J_K$ and stabilizer rows $J_S$. T
 S1--S3 have $J_K=\emptyset$ and hold because $\C_2$ is 8-divisible. The rest have degree at most 3 in the label bits.
 \column{.42\textwidth}\centering
 \resizebox{\linewidth}{!}{\supportobject{0}{\only<2->{\supportmark{\kappaoneexpr}{fill=Teal}}}}
-\par\scriptsize\rule{0pt}{3ex}\only<2->{Teal: $\kappa_1=1$, with $\kappa_1=u_1+u_3$, $1+u_3$, $u_4$ on the three blocks.}
+\par\scriptsize\rule{0pt}{3ex}\only<2->{Blue: $\kappa_1=1$, with $\kappa_1=u_1+u_3$, $1+u_3$, $u_4$ on the three blocks.}
 \end{columns}
-\note{\textbf{25:40--27:10.} J_K and J_S split the selected rows into logical and stabilizer rows. The product factor forces x to equal the label at each occupied column. Second step: the first logical row of Q48 on the support. It has eight ones in each block.}
+\note{\textbf{25:10--26:40.} J_K and J_S split the selected rows into logical and stabilizer rows. The product factor forces x to equal the label at each occupied column. Second step: the first logical row of Q48 on the support. It has eight ones in each block.}
 \end{frame}
 
 \begin{frame}[label=sat]{Finding the logical rows}
@@ -627,11 +602,11 @@ Fix $\mathcal P$. Row $K_i$ is $\kappa_i\colon\mathcal P\to\F_2$, bit $i$ of the
 \only<4>{\foreach \b/\lab in {1/011,2/110,3/000}{\draw[Gold,line width=1.6pt] ({5*\b},0) circle[radius=.42];\node[anchor=east,font=\scriptsize,text=Gold!80!black,inner sep=1pt] at ({5*\b-.45},0) {$\lab$};}}}}
 \par\scriptsize\rule{0pt}{3ex}%
 \only<1>{$\dim V_{\mathcal P}=27$.}%
-\only<2>{Teal: only $K_1$ has a 1. Gold: only $K_2$ has a 1. Red: both. $|K_1\wedge K_2|=12\equiv0\pmod2$ (K2).}%
+\only<2>{Blue: only $K_1$ has a 1. Gold: only $K_2$ has a 1. Red: both. $|K_1\wedge K_2|=12\equiv0\pmod2$ (K2).}%
 \only<3>{Squares: $K_3$ has a 1. Red: $K_1$ and $K_2$ too. $|K_1\wedge K_2\wedge K_3|=7\equiv1\pmod2$ (K3).}%
 \only<4>{$Z$ on the circled qubits, at $u=0000$ (the upper left corner of each block). Their columns of $S$ sum to $0$, so no syndrome. Their labels sum to $011\oplus110\oplus000=101\ne0$, so it is logical: $d_Z=3$.}
 \end{columns}
-\note{\textbf{27:10--29:10.} This is Algorithm 1 of the paper. Step one uses that the functions 1, y l and y l y l' span RM(2,s). Step two enumerates pairs. Step three writes kappa 3 in a basis of V_P, so every inner product is a known bit. The picture shows the Q48 rows from the paper as they pass each step. They were found by SAT, and the algorithm describes the same constraints. The witness in the last step proves d_Z at most three, and projectivity proves at least three.}
+\note{\textbf{26:40--28:40.} This is Algorithm 1 of the paper. Step one uses that the functions 1, y l and y l y l' span RM(2,s). Step two enumerates pairs. Step three writes kappa 3 in a basis of V_P, so every inner product is a known bit. The picture shows the Q48 rows from the paper as they pass each step. They were found by SAT, and the algorithm describes the same constraints. The witness in the last step proves d_Z at most three, and projectivity proves at least three.}
 \end{frame}
 
 \begin{frame}[label=signs]{Solving for the $T/T^\dagger$ pattern}
@@ -652,9 +627,9 @@ Q_2&=u_3+u_4+u_1u_2+u_1u_4+u_3u_4.
 \]}%
 \column{.42\textwidth}\centering
 \resizebox{\linewidth}{!}{\supportobject{0}{\only<2->{\supportmark{\gammaexpr}{fill=Teal}\supportmark{1-\gammaexpr}{fill=Gold!45}}}}
-\par\scriptsize\rule{0pt}{3ex}\only<2->{Teal: $T^\dagger$ ($6,6,10$ per block). Gold: $T$. Total $26\,T+22\,T^\dagger$.}
+\par\scriptsize\rule{0pt}{3ex}\only<2->{Blue: $T^\dagger$ ($6,6,10$ per block). Gold: $T$. Total $26\,T+22\,T^\dagger$.}
 \end{columns}
-\note{\textbf{29:10--30:40.} The congruence is linear over Z4 in gamma, and gamma must be binary. Elimination over Z4 decides feasibility. The picture is the paper pattern computed from the polynomial gamma. These are coordinate positions, not a hardware layout.}
+\note{\textbf{28:40--30:10.} The congruence is linear over Z4 in gamma, and gamma must be binary. Elimination over Z4 decides feasibility. The picture is the paper pattern computed from the polynomial gamma. These are coordinate positions, not a hardware layout.}
 \end{frame}
 
 \section{Lower bounds and open questions}
@@ -668,7 +643,7 @@ Following [NH22], let $c=\chi_S+\varepsilon\delta_0$, where $\varepsilon$ makes 
 c\in\RM(3,s)^\perp=\RM(s-4,s),\qquad n=|c|-c(0).
 \]
 For $\mathcal Q_{48}$: $c=\chi_S=w_1+w_2+w_1w_2\in\RM(2,6)$.
-\note{\textbf{30:50--32:40.} Attribute the indicator method to Nezami and Haah. Their lemma places the indicator of a unital space in a Reed-Muller code. Our version uses the stabilizer-only parities. Low-weight codewords of Reed-Muller codes are classified, which makes the search below 39 finite after rank reduction.}
+\note{\textbf{30:20--32:10.} Attribute the indicator method to Nezami and Haah. Their lemma places the indicator of a unital space in a Reed-Muller code. Our version uses the stabilizer-only parities. Low-weight codewords of Reed-Muller codes are classified, which makes the search below 39 finite after rank reduction.}
 \end{frame}
 
 \begin{frame}[label=floor38]{Our exclusion argument covers every length through 38}
@@ -682,7 +657,7 @@ For $\mathcal Q_{48}$: $c=\chi_S=w_1+w_2+w_1w_2\in\RM(2,6)$.
 \begin{block}{Independent result of our paper}
 No CSS code with $k=3$, $d_Z\ge3$, and the nine CH conditions has $n\le38$.
 \end{block}
-\note{\textbf{32:40--34:10.} The proof combines analytic reductions with a finite enumeration. The rank-eight coverage and the logical-row exclusions are complete, unlike a sampled SAT search. The Reed-Muller classifications are cited inputs. The theorem is scoped to the nine CH conditions.}
+\note{\textbf{32:10--33:40.} The proof combines analytic reductions with a finite enumeration. The rank-eight coverage and the logical-row exclusions are complete, unlike a sampled SAT search. The Reed-Muller classifications are cited inputs. The theorem is scoped to the nine CH conditions.}
 \end{frame}
 
 \begin{frame}[label=landscape]{Existence of a valid code at different block lengths}
@@ -699,7 +674,7 @@ Wills--Jain--Singh classify generalized triorthogonal codes with $n\le54$ and $d
 The $\qcode{47}{3}{3}$ code of [JVB+26] has no $T/T^\dagger$ pattern [LB26]. Its stabilizer support is $\F_2^6$ minus an affine 4-flat (a translate of a 4-dimensional subspace), with the origin deleted. $\mathcal Q_{48}$ removes a linear 4-dimensional subspace instead.
 [JVB+26] report a 47-to-1 CCZ distillation protocol from it with a circuit footprint of 9 qubits.
 \source{\refJ}
-\note{\textbf{34:10--36:10.} Our original preprint left 39 through 46 open. The seminar reflects the concurrent classification, which works up to CNOT and S output equivalence, not arbitrary Clifford operations. Wills, Jain and Singh establish minimum length 47 in the quasi-transversal class. The infeasibility statement concerns the specified Jacinto code only. It does not make the forty-seven code unique or forty-eight minimal for a T and T-dagger pattern. The Jacinto stabilizer weights are 16, 24, 32, while Q48 punctured at any point has weights 23, 24, 31, 32, so the codes are not equivalent. The footprint number is from Jacinto et al., not our analysis.}
+\note{\textbf{33:40--35:40.} Our original preprint left 39 through 46 open. The seminar reflects the concurrent classification, which works up to CNOT and S output equivalence, not arbitrary Clifford operations. Wills, Jain and Singh establish minimum length 47 in the quasi-transversal class. The infeasibility statement concerns the specified Jacinto code only. It does not make the forty-seven code unique or forty-eight minimal for a T and T-dagger pattern. The Jacinto stabilizer weights are 16, 24, 32, while Q48 punctured at any point has weights 23, 24, 31, 32, so the codes are not equivalent. The footprint number is from Jacinto et al., not our analysis.}
 \end{frame}
 
 \begin{frame}[label=open]{Takeaways and open questions}
@@ -724,7 +699,7 @@ The $\qcode{47}{3}{3}$ code of [JVB+26] has no $T/T^\dagger$ pattern [LB26]. Its
 \par
 {\tiny\begin{tabular}{@{}p{2.1cm}@{\hspace{1mm}}p{2.1cm}@{}}\centering Paper\\arXiv:2610.09341 & \centering Code and data\\github.com/jerrylvx/\\\mbox{gate2code-public}\end{tabular}}
 \end{columns}
-\note{\textbf{36:10--37:40.} Joint work with Ken Brown. Thanks to Robert Calderbank for classical coding-theory pointers. Forty-seven quasi-transversal minimality is settled, and sign feasibility is a separate question. Ask for classical ideas about divisible codes and completions. The QR codes open the arXiv paper and the public code repository. Leave this slide up during questions.}
+\note{\textbf{35:40--37:10.} Joint work with Ken Brown. Thanks to Robert Calderbank for classical coding-theory pointers. Forty-seven quasi-transversal minimality is settled, and sign feasibility is a separate question. Ask for classical ideas about divisible codes and completions. The QR codes open the arXiv paper and the public code repository. Leave this slide up during questions.}
 \end{frame}
 
 \appendix

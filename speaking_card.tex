@@ -4,7 +4,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern,multicol,amsmath,amssymb,stmaryrd,xcolor,ragged2e}
 \definecolor{Navy}{HTML}{15324F}
-\definecolor{Teal}{HTML}{007F82}
+\definecolor{Teal}{HTML}{1F5FAD}
 \pagestyle{empty}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{2pt}
@@ -18,46 +18,45 @@
 \begin{document}\fontsize{10}{12}\selectfont\begin{multicols*}{3}\RaggedRight
 \turn{Title 0:00--0:15. Joint work with Ken Brown.}
 \turn{CSS codes and transversal gates}
-\cue{0:15--1:00 / 1}{Outline}{Preview Steane and $\llbracket8,3,2\rrbracket$, conditions, geometry, completion, and bounds.}
-\cue{1:00--1:55 / 2}{Binary vectors}{Qubits at cube points. Faces $u_1,u_2$. Overlap is an edge. XOR, not a direct sum.}
-\cue{1:55--2:55 / 3}{Pauli strings}{$X(u_1)$ on a face. Overlap 2 commutes, overlap 1 anticommutes.}
-\cue{2:55--3:55 / 4}{Stabilizer, CSS}{Syndrome, $\llbracket n,k,d\rrbracket$. $X(a)$ for $a\in C_2$, $Z(b)$ for $b\in C_1^\perp$. $G=[K;S]$ and $|x\rangle_L$.}
-\cue{3:55--4:35 / 5}{Steane code}{Seven nonzero points. S is the faces, K is all ones. Terms $u_1$ and $\mathbf 1\oplus u_1$.}
-\cue{4:35--5:40 / 6}{Syndromes}{Z on $u$ has syndrome $u$. Distinct columns detect pairs. A line is a weight-3 logical.}
-\cue{5:40--6:40 / 7}{Clifford, non-Clifford}{Gates on basis states. Phase gate S, not the matrix. Add T or CCZ.}
-\cue{6:40--7:50 / 8}{Transversal, distillation}{$S^{\otimes7}$ gives $i^{|c|}$, weights 0,4 and 3,7: logical $S^\dagger$. Eastin--Knill: no T. Distillation needs T or CCZ. State the question.}
+\cue{0:15--1:00 / 1}{Outline}{Preview the $\llbracket8,3,2\rrbracket$ example, conditions, geometry, completion, and bounds.}
+\cue{1:00--2:00 / 2}{Generator rows}{Columns labelled by cube points. Rows $u_1=00001111$, $u_2$. Overlap $00000011$ is an edge. XOR.}
+\cue{2:00--3:00 / 3}{Pauli strings}{$X(u_1)$ on a face. Overlap 2 commutes, overlap 1 anticommutes.}
+\cue{3:00--4:15 / 4}{Stabilizer, CSS}{Syndrome, $\llbracket n,k,d\rrbracket$, $d=\min(d_X,d_Z)$. $X(a)$ for $a\in C_2$, $Z(b)$ for $b\in C_1^\perp$. $G=[K;S]$, $|x\rangle_L$.}
+\cue{4:15--5:45 / 5}{$\llbracket8,3,2\rrbracket$ code}{Rows $K_i=u_i$, $S=\mathbf 1$. Pairs $00001111$, $11110000$, $x=111$. Z on 000: syndrome 1. Edge: logical, $d_Z$=2, $d_X$=4.}
+\cue{5:45--6:45 / 6}{Clifford, non-Clifford}{Gates on basis states. CCZ flips $|111\rangle$. Add T or CCZ for universality.}
+\cue{6:45--7:30 / 7}{Transversal, distillation}{One gate per qubit. Eastin--Knill: not universal. Distillation needs transversal T or CCZ.}
+\cue{7:30--8:35 / 8}{Three codes}{Steane: H, S. 15-qubit: $T^{\otimes15}=\bar T^\dagger$. $\llbracket8,3,2\rrbracket$: T/T$^\dagger$ gives CCZ. State the question.}
 \turn{$\llbracket8,3,2\rrbracket$ example}
-\textit{7:50--8:00: outline, current theme highlighted.}
-\cue{8:00--9:15 / 9}{$\llbracket8,3,2\rrbracket$ code}{Origin back, roles swapped. Pairs for $x=100$, $111$. Edge: $d_Z$=2, $d_X$=4.}
-\cue{9:15--10:15 / 10}{Signed weights}{Integer signed weight, mod 8. Every codeword in a logical coset needs the same phase.}
-\cue{10:15--12:15 / 11}{Pattern from overlaps}{Ask where $T^\dagger$ goes. Reveal $\gamma=u_1\oplus u_2\oplus u_3$. Face 0, edge 0, vertex $-1$.}
-\cue{12:15--13:00 / 12}{Row congruences}{Coefficients 1, -2, 4 give mod 8, 4, 2. Only the logical triple is odd.}
+\textit{8:35--8:45: outline, current theme highlighted.}
+\cue{8:45--9:45 / 9}{Signed weights}{Integer signed weight, mod 8. Every codeword in a logical coset needs the same phase.}
+\cue{9:45--11:45 / 10}{Pattern from overlaps}{Ask where $T^\dagger$ goes. Reveal $\gamma=u_1+u_2+u_3$. Face 0, edge 0, vertex $-1$.}
+\cue{11:45--12:30 / 11}{Row congruences}{Coefficients 1, -2, 4 give mod 8, 4, 2. Only the logical triple is odd.}
 \columnbreak
 \turn{Gate conditions}
-\textit{13:00--13:10: outline, current theme highlighted.}
-\cue{13:10--14:10 / 13}{Triorthogonal codes}{Timeline. NH22 range is $n+k$, not our $n$. Even overlaps, but CCZ needs one odd triple.}
-\cue{14:10--15:40 / 14}{Nine CH conditions}{Logical, mixed, stabilizer families. K3 odd. Parities allow a Clifford correction.}
+\textit{12:30--12:40: outline, current theme highlighted.}
+\cue{12:40--13:40 / 12}{Triorthogonal codes}{Timeline. Triorthogonal: even overlaps, but CCZ needs one odd triple.}
+\cue{13:40--15:10 / 13}{Nine CH conditions}{Logical, mixed, stabilizer families. K3 odd. Parities allow a Clifford correction.}
 \turn{Geometric construction}
-\textit{15:40--15:50: outline, current theme highlighted.}
-\cue{15:50--17:10 / 15}{Q48 result}{48 physical, 3 logical. $d_X$=16, $d_Z$=3. 26 T and 22 inverse, no correction.}
-\cue{17:10--18:10 / 16}{Fix the stabilizers}{Projective columns. 8-divisible span. Find K. Solve signs. Divisibility is a choice.}
-\cue{18:10--19:10 / 17}{Projective syndromes}{Nonzero columns detect one Z. Distinct columns detect two. This proves only $d_Z$.}
-\cue{19:10--20:10 / 18}{48-point support}{63 minus 15 gives 48. Remove $w=00$. Three blocks of 16. Six coordinate rows.}
-\cue{20:10--21:40 / 19}{Weights 24 and 32}{Nonzero u coefficient: 3 times 8. Pure w coefficient: 2 times 16. Rank six.}
-\cue{21:40--22:40 / 20}{Geometric family}{Recover 48 at $p=4,q=2$. Other counts are lower bounds. Star is a fixed-support census.}
+\textit{15:10--15:20: outline, current theme highlighted.}
+\cue{15:20--16:40 / 14}{Q48 result}{48 physical, 3 logical. $d_X$=16, $d_Z$=3. 26 T and 22 inverse, no correction.}
+\cue{16:40--17:40 / 15}{Fix the stabilizers}{Projective columns. 8-divisible span. Find K. Solve signs. Divisibility is a choice.}
+\cue{17:40--18:40 / 16}{Projective syndromes}{Nonzero columns detect one Z. Distinct columns detect two. This proves only $d_Z$.}
+\cue{18:40--19:40 / 17}{48-point support}{63 minus 15 gives 48. Remove $w=00$. Three blocks of 16. Six coordinate rows.}
+\cue{19:40--21:10 / 18}{Weights 24 and 32}{Nonzero u coefficient: 3 times 8. Pure w coefficient: 2 times 16. Rank six.}
+\cue{21:10--22:10 / 19}{Geometric family}{Recover 48 at $p=4,q=2$. Other counts are lower bounds. Star is a fixed-support census.}
 \turn{Column picture and completion}
-\textit{22:40--22:50: outline, current theme highlighted.}
-\cue{22:50--24:10 / 21}{Column indicators}{Occupied columns as a Boolean function. $\llbracket8,3,2\rrbracket$: y. Q48: $w_1+w_2+w_1w_2$.}
+\textit{22:10--22:20: outline, current theme highlighted.}
+\cue{22:20--23:40 / 20}{Column indicators}{Occupied columns as a Boolean function. $\llbracket8,3,2\rrbracket$: y. Q48: $w_1+w_2+w_1w_2$.}
 \columnbreak
-\cue{24:10--25:40 / 22}{Moments and monomials}{Overlap parity is a monomial moment. One exceptional cubic. State the coset briefly.}
-\cue{25:40--27:10 / 23}{Logical labels}{Three label bits per point. Product forces $x=\kappa$. S-only constraints already hold.}
-\cue{27:10--29:10 / 24}{Logical completion}{One-row space, compatible pairs, linear third row. Three-site witness makes $d_Z$=3.}
-\cue{29:10--30:40 / 25}{$T/T^\dagger$ signs}{Binary gamma in mod-4 equations. Show the polynomial, count $6+6+10$ inverse gates.}
+\cue{23:40--25:10 / 21}{Moments and monomials}{Overlap parity is a monomial moment. One exceptional cubic. State the coset briefly.}
+\cue{25:10--26:40 / 22}{Logical labels}{Three label bits per point. Product forces $x=\kappa$. S-only constraints already hold.}
+\cue{26:40--28:40 / 23}{Logical completion}{One-row space, compatible pairs, linear third row. Three-site witness makes $d_Z$=3.}
+\cue{28:40--30:10 / 24}{$T/T^\dagger$ signs}{Binary gamma in mod-4 equations. Show the polynomial, count $6+6+10$ inverse gates.}
 \turn{Bounds and questions}
-\textit{30:40--30:50: outline, current theme highlighted.}
-\cue{30:50--32:40 / 26}{Reed--Muller supports}{Positive-degree tests vanish at 0. Correct weight parity, then use RM duality.}
-\cue{32:40--34:10 / 27}{Exclusion through 38}{Rank at most 8, support reductions, complete enumeration, no logical completion.}
-\cue{34:10--36:10 / 28}{Length comparison}{Our 38 floor. WJS 39--46. 47 quasi-transversal. Sign failure is code-specific.}
-\cue{36:10--37:40 / 29}{Takeaways and questions}{Geometry, labels, signs. Ask about higher distance and sign feasibility. Leave QR up.}
-\turn{37:40: finish and invite questions.}
+\textit{30:10--30:20: outline, current theme highlighted.}
+\cue{30:20--32:10 / 25}{Reed--Muller supports}{Positive-degree tests vanish at 0. Correct weight parity, then use RM duality.}
+\cue{32:10--33:40 / 26}{Exclusion through 38}{Rank at most 8, support reductions, complete enumeration, no logical completion.}
+\cue{33:40--35:40 / 27}{Length comparison}{Our 38 floor. WJS 39--46. 47 quasi-transversal. Sign failure is code-specific.}
+\cue{35:40--37:10 / 28}{Takeaways and questions}{Geometry, labels, signs. Ask about higher distance and sign feasibility. Leave QR up.}
+\turn{37:10: finish and invite questions.}
 \cue{Q\&A / B1--B4}{Backups}{Reed--Muller lengths, rank reduction, finite cases, dictionary with [CLM+26].}\end{multicols*}\end{document}
