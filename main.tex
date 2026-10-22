@@ -180,7 +180,7 @@ arXiv:2610.09341
 \only<2>{\cubevalues{\i}}\only<3>{\cubevalues{\j}}\only<4>{\cubevalues{\i*\j}}\only<5>{\cubevalues{mod(\i+\j,2)}}}}
 \par\scriptsize\rule{0pt}{3ex}\only<1>{One qubit at each point $u\in\F_2^3$.}\only<2>{Row $u_1$: the face $u_1=1$.}\only<3>{Row $u_2$: the face $u_2=1$.}\only<4>{$u_1u_2$: an edge.}\only<5>{$u_1+u_2$.}
 \column{.61\textwidth}
-Table of values: each column is a point $u\in\F_2^3$ (one of $n=8$ qubits), each row a Boolean function $f$, and the entry is $f(u)$. So $f$ is a row in $\F_2^8$, of weight $|f|=\#\{u:f(u)=1\}$.
+Each column is a point $u\in\F_2^3$ (a qubit), each row a Boolean function $f$, with entry $f(u)$. Weight: $|f|=\#\{u:f(u)=1\}$.
 {\footnotesize\setlength{\arraycolsep}{2.4pt}\[
 \begin{array}{@{}l|cccccccc@{}}
 f\,\backslash\,u & \mathtt{000} & \mathtt{001} & \mathtt{010} & \mathtt{011} & \mathtt{100} & \mathtt{101} & \mathtt{110} & \mathtt{111}\\\hline
@@ -190,11 +190,11 @@ f\,\backslash\,u & \mathtt{000} & \mathtt{001} & \mathtt{010} & \mathtt{011} & \
 \visible<5->{u_1+u_2} & \visible<5->{0} & \visible<5->{0} & \visible<5->{1} & \visible<5->{1} & \visible<5->{1} & \visible<5->{1} & \visible<5->{0} & \visible<5->{0}\\
 \end{array}
 \]}
-\onslide<4->{\emph{Row operations}: overlap $c\wedge c'$ (entrywise product), XOR $c\oplus c'$ (entrywise sum), dot product $c\cdot c'=|c\wedge c'|\bmod2$.}
+\onslide<4->{Multiplying functions overlaps their rows: $c\wedge c'$ (entrywise product). Dot product: $c\cdot c'=|c\wedge c'|\bmod2$.}
 \par\smallskip
-\onslide<4->{\emph{Dictionary}: the row of $fg$ is the overlap of the rows $f$, $g$. \uncover<5->{The row of $f+g$ is their XOR.}}
+\onslide<5->{Adding functions XORs their rows: $c\oplus c'$ (entrywise sum).}
 \end{columns}
-\note{\textbf{1:00--2:00.} Read every vector as a row first: u1 is 00001111. The cube only shows where a row has its ones. Dictionary, used on slides 3, 10 and 21: a product of functions gives the overlap of their rows, a sum gives the XOR. Functions use sums and products. Rows use overlap, XOR and dot product.}
+\note{\textbf{1:00--2:00.} Read every vector as a row first: u1 is 00001111. The cube only shows where a row has its ones. Multiplying functions overlaps their rows, and adding them XORs their rows. Slides 3, 10 and 21 use this. Functions use sums and products. Rows use overlap, XOR and dot product.}
 \end{frame}
 
 \begin{frame}[label=pauli]{Pauli strings}

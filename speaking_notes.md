@@ -62,21 +62,21 @@ The talk has six parts. Part one is CSS codes and transversal gates. Part two wo
 
 **Clock** 1:00–2:00 · **Budget** 60 s · **Clicks** 4
 
-**On screen:** the cube $\F_2^3$ with one qubit at each point, and a table with the columns labelled $000$ to $111$. The clicks add the rows of $u_1$, $u_2$, $u_1u_2$ and $u_1+u_2$, each also drawn on the cube, with the row operations and the dictionary between functions and rows.
+**On screen:** the cube $\F_2^3$ with one qubit at each point, and a table with the columns labelled $000$ to $111$. The clicks add the rows of $u_1$, $u_2$, $u_1u_2$ and $u_1+u_2$, each also drawn on the cube, with how multiplying and adding functions acts on their rows.
 
-In the table of values, each column is a point $u$ of $\F_2^3$, one qubit, and each row is a Boolean function $f$, with entry $f(u)$. So $f$ is a row of length eight, and its weight $|f|$ is the number of ones.
+In the table of values, each column is a point $u$ of $\F_2^3$, one qubit, and each row is a Boolean function $f$, with entry $f(u)$. Its weight $|f|$ is the number of ones.
 
 **[click]** $u_1$ gives the row $00001111$, the face where the first coordinate is one.
 
 **[click]** $u_2$ gives the row $00110011$.
 
-**[click]** Three operations on rows $c$ and $c'$: the overlap $c\wedge c'$ is the entrywise product, the XOR $c\oplus c'$ is the entrywise sum, and the dot product $c\cdot c'$ is the parity of the overlap. Here is the dictionary we use later. The row of a product $fg$ is the overlap of the rows of $f$ and $g$, so $u_1u_2$ gives $00000011$, an edge of weight two.
+**[click]** Multiplying functions overlaps their rows: $c\wedge c'$, the entrywise product. So $u_1u_2$ gives $00000011$, an edge of weight two. The dot product of rows is the parity of the overlap.
 
-**[click]** The row of a sum $f+g$ is the XOR of their rows, so $u_1+u_2$ gives $00111100$.
+**[click]** Adding functions XORs their rows: $c\oplus c'$, the entrywise sum. So $u_1+u_2$ gives $00111100$.
 
 > **Background (not spoken)**
 >
-> - **Rows and functions.** Functions on $\F_2^3$ are built with sums and products. Rows in $\F_2^8$ are combined with overlap, XOR and dot product. Evaluation turns a product of functions into the overlap of their rows and a sum into the XOR. Never write $u_1\wedge u_2$ or $u_1\oplus u_2$: the $u_i$ are functions. The dictionary is used on slide 3 (XOR and dot product), slide 10 (overlaps of rows) and slide 21 (an overlap is a monomial).
+> - **Rows and functions.** Functions on $\F_2^3$ are built with sums and products. Rows in $\F_2^8$ are combined with overlap, XOR and dot product. Evaluation turns a product of functions into the overlap of their rows and a sum into the XOR. Never write $u_1\wedge u_2$ or $u_1\oplus u_2$: the $u_i$ are functions. Slide 3 uses XOR and the dot product, slide 10 the overlaps of rows, and slide 21 the fact that an overlap is a monomial.
 > - **Dot product versus overlap.** $c\cdot c'$ is a single bit, $\sum_i c_ic'_i \bmod 2$. The overlap $c\wedge c'$ is a vector. They are related by $c\cdot c'=|c\wedge c'|\bmod 2$.
 > - **Why the cube.** The cube is only a picture of $\F_2^3$. Faces are the sets $u_i=1$, two faces meet in an edge, and three faces meet in a vertex. The 48-qubit code later uses the same idea on 48 points of $\F_2^6$.
 
@@ -228,7 +228,7 @@ Now we choose signs that meet this condition on the $\llbracket 8,3,2\rrbracket$
 
 **[click]** Row $K_1=00001111$ is the face $u_1=1$. It has $T$ at $101$ and $110$, and $T^\dagger$ at $100$ and $111$. So $\mathrm{sw}_\Gamma(K_1)=0$, and the same holds for $K_2$ and $K_3$.
 
-**[click]** By the dictionary from slide 2, the overlap of rows $K_1$ and $K_2$ is the row of $u_1u_2$, $00000011$, the edge $\{110,111\}$. That is one $T$ and one $T^\dagger$, so its signed weight is $0$, and likewise for the other pairs.
+**[click]** As on slide 2, the overlap of rows $K_1$ and $K_2$ is the row of the product $u_1u_2$, $00000011$, the edge $\{110,111\}$. That is one $T$ and one $T^\dagger$, so its signed weight is $0$, and likewise for the other pairs.
 
 **[click]** The overlap of all three rows is $00000001$, the vertex $111$, which carries $T^\dagger$. So its signed weight is $-1$, and $\mathrm{sw}_\Gamma(c)=-4x_1x_2x_3\equiv4x_1x_2x_3\pmod8$: logical CCZ, read off a face, an edge and a vertex. The stabilizer row $\mathbf 1$ adds terms of the same kind, a face and an edge, and they vanish too.
 
@@ -360,7 +360,7 @@ So far we read rows. To find the logical rows of a larger code we switch to colu
 
 **On screen:** the inner product $\langle f,f'\rangle$ and the identity $\langle\chi_G,m_J\rangle=\bigl|\bigwedge_{j\in J}g_j\bigr|\bmod2$.
 
-Columns help because overlaps of rows become inner products with monomials. For Boolean functions on $\F_2^r$, $\langle f,f'\rangle$ is the dot product of their value vectors, mod 2. Index the rows of $G$ by coordinates $z=(x,y)$. For a set $J$ of rows, let $m_J=\prod_{j\in J}z_j$ be the monomial. By the dictionary from slide 2, the overlap of rows is a product of coordinates. So $\langle\chi_G,m_J\rangle$ is the weight of the overlap of those rows, mod 2. Summing over the columns is summing over the support of $\chi_G$.
+Columns help because overlaps of rows become inner products with monomials. For Boolean functions on $\F_2^r$, $\langle f,f'\rangle$ is the dot product of their value vectors, mod 2. Index the rows of $G$ by coordinates $z=(x,y)$. For a set $J$ of rows, let $m_J=\prod_{j\in J}z_j$ be the monomial. As on slide 2, an overlap of rows is the row of a product of coordinates. So $\langle\chi_G,m_J\rangle$ is the weight of the overlap of those rows, mod 2. Summing over the columns is summing over the support of $\chi_G$.
 
 **[click]** So the CH conditions say this: $\langle\chi_G,x_1x_2x_3\rangle=1$, and $\langle\chi_G,m\rangle=0$ for every other monomial of degree one to three.
 
