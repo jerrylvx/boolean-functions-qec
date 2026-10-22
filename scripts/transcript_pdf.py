@@ -2,16 +2,18 @@
 
 Usage: python3 -I scripts/transcript_pdf.py speaking_notes.md build/main.nav build/transcript.tex
 
-Each frame section of the notes (title slide, numbered slides, outline frames, backup slides) is matched,
-in order, to a frame of the built deck. The section shows the final overlay page of its frame,
+Each frame section of the notes (title slide, numbered slides, backup slides) is matched,
+in order, to a frame of the built deck. The marker line `<!-- outline frame, no script -->`, placed after
+the section of the preceding slide, stands for an outline frame without a section. The section shows the final overlay page of its frame,
 taken from build/main.pdf, above its script. The number of [click] cues in a section must equal
 the number of overlay steps of its frame.
 """
 import re
 import sys
 
-FRAME_HEADING = re.compile(r'^## (Title slide|Slide \d+\.|Outline before slide|Backup B\d+\.)')
+FRAME_HEADING = re.compile(r'^## (Title slide|Slide \d+\.|Backup B\d+\.)')
 CLICK = '**[click]**'
+SKIP = '<!-- outline frame, no script -->'
 
 PREAMBLE = r"""\documentclass[11pt]{article}
 \usepackage[a4paper,margin=20mm]{geometry}
@@ -153,6 +155,8 @@ def main(notes_path, nav_path, out_path):
     body = [PREAMBLE, ''.join(blocks(parts[0].split('\n')))]
     frame = 0
     for heading, content in zip(parts[1::2], parts[2::2]):
+        skipped = content.count(SKIP)
+        content = content.replace(SKIP, '')
         if not FRAME_HEADING.match(heading):
             body.append(''.join(blocks([heading] + content.split('\n'))))
             continue
@@ -167,7 +171,7 @@ def main(notes_path, nav_path, out_path):
         body.append(r'\begin{center}\includegraphics[page=' + str(last)
                     + r',width=.62\linewidth]{build/main.pdf}\end{center}' + '\n')
         body.append(''.join(blocks(content.split('\n'))))
-        frame += 1
+        frame += 1 + skipped
     assert frame == len(pages), f'{frame} frame sections, but the deck has {len(pages)} frames'
     body.append('\\end{document}\n')
     open(out_path, 'w', encoding='utf-8').write(''.join(body))

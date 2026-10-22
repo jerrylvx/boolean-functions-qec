@@ -4,7 +4,7 @@ Virginia Tech Applied Algebra Seminar, October 22, 2026. Joint work with Ken Bro
 
 ## How to use this transcript
 
-Each section is one frame of the deck, in order. The heading gives the displayed slide number. The five unnumbered outline frames between parts have their own sections.
+Each section is one frame of the deck, in order. The heading gives the displayed slide number. The five unnumbered outline frames between parts have no script. Advance past each one after about ten seconds.
 
 - **Clock** is the planned start and end time. **Budget** is the time for the frame. **Clicks** is the number of overlay steps after the first view.
 - **[click]** marks where to advance. The text after it describes what has just appeared.
@@ -26,7 +26,7 @@ These heuristics are from Patrick Winston's MIT lecture "How to Speak" (MIT Open
   - the Nezami–Haah classification range $n+k\le38$ versus our bound $n\le38$ (slide 13)
   - 8-divisibility is a design choice, not part of the conditions (slide 16)
   - the 47-qubit code of Jacinto et al. is not $\mathcal Q_{48}$ with one point removed (slide 28).
-- **Verbal punctuation.** Each outline frame says which part of six begins and what it does.
+- **Verbal punctuation.** The outline frames between parts mark where each part of six begins. Start the next slide with its transition sentence.
 - **Ask a question.** Two planned questions, at slides 11 and 19, each with a 7-second wait.
 - **Collaborators first.** Ken Brown and Robert Calderbank are credited on the title slide.
 - **Ending.** Slide 29 is read as contributions, and the talk ends with a salute to the audience instead of "thank you".
@@ -35,10 +35,10 @@ These heuristics are from Patrick Winston's MIT lecture "How to Speak" (MIT Open
 
 | Reach this point | Clock | If about one minute behind |
 |---|---|---|
-| Outline before slide 9 | 7:50 | On slide 9, show the $x=100$ pair and name the $x=111$ pair without a pause. |
-| Outline before slide 13 | 13:00 | Give the timeline in two sentences. Keep the odd-triple point and the parity/sign distinction. |
-| Outline before slide 21 | 22:40 | On slide 20, give the formula, the Q48 entry and the census qualification only. |
-| Outline before slide 26 | 30:40 | Give the Reed–Muller argument in two sentences. Name the four stages of the bound without detail. |
+| Start of slide 9 | 7:50 | On slide 9, show the $x=100$ pair and name the $x=111$ pair without a pause. |
+| Start of slide 13 | 13:00 | Give the timeline in two sentences. Keep the odd-triple point and the parity/sign distinction. |
+| Start of slide 21 | 22:40 | On slide 20, give the formula, the Q48 entry and the census qualification only. |
+| Start of slide 26 | 30:40 | Give the Reed–Muller argument in two sentences. Name the four stages of the bound without detail. |
 | Slide 29 | 36:10 | Read the contributions and two open questions. Stop at 37:40. |
 
 Do not save time by dropping the sign-feasibility distinction or the hypotheses of the lower bound. If a question interrupts a derivation, give a short answer and offer to return to it in the discussion.
@@ -209,13 +209,7 @@ The simplest logical gate puts one gate on each qubit. A logical gate $\bar U$ a
 > - **Why transversal.** A single faulty gate damages only one qubit of the block.
 > - **If asked about "single-qubit".** The gates $U_j$ may differ from qubit to qubit. The $\llbracket 8,3,2\rrbracket$ code uses $T$ on some qubits and $T^\dagger$ on others.
 
-## Outline before slide 9 (part 2 of 6)
-
-**Clock** 7:50–8:00 · **Budget** 10 s · **Clicks** 0
-
-**On screen:** the outline, with part 2 highlighted.
-
-Part two answers this question for the $\llbracket 8,3,2\rrbracket$ code on the same cube: its encoding, its phase, and the overlap conditions for CCZ.
+<!-- outline frame, no script -->
 
 ## Slide 9. The $\llbracket 8,3,2\rrbracket$ code
 
@@ -272,13 +266,7 @@ The expansion we just used holds for any number of vectors. This is the Bravyi�
 
 **[click]** The $\llbracket 8,3,2\rrbracket$ code satisfies all three: faces and edges give 0, and the vertex $111$ gives $-1$. These are the conditions we impose on larger codes.
 
-## Outline before slide 13 (part 3 of 6)
-
-**Clock** 13:00–13:10 · **Budget** 10 s · **Clicks** 0
-
-**On screen:** the outline, with part 3 highlighted.
-
-Part three. Now I place these conditions in the literature, and separate parities from signs.
+<!-- outline frame, no script -->
 
 ## Slide 13. Triorthogonal codes and CCZ
 
@@ -308,13 +296,7 @@ Reduce the three signed conditions mod 2. Each $\Gamma_j$ is odd, so a signed we
 
 **[click]** Here is a distinction I want to keep clear. *(pause)* A $T/T^\dagger$ pattern with no correction needs more, namely the signed congruences mod 8 and mod 4. Those are conditions on the signs $\Gamma$ as well as on the matrix. A code can satisfy all nine parities and still have no valid choice of signs. We will see an example at length 47.
 
-## Outline before slide 15 (part 4 of 6)
-
-**Clock** 15:40–15:50 · **Budget** 10 s · **Clicks** 0
-
-**On screen:** the outline, with part 4 highlighted.
-
-Part four, the construction. We now build the 48-qubit code, starting from the geometry that fixes its stabilizers.
+<!-- outline frame, no script -->
 
 ## Slide 15. Result: a 48-qubit code with a transversal $T/T^\dagger$ CCZ
 
@@ -376,13 +358,7 @@ Step 2 needs the weights of $\mathcal C_2$. Each codeword of $\mathcal C_2$ is a
 
 The same idea works for any subspace complement, $\mathrm{PG}(p+q-1,2)\setminus\mathrm{PG}(p-1,2)$. The length is $n=2^p(2^q-1)$. $\mathcal Q_{48}$ is the case $p=4$, $q=2$. The paper constructs codes at 13 block lengths from 48 to 496, with $d_Z=3$ or $4$. Each cell gives the parameters and the number of inequivalent codes we found. For example, $p=6$ and $q=1$ gives 64 qubits with $d_Z=4$. *(pause)* Two qualifications. Only the starred entry at 48 is a complete census for that support. The other counts are lower bounds. The entries marked "none" are excluded by our lower bound, and supports with $p\le3$ admit no $T/T^\dagger$ implementation of CCZ. This is a family of finite constructions, not an asymptotic statement.
 
-## Outline before slide 21 (part 5 of 6)
-
-**Clock** 22:40–22:50 · **Budget** 10 s · **Clicks** 0
-
-**On screen:** the outline, with part 5 highlighted.
-
-Part five. Geometry has fixed the stabilizers. Now we find the logical rows using column indicators, and then solve for the signs.
+<!-- outline frame, no script -->
 
 ## Slide 21. Column indicators from the generator matrix
 
@@ -442,13 +418,7 @@ The last step is the signs. As on the cube, write $\Gamma_j=1-2\gamma_j$, with $
 
 **[click]** For $\mathcal Q_{48}$, here is the solution from the paper. $\gamma(u,w)=u_3+w_1Q_1(u)+w_2Q_2(u)$, with two quadratic functions $Q_1$ and $Q_2$. In the picture, teal is $T^\dagger$, with $6$, $6$ and $10$ in the three blocks, $22$ in all. Gold is $T$, $26$ in all.
 
-## Outline before slide 26 (part 6 of 6)
-
-**Clock** 30:40–30:50 · **Budget** 10 s · **Clicks** 0
-
-**On screen:** the outline, with part 6 highlighted.
-
-Part six, the last part. The construction is complete. Now the same Boolean view explains the lower bound and what remains open.
+<!-- outline frame, no script -->
 
 ## Slide 26. Stabilizer supports are Reed–Muller codewords
 
