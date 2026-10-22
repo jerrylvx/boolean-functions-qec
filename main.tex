@@ -189,10 +189,12 @@ f\,\backslash\,u & \mathtt{000} & \mathtt{001} & \mathtt{010} & \mathtt{011} & \
 \visible<4->{u_1u_2} & \visible<4->{0} & \visible<4->{0} & \visible<4->{0} & \visible<4->{0} & \visible<4->{0} & \visible<4->{0} & \visible<4->{1} & \visible<4->{1}\\
 \visible<5->{u_1+u_2} & \visible<5->{0} & \visible<5->{0} & \visible<5->{1} & \visible<5->{1} & \visible<5->{1} & \visible<5->{1} & \visible<5->{0} & \visible<5->{0}\\
 \end{array}
-\]}
-\onslide<4->{Multiplying functions overlaps their rows: $c\wedge c'$ (entrywise product). Dot product: $c\cdot c'=|c\wedge c'|\bmod2$.}
-\par\smallskip
-\onslide<5->{Adding functions XORs their rows: $c\oplus c'$ (entrywise sum).}
+\]}%
+\onslide<4->{Let $f,g:\F_2^3\to\F_2$ be Boolean functions with rows $c=(f(u))_{u\in\F_2^3}$, $c'=(g(u))_{u\in\F_2^3}$ in $\F_2^8$. Dictionary:}
+\[\begin{array}{@{}r@{}l@{}}
+\onslide<4->{fg} & \onslide<4->{{}\mapsto c\wedge c'=(c_uc'_u)_u,\quad c\cdot c'=|c\wedge c'|\bmod2}\\
+\onslide<5->{f+g} & \onslide<5->{{}\mapsto c\oplus c'=(c_u+c'_u)_u}
+\end{array}\]
 \end{columns}
 \note{\textbf{1:00--2:00.} Read every vector as a row first: u1 is 00001111. The cube only shows where a row has its ones. Multiplying functions overlaps their rows, and adding them XORs their rows. Slides 3, 10 and 21 use this. Functions use sums and products. Rows use overlap, XOR and dot product.}
 \end{frame}

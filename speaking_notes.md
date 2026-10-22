@@ -70,9 +70,9 @@ In the table of values, each column is a point $u$ of $\F_2^3$, one qubit, and e
 
 **[click]** $u_2$ gives the row $00110011$.
 
-**[click]** Multiplying functions overlaps their rows: $c\wedge c'$, the entrywise product. So $u_1u_2$ gives $00000011$, an edge of weight two. The dot product of rows is the parity of the overlap.
+**[click]** Let $f$ and $g$ be Boolean functions from $\F_2^3$ to $\F_2$, with rows $c$ and $c'$ in $\F_2^8$, the values of $f$ and $g$ at the eight points. Then we have a dictionary between function operations and row operations. $fg$ maps to $c\wedge c'$, with entries $c_uc'_u$. So $u_1u_2$ gives $00000011$, an edge of weight two. And $c\cdot c'$ is $|c\wedge c'|$ mod 2.
 
-**[click]** Adding functions XORs their rows: $c\oplus c'$, the entrywise sum. So $u_1+u_2$ gives $00111100$.
+**[click]** $f+g$ maps to $c\oplus c'$, with entries $c_u+c'_u$. So $u_1+u_2$ gives $00111100$.
 
 > **Background (not spoken)**
 >
