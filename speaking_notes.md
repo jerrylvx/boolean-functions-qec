@@ -64,7 +64,7 @@ The talk has six parts. Part one is CSS codes and transversal gates. Part two wo
 
 **On screen:** the cube $\F_2^3$ with one qubit at each point, and a table with the columns labelled $000$ to $111$. The clicks add the rows of $u_1$, $u_2$, $u_1u_2$ and $u_1+u_2$, each also drawn on the cube, with the row operations overlap, dot product and XOR.
 
-Label the eight columns, the qubits, by the points $u$ of $\F_2^3$. A Boolean function $f$, written in algebraic normal form with sums and products, gives the row $f$ of its eight values. Its weight $|f|$ is the number of ones.
+Label the eight columns, the qubits, by the points $u$ of $\F_2^3$. In the table of values, each column is a point $u$, one qubit, and each row is a Boolean function $f$, with entry $f(u)$. So $f$ is a row of length eight, and its weight $|f|$ is the number of ones.
 
 **[click]** The coordinate function $u_1$ gives the row $00001111$: the face where the first coordinate is one.
 
@@ -76,7 +76,7 @@ Label the eight columns, the qubits, by the points $u$ of $\F_2^3$. A Boolean fu
 
 > **Background (not spoken)**
 >
-> - **Rows and functions.** Functions on $\F_2^3$ are built with sums and products (ANF). Rows in $\F_2^8$ are combined with overlap, XOR and dot product. Evaluation turns a product of functions into the overlap of their rows and a sum into the XOR. Never write $u_1\wedge u_2$ or $u_1\oplus u_2$: the $u_i$ are functions.
+> - **Rows and functions.** Functions on $\F_2^3$ are built with sums and products. Rows in $\F_2^8$ are combined with overlap, XOR and dot product. Evaluation turns a product of functions into the overlap of their rows and a sum into the XOR. Never write $u_1\wedge u_2$ or $u_1\oplus u_2$: the $u_i$ are functions.
 > - **Dot product versus overlap.** $c\cdot c'$ is a single bit, $\sum_i c_ic'_i \bmod 2$. The overlap $c\wedge c'$ is a vector. They are related by $c\cdot c'=|c\wedge c'|\bmod 2$.
 > - **Why the cube.** The cube is only a picture of $\F_2^3$. Faces are the sets $u_i=1$, two faces meet in an edge, and three faces meet in a vertex. The 48-qubit code later uses the same idea on 48 points of $\F_2^6$.
 
@@ -129,7 +129,7 @@ Commuting Pauli strings define a code. A stabilizer group $\mathcal S$ is an abe
 
 **On screen:** the matrix $G=[K;S]$ with rows $K_1=u_1$, $K_2=u_2$, $K_3=u_3$ and $S=\mathbf 1$, columns labelled $000$ to $111$, $\mathcal C_1=\mathrm{RM}(1,3)$, and $X(\mathbf 1)$ on the cube. The clicks add the logical basis with its two terms for $x=100$ and for $x=111$, then a single $Z$ error, then a weight-two $Z$ logical on an edge with $d_X$, $d_Z$ and $d$.
 
-Here is the code we use for the whole first half, on all eight points of the cube. The generator matrix has the logical rows $K_1$, $K_2$, $K_3$, which are the faces $u_1$, $u_2$, $u_3$, and one stabilizer row, all ones. So the only $X$-type stabilizer generator is $X(\mathbf 1)$, on the left. $\mathcal C_1$ is the Reed–Muller code $\mathrm{RM}(1,3)$, an $[8,4,4]$ code, and $k=3$.
+Here is the code we use for the whole first half, on all eight points of the cube. The generator matrix has the logical rows $K_1$, $K_2$, $K_3$, which are the faces $u_1$, $u_2$, $u_3$, and one stabilizer row, all ones. So the only $X$-type stabilizer generator is $X(\mathbf 1)$, on the left. $\mathcal C_1$ is the Reed–Muller code $\mathrm{RM}(1,3)$, the functions of degree at most one, an $[8,4,4]$ code, and $k=3$.
 
 **[click]** $K^{\top}x$ is the sum of the logical rows picked by $x$. Each logical state is that row and its complement, because $S$ is the single all-ones row. For $x=100$ the pair is $K_1=00001111$, in blue, and $11110000$, in gold.
 
@@ -454,7 +454,7 @@ Use this if asked why the bound reduces to Reed–Muller weights. The conditions
 
 **On screen:** the projection along $v$, the label differences $\Delta_v$, and the condition that keeps the CH conditions at rank $s-1$. The clicks add the counting bound, then the case $s\le5$.
 
-Use this if asked why only ranks 6, 7 and 8 need a search. Project the columns along a nonzero vector $v$ and delete one stabilizer row. Columns that differ by $v$ merge. If all such pairs have the same label difference $\delta$, the merged columns carry equal labels, and the smaller code keeps the nine CH conditions, three logical qubits and $d_Z\ge3$.
+Use this if asked why only ranks 6, 7 and 8 need a search. Project the columns along a nonzero vector $v$ and delete one stabilizer row. Columns that differ by $v$ merge. If all such pairs have the same label difference $\tau$, the merged columns carry equal labels, and the smaller code keeps the nine CH conditions, three logical qubits and $d_Z\ge3$.
 
 **[click]** Each pair of support points determines one difference $v$. So at most $\lfloor\binom n2/2\rfloor$ vectors have two or more label differences, and $n$ vectors lie in the support. If $2^s-1$ exceeds their sum, a good $v$ exists. For $n\le38$ that holds whenever $s\ge9$, so $s\le8$.
 
