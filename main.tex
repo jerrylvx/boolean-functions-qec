@@ -190,11 +190,11 @@ f\,\backslash\,u & \mathtt{000} & \mathtt{001} & \mathtt{010} & \mathtt{011} & \
 \visible<5->{u_1+u_2} & \visible<5->{0} & \visible<5->{0} & \visible<5->{1} & \visible<5->{1} & \visible<5->{1} & \visible<5->{1} & \visible<5->{0} & \visible<5->{0}\\
 \end{array}
 \]}
-\onslide<4->{Rows $c,c'$: overlap $c\wedge c'$ (entrywise product), dot product $c\cdot c'=|c\wedge c'|\bmod2$. The row $u_1u_2$ is the overlap of the rows $u_1$, $u_2$.}
+\onslide<4->{\emph{Row operations}: overlap $c\wedge c'$ (entrywise product), XOR $c\oplus c'$ (entrywise sum), dot product $c\cdot c'=|c\wedge c'|\bmod2$.}
 \par\smallskip
-\onslide<5->{XOR $c\oplus c'$ (entrywise sum): the row $u_1+u_2$.}
+\onslide<4->{\emph{Dictionary}: the row of $fg$ is the overlap of the rows $f$, $g$. \uncover<5->{The row of $f+g$ is their XOR.}}
 \end{columns}
-\note{\textbf{1:00--2:00.} Read every vector as a row first: u1 is 00001111. The cube only shows where a row has its ones. Functions are combined with sums and products. Rows are combined with overlap, XOR and dot product. The product u1 u2 evaluates to the overlap of the rows, an edge.}
+\note{\textbf{1:00--2:00.} Read every vector as a row first: u1 is 00001111. The cube only shows where a row has its ones. Dictionary, used on slides 3, 10 and 21: a product of functions gives the overlap of their rows, a sum gives the XOR. Functions use sums and products. Rows use overlap, XOR and dot product.}
 \end{frame}
 
 \begin{frame}[label=pauli]{Pauli strings}
