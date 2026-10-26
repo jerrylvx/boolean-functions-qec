@@ -14,3 +14,13 @@
 * **Is Q48 an ordinary triorthogonal T code?** No. Its odd logical triple implements CCZ and violates the ordinary distinct-triple even condition. The stabilizer-side unital-space/indicator methods can still be used.
 * **What is a triorthogonal space versus a matrix?** A space satisfies the triple condition for every triple, including repeats; a Bravyi–Haah matrix constrains distinct row indices and can contain odd logical rows. Unital adds the all-ones vector.
 * **Did we originate the Reed–Muller indicator method?** No. Nezami and Haah provide the indicator representation and its classification connection; our paper applies the stabilizer-support version to the CCZ constraint class.
+
+## Likely questions at the VTQ seminar
+
+* **Why not magic-state cultivation or code switching?** Our paper cites cultivation as one way to reduce distillation overhead. It makes no comparison with cultivation, code switching or other factories. Say that a comparison needs circuits and a noise model, which are open (slide 30).
+* **What is the output error rate, or the suppression order, of the Q48 protocol?** The paper does not compute it. It states only that, since dZ≥3, an error from one or two faulty T gates is detected or acts trivially.
+* **Is Q48 LDPC?** It is a single block code. Its X-type stabilizers have weights 24 and 32 (60 and 3 codewords). The paper makes no LDPC claim and does not give the Z-type stabilizer weights.
+* **How do you prepare the encoded state fault-tolerantly?** Not done yet. It is listed on slide 30.
+* **Does the asymmetry dX=16, dZ=3 help under biased noise?** Not analysed. It is an open question on slides 30 and 31. Faulty T gates give Z-type errors, which dZ controls.
+* **Why does a T/T† pattern count as "no correction"?** T† equals T followed by S†, so the pattern is T on every qubit followed by single-qubit S† gates. The quasi-transversal correction of the 47-qubit code needs entangling CZ gates.
+* **Has [[8,3,2]] CCZ been run on hardware?** Yes. Honciuc Menendez, Ray and Vasmer, Phys. Rev. A 109, 062438 (2024), on trapped-ion and superconducting hardware. Wang et al., Sci. Adv. 10 (2024), ran fault-tolerant one-bit addition with this code on Quantinuum H1-1.
